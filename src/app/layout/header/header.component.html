@@ -1,0 +1,27 @@
+<nav class="navbar fixed-top navbar-expand-lg">
+    <a class="sidebar-toggle me-0 me-md-3" (click)="onToggleSideClick()">
+        <i class="fa fa-fw fa-bars"></i>
+    </a>
+    <div class="proj-title ps-2">
+        <a class="navbar-brand">FINANCE TRACKER</a>
+    </div>
+    <div class="navbar-nav flex-row ms-md-auto nav-container-right">
+        <div class="dropdown">
+            <a id="dropdownMenuButton" class="dropdown-toggle text-light" data-bs-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">
+                Username
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#modalChangePassword">
+                        <i class="fa fa-fw me-2 fa-lock"></i>Change Password
+                    </a>
+                </li> 
+                <li>
+                    <a class="dropdown-item" id="btnLogout">
+                        <i class="fa fa-fw me-2 fa-power-off"></i>Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,185 @@
+@use '../../../styles.scss' as *;
+
+$sidebar-hover-color: #edf0f2;
+
+%sidebar-menu-active {
+    color: $primary-color;
+}
+
+%sidebar-menu {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.sidebar-container {
+    .sidebar {
+        position: fixed;
+        min-height: calc(100vh - #{$header-height});
+        height: 100%;
+        max-width: $sidebar-width-open;
+        min-width: 0;
+        width: 0;
+        z-index: 2;
+        left: 0;
+        top: $header-height;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px 0px;
+        transition: all 0.3s;
+        background-color: $semi-dark-color;
+        overflow-y: auto;
+
+        .sidebar-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .sidebar-link {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+
+            .sidebar-head {
+                opacity: 0;
+                padding: 1rem 1rem;
+                @extend %sidebar-menu;
+                transition: opacity 0.3s;
+
+                img {
+                    height: 25px;
+                }
+
+                .system-name {
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                    font-size: 1.15em;
+
+                    a {
+                        color: $dark-color;
+                        text-decoration: none;
+                    }
+                }
+            }
+
+            .sidebar-menu {
+                padding: 0.35rem 1rem;
+                border-top: 1px solid #dddddd;
+                @extend %sidebar-menu;
+
+                .menu-icon {
+                    font-size: 1.2rem;
+                }
+
+                .menu-text {
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    margin-left: 1rem;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    white-space: nowrap;
+                }
+
+                &:hover {
+                    background-color: $sidebar-hover-color;
+
+                    &:not(.sidebar-menu-dropdown) {
+                        @extend %sidebar-menu-active;
+                    }
+                }
+
+                &.active:not(.sidebar-menu-dropdown) {
+                    @extend %sidebar-menu-active;
+                }
+
+                &.sidebar-menu-dropdown.active {
+                    background-color: darken($sidebar-hover-color, 1.5);
+                }
+            }
+
+            .sidebar-submenu-list {
+                .sidebar-submenu {
+                    padding: 0.5rem 1rem;
+                    @extend %sidebar-menu;
+
+                    .submenu-icon {
+                        font-size: 1rem;
+                        //margin-left: 0.1em;
+                        margin-left: 1rem;
+                        transition: margin 0.3s;
+                    }
+
+                    .submenu-text {
+                        text-transform: uppercase;
+                        font-weight: 500;
+                        margin-left: 1rem;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                        white-space: nowrap;
+                        font-size: 0.8rem;
+                    }
+
+                    &:hover {
+                        background-color: #edf0f2;
+                        @extend %sidebar-menu-active;
+                    }
+
+                    &.active {
+                        @extend %sidebar-menu-active;
+                    }
+                }
+            }
+        }
+    }
+
+    &.open {
+        .sidebar {
+            width: $sidebar-width-open;
+
+            .menu-text, .submenu-text, .sidebar-head {
+                opacity: 1 !important;
+            }
+
+            .submenu-icon {
+                margin-left: 1rem !important;
+            }
+        }
+
+        .sidebar-overlay {
+            opacity: 1;
+            z-index: 1;
+        }
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s, z-index 0.3s;
+    }
+}
+
+@media screen and (min-width: $bootstrap-breakpoint-md) {
+    .sidebar-container {
+        .sidebar {
+            min-width: $sidebar-width-collapsed;
+            width: $sidebar-width-collapsed;
+
+            .sidebar-menu {
+                padding: 0.8rem 1rem !important;
+            }
+
+            .submenu-icon {
+                margin-left: 0.1em !important;
+            }
+        }
+    }
+}

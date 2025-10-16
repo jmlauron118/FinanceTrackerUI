@@ -1,0 +1,18 @@
+<div class="sidebar-container" [class.open]="isOpen">
+    <div class="sidebar">
+        <ul class="sidebar-menu-list text-secondary scrollbar-macosx">
+            <li class="sidebar-head d-md-none d-flex">
+                <img class="navbar-logo mr-2" src="" />
+                <span class="system-name text-condensed">
+                    <a class="navbar-brand">FINANCE TRACKER</a>
+                </span>
+            </li>
+            <li *ngFor="let item of visibleMenu" class="sidebar-menu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="sidebar-link" [routerLink]="`/${item.modulePage}`"></a>
+                <span class="menu-icon"><i [class]="item.icon"></i></span>
+                <span class="menu-text">{{ item.moduleName }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-overlay" *ngIf="isOpen" (click)="onOverlayClick()"></div>
+</div>

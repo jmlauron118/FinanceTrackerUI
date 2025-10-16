@@ -1,0 +1,19 @@
+<div class="layout-container">
+    <header (click)="$event.stopPropagation()">
+        <app-header (toggleSidebar)="onToggleSidebar()"></app-header>
+    </header>
+
+    <section class="side-nav">
+        <app-sidebar [userModules]="userModules" [isOpen]="isSidebarOpen" #sidebar (closeSidebar)="onToggleSidebar()"></app-sidebar>
+    </section>
+
+    <div class="main-container">
+        <main role="main" class="pb-3">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <app-footer></app-footer>
+    </footer>
+</div>
