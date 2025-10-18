@@ -1,0 +1,87 @@
+<!-- <h2 mat-dialog-title>{{ action == 'add' ? 'Add User' : 'Edit User' }}</h2>
+<hr mat-dialog-title-divider />
+
+<form [formGroup]="userForm" (ngSubmit)="onSave()">
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" formControlName="firstname" autocomplete="off"/>
+        </div>
+    </div>
+</form>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+</mat-dialog-actions> -->
+<h2 mat-dialog-title>{{ action == 'add' ? 'Add User' : 'Edit User' }}</h2>
+<hr mat-dialog-title-divider />
+
+<form [formGroup]="userForm" (ngSubmit)="onSave()">
+  <mat-dialog-content>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstname" />
+                <mat-error *ngIf="f['firstname'].touched && f['firstname'].hasError('required')">
+                    First name is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastname" />
+                <mat-error *ngIf="f['lastname'].touched && f['lastname'].hasError('required')">
+                    Last name is required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                </mat-select>
+                <mat-error *ngIf="f['gender'].touched && f['gender'].hasError('required')">
+                    Gender is required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" />
+                <mat-error *ngIf="f['username'].touched && f['username'].hasError('required')">
+                    Username is required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" >
+                    <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error *ngIf="f['password'].touched && f['password'].hasError('required')">
+                    Password is required!
+                </mat-error>
+                <mat-error *ngIf="f['password'].hasError('minlength')">
+                    Minimum 8 characters required
+                </mat-error>
+                <mat-error *ngIf="f['password'].hasError('maxlength')">
+                    Maximum 20 characters allowed
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Status Toggle -->
+            <div class="mt-2 col-md-6 mb-3">
+                <mat-button-toggle-group formControlName="isActive" aria-label="User Status" class="max-w-max">
+                    <mat-button-toggle class="badge-success" [value]="1">Active</mat-button-toggle>
+                    <mat-button-toggle class="badge-danger" [value]="0">Inactive</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+  </mat-dialog-actions>
+</form>
+

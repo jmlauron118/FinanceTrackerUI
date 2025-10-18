@@ -34,7 +34,8 @@ nav.navbar {
         padding: 0 1rem;
 
         &:hover {
-            background-color: darken($primary-color, 5);
+            // background-color: darken($primary-color, 5);
+            background-color: color-adjust($primary-color, -0.1);
         }
 
         a.dropdown-toggle {

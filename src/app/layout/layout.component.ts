@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Renderer2, OnInit, OnDestroy, HostListener, Host } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
@@ -15,7 +15,6 @@ import { FooterComponent } from './footer/footer.component';
 export class LayoutComponent {
   @ViewChild('sidebar', {read: ElementRef}) sidebarRef!: ElementRef;
 
-  title = 'FinanceTracker';
   userModules = ['dashboard', 'usermanager'];
   isSidebarOpen = false;
 

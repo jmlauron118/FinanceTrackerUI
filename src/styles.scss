@@ -1,3 +1,20 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
 //Colors
 $primary-color: #2b6777;
 $secondary-color: #52ab98;
@@ -26,4 +43,93 @@ $sidebar-width-collapsed: 56px;
 
 $footer-height: 40px;
 
+html {
+    font-size: 14px;
+    margin: 0 !important;
+    position: relative;
+    min-height: 100%;
+}
 
+body {
+    font-weight: 400;
+    color: $dark-color !important;
+    font-size: 14px;
+    background-color: $main-content-bg-color;
+    margin-bottom: 60px;
+}
+
+.btn-primary {
+  color: $light-color !important;
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+}
+
+.btn-danger {
+  color: $light-color !important;
+  background-color: $color-danger !important;
+  border-color: $color-danger !important;
+}
+
+.list-group-item.active {
+  color: $light-color !important;
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+}
+
+.sidebar-container .sidebar .sidebar-menu-list .sidebar-submenu-list .sidebar-submenu.active, .sidebar-container .sidebar .sidebar-menu-list .sidebar-submenu-list .sidebar-submenu:hover, .sidebar-container .sidebar .sidebar-menu-list .sidebar-menu.active:not(.sidebar-menu-dropdown), .sidebar-container .sidebar .sidebar-menu-list .sidebar-menu:hover:not(.sidebar-menu-dropdown) {
+  color: $primary-color;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.badge-success {
+    background-color: $color-success !important;
+    color: $light-color !important;
+}
+
+.badge-pill {
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem
+}
+
+.badge-default {
+    background-color: $color-default !important;
+    color: $light-color !important;
+}
+
+.badge-warning {
+    background-color: $color-danger !important;
+    color: $light-color !important;
+}
+
+.badge-danger {
+    background-color: $color-danger !important;
+    color: $light-color !important;
+}
+
+textarea{
+    resize: none;
+}
+
+.text-red {
+    color: $color-danger;
+
+    &:hover {
+        color: $hover-danger !important;
+    }
+}

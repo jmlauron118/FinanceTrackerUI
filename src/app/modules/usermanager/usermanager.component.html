@@ -1,1 +1,124 @@
-<p>usermanager works!</p>
+<h4>{{ title }}</h4>
+
+<div id="usermanager" class="row pt-2">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('users')" (click)="setActiveTab('users')">
+                <i class="fa fa-fw fa-user"></i> &nbsp;Users
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('roles')" (click)="setActiveTab('roles')">
+                <i class="fa fa-fw fa-book"></i> &nbsp;Roles
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('modules')" (click)="setActiveTab('modules')">
+                <i class="fa fa-fw fa-puzzle-piece"></i> &nbsp;Modules
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('actions')" (click)="setActiveTab('actions')" >
+                <i class="fa fa-fw fa-bolt"></i> &nbsp;Actions
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('module-actions')" (click)="setActiveTab('module-actions')" >
+                <i class="fa fa-fw fa-cogs"></i> &nbsp;Module Actions
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('user-roles')" (click)="setActiveTab('user-roles')" >
+                <i class="fa fa-fw fa-address-book"></i> &nbsp;User Roles
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('module-access')" (click)="setActiveTab('module-access')" >
+                <i class="fa fa-fw fa-address-card"></i> &nbsp;Module Access
+            </a>
+        </div>
+        <hr class="list-group-divider" />
+    </div>
+    <div class="col-md-9 form-container">
+        <div class="tab-content">
+            <!-- USERS TAB -->
+            <div class="jumbotron tab-pane fade active show" role="tabpanel" [class.active]="isActive('users')" [class.show]="isShown('users')">
+                <div class="header">
+                    <h5>Users</h5>
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="onAddUserClick()">
+                        <i class="fa fa-plus"></i> Add User
+                    </button>
+                    <hr />
+                    <!-- Users content -->
+                     <app-users></app-users>
+                </div>
+            </div>
+
+            <!-- ROLES TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('roles')" [class.show]="isShown('roles')">
+                <div class="header">
+                    <h5>Roles</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Role
+                    </button>
+                    <hr />
+                    <!-- Roles content -->
+                     <app-roles></app-roles>
+                </div>
+            </div>
+
+            <!-- MODULES TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('modules')" [class.show]="isShown('modules')">
+                <div class="header">
+                    <h5>Modules</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Module
+                    </button>
+                    <hr />
+                    <!-- Modules content -->
+                     <app-modules></app-modules>
+                </div>
+            </div>
+
+            <!-- ACTIONS TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('actions')" [class.show]="isShown('actions')">
+                <div class="header">
+                    <h5>Actions</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Action
+                    </button>
+                    <hr />
+                    <!-- Actions content -->
+                     <app-actions></app-actions>
+                </div>
+            </div>
+
+            <!-- MODULE ACTIONS TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('module-actions')" [class.show]="isShown('module-actions')">
+                <div class="header" *ngIf="isActive('module-actions')">
+                    <h5>Module Actions</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Module Action
+                    </button>
+                    <hr />
+                    <!-- Module actions content -->
+                    <app-module-actions></app-module-actions>
+                </div>
+            </div>
+
+            <!-- USER ROLES TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('user-roles')" [class.show]="isShown('user-roles')">
+                <div class="header" *ngIf="isActive('user-roles')">
+                    <h5>User Roles</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add User Role
+                    </button>
+                    <hr />
+                    <!-- User roles content -->
+                     <app-user-roles></app-user-roles>
+                </div>
+            </div>
+
+            <!-- MODULE ACCESS TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('module-access')" [class.show]="isShown('module-access')">
+                <div class="header" *ngIf="isActive('module-access')">
+                    <h5>Module Access</h5>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Module Access
+                    </button>
+                    <hr />
+                    <!-- Module access content -->
+                     <app-module-access></app-module-access>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

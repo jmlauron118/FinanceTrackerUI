@@ -22,7 +22,7 @@ $sidebar-hover-color: #edf0f2;
         max-width: $sidebar-width-open;
         min-width: 0;
         width: 0;
-        z-index: 2;
+        z-index: 3;
         left: 0;
         top: $header-height;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px 0px;
@@ -96,7 +96,8 @@ $sidebar-hover-color: #edf0f2;
                 }
 
                 &.sidebar-menu-dropdown.active {
-                    background-color: darken($sidebar-hover-color, 1.5);
+                    // background-color: darken($sidebar-hover-color, 1.5);
+                    background-color: color-adjust($sidebar-hover-color, $primary-color, 0.1);
                 }
             }
 

@@ -1,0 +1,31 @@
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <table class="table table-hover" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Username</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>
+                            <span>{{ user.lastname }}, {{ user.firstname }}</span><br/>
+                            <div class="nav-container">
+                                <a class="edit-user active"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                            </div>
+                        </td>
+                        <td>{{ user.gender }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            <div class="status badge badge-pill" [ngClass]="user.isActive ? 'badge-success' : 'badge-danger'">{{ user.isActive ? 'Active' : 'Inactive' }}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

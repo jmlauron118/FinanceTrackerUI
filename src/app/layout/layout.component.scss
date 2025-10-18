@@ -1,23 +1,8 @@
 @use '../../styles.scss' as *;
 
-html {
-    font-size: 14px;
-    margin: 0 !important;
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    font-weight: 400;
-    color: $dark-color !important;
-    font-size: 14px;
-    background-color: $main-content-bg-color;
-    margin-bottom: 60px;
-}
-
 .main-container {
     padding: 0 40px;
-    margin-top: 5rem;
+    margin-top: 6rem;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
