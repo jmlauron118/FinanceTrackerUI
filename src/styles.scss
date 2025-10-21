@@ -1,6 +1,7 @@
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.dev/guide/theming
+
 @use '@angular/material' as mat;
 
 html {
@@ -26,6 +27,7 @@ $dark-color: #344038;
 $color-danger: #dd4545;
 $color-warning: #eb7f22;
 $color-success: #2e9c0e;
+$color-info: #2196f3;
 $hover-danger: #c73535;
 
 $sidebar-bg-color: $primary-color;
@@ -133,3 +135,63 @@ textarea{
         color: $hover-danger !important;
     }
 }
+
+.cdk-overlay-container {
+  z-index: 2000 !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ✅ Base snackbar container */
+.mat-mdc-snack-bar-container {
+  z-index: 99999 !important;
+  border-radius: 6px !important;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* ✅ Success */
+.snackbar-success {
+  background-color: $color-success !important;
+  color: #fff !important;
+}
+
+/* ✅ Error */
+.snackbar-error {
+  background-color: $color-danger !important;
+  color: #fff !important;
+}
+
+/* ✅ Warning */
+.snackbar-warning {
+  background-color: $color-warning !important;
+  color: #fff !important;
+}
+
+/* ✅ Info */
+.snackbar-info {
+  background-color: $color-info !important;
+  color: #fff !important;
+}
+
+/* Force override of MDC snackbar surface defaults */
+.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+
+.mat-mdc-snack-bar-action{
+  color: $light-color !important;
+}
+
+
+
+
+

@@ -1,22 +1,7 @@
-<!-- <h2 mat-dialog-title>{{ action == 'add' ? 'Add User' : 'Edit User' }}</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
 <hr mat-dialog-title-divider />
 
-<form [formGroup]="userForm" (ngSubmit)="onSave()">
-    <div class="row mb-3">
-        <div class="col-md-6 mb-3">
-            <label for="firstname" class="form-label">First Name</label>
-            <input type="text" class="form-control" formControlName="firstname" autocomplete="off"/>
-        </div>
-    </div>
-</form>
-<mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
-</mat-dialog-actions> -->
-<h2 mat-dialog-title>{{ action == 'add' ? 'Add User' : 'Edit User' }}</h2>
-<hr mat-dialog-title-divider />
-
-<form [formGroup]="userForm" (ngSubmit)="onSave()">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
         <div class="row">
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
@@ -55,7 +40,7 @@
 
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="new-password" [readonly]="isEditMode"/>
                 <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" >
                     <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
