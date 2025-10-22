@@ -33,7 +33,7 @@
             <div class="jumbotron tab-pane fade active show" role="tabpanel" [class.active]="isActive('users')" [class.show]="isShown('users')">
                 <div class="header">
                     <h5>Users</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="onAddUserClick()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.usersComponent.openAddUserDialog()">
                         <i class="fa fa-plus"></i> Add User
                     </button>
                     <hr />
@@ -46,7 +46,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('roles')" [class.show]="isShown('roles')">
                 <div class="header">
                     <h5>Roles</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.rolesComponent.openAddRoleDialog()">
                         <i class="fa fa-plus"></i> Add Role
                     </button>
                     <hr />
@@ -59,7 +59,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('modules')" [class.show]="isShown('modules')">
                 <div class="header">
                     <h5>Modules</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.modulesComponent.openAddModuleDialog()">
                         <i class="fa fa-plus"></i> Add Module
                     </button>
                     <hr />

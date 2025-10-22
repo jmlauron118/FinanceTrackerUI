@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class UserManagerComponent {
   @ViewChild(UsersComponent) usersComponent!: UsersComponent;
+  @ViewChild(RolesComponent) rolesComponent!: RolesComponent;
+  @ViewChild(ModulesComponent) modulesComponent!: ModulesComponent;
 
   title = 'User Manager';
   activeTab = 'users';
@@ -28,6 +30,8 @@ export class UserManagerComponent {
     setTimeout(() => {
       this.showTab = tab;
     }, 200); 
+
+    this.loadData(this.activeTab);
   }
 
   isActive(tab: string): boolean {
@@ -38,7 +42,16 @@ export class UserManagerComponent {
     return this.showTab === tab;
   }
 
-  onAddUserClick(){
-    this.usersComponent.openAddUserDialog();
+  loadData(tab: string): void {
+    console.log(`Active tab: ${tab}`);
+    if(tab==='users'){
+      this.usersComponent.getAllUsers();
+    }
+    else if(tab === 'roles') {
+      this.rolesComponent.getAllRoles();
+    }
+    else if(tab === 'modules') {
+      this.modulesComponent.getAllModules();
+    }
   }
 }

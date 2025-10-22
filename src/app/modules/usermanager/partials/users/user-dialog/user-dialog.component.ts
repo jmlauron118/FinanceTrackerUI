@@ -3,22 +3,21 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserRequestDTO } from '@interfaces/usermanager/users-dto/user-request-dto';
+import { UserRequestDto } from '@interfaces/usermanager/users-dto/user-request-dto';
 import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { SnackbarService } from '@services/snackbar.service';
-import { UserResponseDTO } from '@interfaces/usermanager/users-dto/user-response-dto';
-import { UserModifyDTO } from '@interfaces/usermanager/users-dto/user-modify-dto';
-import { error } from 'console';
+import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
+import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
+import { AutoTitleCaseDirective } from 'app/directive/auto-title-case.directive';
 
 @Component({
   selector: 'app-user-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, AutoTitleCaseDirective],
   templateUrl: './user-dialog.component.html',
   styleUrls: ['./user-dialog.component.scss']
 })
 export class UserDialogComponent {
-  // user: UserRequestDTO = {} as UserRequestDTO;
   userForm!: FormGroup;
   hidePassword = true;
   isEditMode = false;
@@ -28,7 +27,7 @@ export class UserDialogComponent {
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
     public dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user?: UserModifyDTO }
+    @Inject(MAT_DIALOG_DATA) public data: { user?: UserResponseDto }
   ) {
     this.isEditMode = !!data;
 
@@ -46,7 +45,7 @@ export class UserDialogComponent {
     });
   }
 
-  addUser(userRequest: UserRequestDTO): void{
+  addUser(userRequest: UserRequestDto): void{
     this.usermanagerService.addUser(userRequest).subscribe({
       next: data => {
         this.snackbar.success('User added successfully!');
@@ -58,7 +57,7 @@ export class UserDialogComponent {
     });
   }
 
-  modifyUser(userRequest: UserModifyDTO): void {
+  modifyUser(userRequest: UserModifyDto): void {
     this.usermanagerService.modifyUser(userRequest).subscribe({
       next: data => {
         this.snackbar.success('User modified successfully!');
@@ -81,7 +80,7 @@ export class UserDialogComponent {
     }
     else {
       const { firstname, lastname, gender, username, password, isActive } = this.userForm.value;
-      const newUser: UserRequestDTO = { firstname, lastname, gender, username, password, isActive };
+      const newUser: UserRequestDto = { firstname, lastname, gender, username, password, isActive };
 
       this.addUser(newUser);
     }
@@ -91,7 +90,7 @@ export class UserDialogComponent {
     this.dialogRef.close();
   }
 
-  get f() {
+  get userControl() {
     return this.userForm.controls;
   }
 }

@@ -1,4 +1,4 @@
-export interface UserRequestDTO {
+export interface UserRequestDto {
     firstname: string;
     lastname: string;
     gender: string;

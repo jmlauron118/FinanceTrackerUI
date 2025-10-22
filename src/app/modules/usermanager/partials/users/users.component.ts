@@ -1,20 +1,20 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { UsermanagerService } from '@services/usermanager/usermanager.service';
-import { UserResponseDTO } from '@interfaces/usermanager/users-dto/user-response-dto';
-import { NgForOf, NgClass, NgIf } from '@angular/common';
+import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
+import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { SnackbarService } from '@services/snackbar.service';
 
 @Component({
   selector: 'app-users',
-  imports: [NgForOf, NgClass, NgIf],
+  imports: [CommonModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class UsersComponent {
-  users: UserResponseDTO[] = [];
+  users: UserResponseDto[] = [];
 
   constructor(
     private usermanagerService: UsermanagerService, 
@@ -30,7 +30,7 @@ export class UsersComponent {
     this.usermanagerService.getAllUsers().subscribe({
       next: (data) => (this.users = data),
       error: (error) => {
-        this.snackbar.danger(error, 0);
+        this.snackbar.danger(error, 5000);
       }
     });
   }
@@ -49,7 +49,7 @@ export class UsersComponent {
     });
   }
 
-  openEditUserDialog(user: UserResponseDTO): void {
+  openEditUserDialog(user: UserResponseDto): void {
     const dialogRef = this.dialog.open(UserDialogComponent, {
       panelClass: 'custom-dialog',
       width: '700px',

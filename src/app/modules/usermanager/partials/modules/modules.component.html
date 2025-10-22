@@ -1,1 +1,36 @@
-<p>modules works!</p>
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <table class="table table-hover" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Module Page</th>
+                        <th>Description</th>
+                        <th>Sort No</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of modules">
+                        <td>
+                            <span><i [class]="module.icon"></i> &nbsp;{{ module.moduleName }}</span><br/>
+                            <div class="nav-container">
+                                <a class="active" (click)="openEditModuleDialog(module)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                            </div>
+                        </td>
+                        <td>{{ module.modulePage }}</td>
+                        <td>{{ module.description }}</td>
+                        <td>{{ module.sortOrder }}</td>
+                        <td>
+                            <div class="status badge badge-pill" [ngClass]="module.isActive ? 'badge-success' : 'badge-danger'">{{ module.isActive ? 'Active' : 'Inactive' }}</div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="modules.length === 0">
+                        <td colspan="5" class="text-center text-muted">No modules found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-export interface UserModifyDTO {
+export interface UserModifyDto {
     userId: number;
     firstname: string;
     lastname: string;

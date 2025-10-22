@@ -6,15 +6,15 @@
         <div class="row">
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>First Name</mat-label>
-                <input matInput formControlName="firstname" />
-                <mat-error *ngIf="f['firstname'].touched && f['firstname'].hasError('required')">
+                <input matInput formControlName="firstname" autoTitleCase/>
+                <mat-error *ngIf="userControl['firstname'].touched && userControl['firstname'].hasError('required')">
                     First name is required!
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Last Name</mat-label>
-                <input matInput formControlName="lastname" />
-                <mat-error *ngIf="f['lastname'].touched && f['lastname'].hasError('required')">
+                <input matInput formControlName="lastname" autoTitleCase/>
+                <mat-error *ngIf="userControl['lastname'].touched && userControl['lastname'].hasError('required')">
                     Last name is required!
                 </mat-error>
             </mat-form-field>
@@ -25,7 +25,7 @@
                     <mat-option value="Male">Male</mat-option>
                     <mat-option value="Female">Female</mat-option>
                 </mat-select>
-                <mat-error *ngIf="f['gender'].touched && f['gender'].hasError('required')">
+                <mat-error *ngIf="userControl['gender'].touched && userControl['gender'].hasError('required')">
                     Gender is required!
                 </mat-error>
             </mat-form-field>
@@ -33,30 +33,28 @@
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Username</mat-label>
                 <input matInput formControlName="username" />
-                <mat-error *ngIf="f['username'].touched && f['username'].hasError('required')">
+                <mat-error *ngIf="userControl['username'].touched && userControl['username'].hasError('required')">
                     Username is required!
                 </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="new-password" [readonly]="isEditMode"/>
-                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" >
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="new-password"/>
+                <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"  [disabled]="isEditMode">
                     <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
-                <mat-error *ngIf="f['password'].touched && f['password'].hasError('required')">
+                <mat-error *ngIf="userControl['password'].touched && userControl['password'].hasError('required')">
                     Password is required!
                 </mat-error>
-                <mat-error *ngIf="f['password'].hasError('minlength')">
+                <mat-error *ngIf="userControl['password'].hasError('minlength')">
                     Minimum 8 characters required
                 </mat-error>
-                <mat-error *ngIf="f['password'].hasError('maxlength')">
+                <mat-error *ngIf="userControl['password'].hasError('maxlength')">
                     Maximum 20 characters allowed
                 </mat-error>
             </mat-form-field>
-
-            <!-- Status Toggle -->
-            <div class="mt-2 col-md-6 mb-3">
+            <div class="col-md-6 mb-3">
                 <mat-button-toggle-group formControlName="isActive" aria-label="User Status" class="max-w-max">
                     <mat-button-toggle class="badge-success" [value]="1">Active</mat-button-toggle>
                     <mat-button-toggle class="badge-danger" [value]="0">Inactive</mat-button-toggle>
