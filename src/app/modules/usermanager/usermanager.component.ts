@@ -19,6 +19,8 @@ export class UserManagerComponent {
   @ViewChild(UsersComponent) usersComponent!: UsersComponent;
   @ViewChild(RolesComponent) rolesComponent!: RolesComponent;
   @ViewChild(ModulesComponent) modulesComponent!: ModulesComponent;
+  @ViewChild(ActionsComponent) actionComponent!: ActionsComponent;
+  @ViewChild(ModuleActionsComponent) moduleActionComponent!: ModuleActionsComponent;
 
   title = 'User Manager';
   activeTab = 'users';
@@ -29,9 +31,9 @@ export class UserManagerComponent {
 
     setTimeout(() => {
       this.showTab = tab;
+      this.loadData(this.activeTab);
     }, 200); 
 
-    this.loadData(this.activeTab);
   }
 
   isActive(tab: string): boolean {
@@ -43,7 +45,6 @@ export class UserManagerComponent {
   }
 
   loadData(tab: string): void {
-    console.log(`Active tab: ${tab}`);
     if(tab==='users'){
       this.usersComponent.getAllUsers();
     }
@@ -52,6 +53,12 @@ export class UserManagerComponent {
     }
     else if(tab === 'modules') {
       this.modulesComponent.getAllModules();
+    }
+    else if(tab === 'actions') {
+      this.actionComponent.getAllActions();
+    }
+    else if (tab === 'module-actions') {
+      this.moduleActionComponent.getAllModuleActions();
     }
   }
 }

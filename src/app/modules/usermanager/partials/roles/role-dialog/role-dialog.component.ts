@@ -8,11 +8,11 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { RoleRequestDto } from '@interfaces/usermanager/roles-dto/role-request-dto';
 import { RoleModifyDto } from '@interfaces/usermanager/roles-dto/role-modify-dto';
-import { AutoTitleCaseDirective } from 'app/directive/auto-title-case.directive';
+import { InputDirectivesModule } from 'app/shared/input-directives.module';
 
 @Component({
   selector: 'app-role-dialog',
-  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, AutoTitleCaseDirective],
+  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, InputDirectivesModule],
   templateUrl: './role-dialog.component.html',
   styleUrls: ['./role-dialog.component.scss']
 })
@@ -44,7 +44,7 @@ export class RoleDialogComponent {
         this.dialogRef.close(data)
       },
       error: error => {
-        this.snackbar.danger(error, 4000);
+        this.snackbar.danger(error, 5000);
       }
     });
   }

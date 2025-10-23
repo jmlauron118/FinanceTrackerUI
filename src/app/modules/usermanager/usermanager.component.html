@@ -72,7 +72,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('actions')" [class.show]="isShown('actions')">
                 <div class="header">
                     <h5>Actions</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.actionComponent.openAddActionDialog()">
                         <i class="fa fa-plus"></i> Add Action
                     </button>
                     <hr />
@@ -85,7 +85,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('module-actions')" [class.show]="isShown('module-actions')">
                 <div class="header" *ngIf="isActive('module-actions')">
                     <h5>Module Actions</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.moduleActionComponent.openAddModuleActionDialog()">
                         <i class="fa fa-plus"></i> Add Module Action
                     </button>
                     <hr />

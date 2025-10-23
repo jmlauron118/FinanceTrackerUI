@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ isEditMode ? 'Edit Module' : 'Add Module' }}</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Module' : 'New Module' }}</h2>
 <hr mat-dialog-title-divider/>
 
 <form [formGroup]="moduleForm" (ngSubmit)="onSubmit()">
@@ -6,14 +6,14 @@
         <div class="row">
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Module Name</mat-label>
-                <input matInput formControlName="moduleName" autoTitleCase/>
+                <input matInput formControlName="moduleName" titleCase/>
                 <mat-error *ngIf="moduleControl['moduleName'].touched && moduleControl['moduleName'].hasError('required')">
                     Module name is required!
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Module Page</mat-label>
-                <input matInput formControlName="modulePage" autoLowerCase/>
+                <input matInput formControlName="modulePage" lowerCase/>
                 <mat-error *ngIf="moduleControl['modulePage'].touched && moduleControl['modulePage'].hasError('required')">
                     Module page is required!
                 </mat-error>
@@ -27,14 +27,14 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-9 mb-3">
                 <mat-label>Icon</mat-label>
-                <input matInput formControlName="icon" autoLowerCase placeholder="Ex. fa fa-fw fa-users"/>
+                <input matInput formControlName="icon" lowerCase placeholder="Ex. fa fa-fw fa-users"/>
                 <mat-error *ngIf="moduleControl['icon'].touched && moduleControl['icon'].hasError('required')">
                     Icon is required!
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-3 mb-3">
                 <mat-label>Sort No</mat-label>
-                <input matInput formControlName="sortOrder" autoLowerCase placeholder="Ex. fa fa-fw fa-users"/>
+                <input matInput formControlName="sortOrder" numbersOnly/>
                 <mat-error *ngIf="moduleControl['sortOrder'].touched && moduleControl['sortOrder'].hasError('required')">
                     Sort no. is required!
                 </mat-error>

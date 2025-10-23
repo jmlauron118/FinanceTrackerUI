@@ -8,12 +8,12 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
 import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
-import { AutoTitleCaseDirective } from 'app/directive/auto-title-case.directive';
+import { TitleCaseDirective } from 'app/directive/title-case.directive';
 
 @Component({
   selector: 'app-user-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, AutoTitleCaseDirective],
+  imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, TitleCaseDirective],
   templateUrl: './user-dialog.component.html',
   styleUrls: ['./user-dialog.component.scss']
 })

@@ -1,15 +1,24 @@
-import { AutoTitleCaseDirective } from "app/directive/auto-title-case.directive";
-import { AutoLowerCaseDirective } from "app/directive/auto-lowercase.directive";
+import { TitleCaseDirective } from "app/directive/title-case.directive";
+import { LowerCaseDirective } from "app/directive/lowercase.directive";
+import { NumbersOnlyDirective } from "app/directive/numbers-only.directive";
+import { DecimalDirective } from "app/directive/decimal.directive";
+import { UpperCaseDirective } from "app/directive/uppercase.directive";
 import { NgModule } from "@angular/core";
 
 @NgModule({
     imports: [
-        AutoTitleCaseDirective,
-        AutoLowerCaseDirective  
+        TitleCaseDirective,
+        LowerCaseDirective,
+        UpperCaseDirective,
+        NumbersOnlyDirective,
+        DecimalDirective
     ],
     exports: [
-        AutoTitleCaseDirective,
-        AutoLowerCaseDirective
+        TitleCaseDirective,
+        LowerCaseDirective,
+        UpperCaseDirective,
+        NumbersOnlyDirective,
+        DecimalDirective
     ]
 })
 export class InputDirectivesModule {}

@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit User' : 'New User' }}</h2>
 <hr mat-dialog-title-divider />
 
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
@@ -6,7 +6,7 @@
         <div class="row">
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>First Name</mat-label>
-                <input matInput formControlName="firstname" autoTitleCase/>
+                <input matInput formControlName="firstname" titleCase/>
                 <mat-error *ngIf="userControl['firstname'].touched && userControl['firstname'].hasError('required')">
                     First name is required!
                 </mat-error>

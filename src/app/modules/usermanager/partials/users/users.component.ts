@@ -29,9 +29,7 @@ export class UsersComponent {
   getAllUsers(): void {
     this.usermanagerService.getAllUsers().subscribe({
       next: (data) => (this.users = data),
-      error: (error) => {
-        this.snackbar.danger(error, 5000);
-      }
+      error: (err) => (this.snackbar.danger(err, 5000))
     });
   }
 

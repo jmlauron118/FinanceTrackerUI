@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Update Module Action': 'New Module Action' }}</h2>
+<hr mat-dialog-title-divider/>
+
+<form [formGroup]="moduleActionForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12 mb-3">
+                <mat-label>Module</mat-label>
+                <mat-select formControlName="moduleId">
+                    <mat-option *ngFor="let module of activeModules" [value]="module.moduleId">
+                        {{ module.moduleName }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="moduleActionControls['moduleId'].touched && moduleActionControls['moduleId'].hasError('required')">
+                    Module is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-12 mb-3">
+                <mat-label>Action</mat-label>
+                <mat-select formControlName="actionId">
+                    <mat-option *ngFor="let action of activeActions" [value]="action.actionId">
+                        {{ action.actionName }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="moduleActionControls['actionId'].touched && moduleActionControls['actionId'].hasError('required')">
+                    Action is required!
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-flat-button type="submit" [disabled]="moduleActionForm.invalid">{{ isEditMode ? 'Update' : 'Save' }}</button>
+    </mat-dialog-actions>
+</form>

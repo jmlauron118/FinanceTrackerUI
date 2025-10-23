@@ -1,1 +1,33 @@
-<p>module-actions works!</p>
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <table class="table table-hover" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Module Description</th>
+                        <th>Action</th>
+                        <th>Action Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let moduleAction of moduleActions">
+                        <td>
+                           <span><i [className]="moduleAction.icon"></i>&nbsp; {{ moduleAction.moduleName }}</span>
+                           <div class="nav-container">
+                                <a class="active" (click)="openEditModuleActionDialog(moduleAction)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>&nbsp;
+                                <a class="active red" (click)="confirmDelete(moduleAction.moduleActionId)"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a>
+                           </div>
+                        </td>
+                        <td>{{ moduleAction.moduleDescription }}</td>
+                        <td>{{ moduleAction.actionName }}</td>
+                        <td>{{ moduleAction.actionDescription }}</td>
+                    </tr>
+                    <tr *ngIf="moduleActions.length === 0">
+                        <td colspan="4" class="text-center text-muted">No module actions found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

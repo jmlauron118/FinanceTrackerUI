@@ -25,9 +25,7 @@ export class RolesComponent {
   getAllRoles(): void {
     this.usermanagerService.getAllRoles().subscribe({
       next: (data) => (this.roles = data),
-      error: (error) => {
-        this.snackbar.danger(error);
-      }
+      error: (err) => (this.snackbar.danger(err, 5000))
     });
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, Observable } from 'rxjs';
+import { catchError, Observable, Observer } from 'rxjs';
 import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
 import { UserRequestDto } from '@interfaces/usermanager/users-dto/user-request-dto';
 import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
@@ -11,6 +11,15 @@ import { RoleModifyDto } from '@interfaces/usermanager/roles-dto/role-modify-dto
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
 import { ModuleRequestDto } from '@interfaces/usermanager/modules-dto/module-request-dto';
 import { ModuleModifyDto } from '@interfaces/usermanager/modules-dto/module-modify-dto';
+import { ActionResponseDto } from '@interfaces/usermanager/actions-dto/action-response-dto';
+import { ActionRequestDto } from '@interfaces/usermanager/actions-dto/action-request-dto';
+import { ActionModifyDto } from '@interfaces/usermanager/actions-dto/action-modify-dto';
+import { ModuleActionResponseDto } from '@interfaces/usermanager/module-actions-dto/module-action-response-dto';
+import { ModuleActionRequestDto } from '@interfaces/usermanager/module-actions-dto/module-action-request-dto';
+import { ModuleActionModifyDto } from '@interfaces/usermanager/module-actions-dto/module-action-modify-dto';
+import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
+import { UserRoleRequestDto } from '@interfaces/usermanager/user-roles-dto/user-role-request-dto';
+import { UserRoleModifyDto } from '@interfaces/usermanager/user-roles-dto/user-role-modify-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -78,4 +87,68 @@ export class UsermanagerService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion Modules
+
+  //#region Actions
+  getAllActions(status: number = 2): Observable<ActionResponseDto[]> {
+    const params = new HttpParams().set('status', status.toString());
+    return this.http.get<ActionResponseDto[]>(`${this.apiUrl}/get-all-actions`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addAction(action: ActionRequestDto): Observable<ActionResponseDto> {
+    return this.http.post<ActionResponseDto>(`${this.apiUrl}/add-action`, action)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  modifyAction(action: ActionModifyDto): Observable<ActionResponseDto> {
+    return this.http.put<ActionResponseDto>(`${this.apiUrl}/modify-action`, action)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  //#endregion Actions
+
+  //#region Module Actions
+  getAllModuleActions(): Observable<ModuleActionResponseDto[]> {
+    return this.http.get<ModuleActionResponseDto[]>(`${this.apiUrl}/get-all-module-actions`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addModuleAction(moduleAction: ModuleActionRequestDto): Observable<ModuleActionResponseDto> {
+    return this.http.post<ModuleActionResponseDto>(`${this.apiUrl}/add-module-action`, moduleAction)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  modifyModuleAction(moduleAction: ModuleActionModifyDto): Observable<ModuleActionResponseDto> {
+    return this.http.put<ModuleActionResponseDto>(`${this.apiUrl}/modify-module-action`, moduleAction)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  
+  removeModuleAction(id: number) {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.delete(`${this.apiUrl}/remove-module-action`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  //#endregion Module Actions
+
+  //#region User Roles
+  getAllUserRoles(): Observable<UserRoleResponseDto[]> {
+    return this.http.get<UserRoleResponseDto[]>(`${this.apiUrl}/get-all-user-roles`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addUserRole(userRole: UserRoleRequestDto): Observable<UserRoleResponseDto> {
+    return this.http.post<UserRoleResponseDto>(`${this.apiUrl}/add-user-role`, userRole)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  
+  modifyUserRole(userRole: UserRoleModifyDto): Observable<UserRoleResponseDto> {
+    return this.http.post<UserRoleResponseDto>(`${this.apiUrl}/modify-user-role`, userRole)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  removeUserRole(id: number) {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.delete(`${this.apiUrl}/remove-user-role`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  //#endregion User Roles
 }

@@ -4,7 +4,7 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from '@services/snackbar.service';
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
-import { ModuleDialogComponent } from './module-dialog/module-dialog/module-dialog.component';
+import { ModuleDialogComponent } from './module-dialog/module-dialog.component';
 
 @Component({
   selector: 'app-modules',
@@ -25,9 +25,7 @@ export class ModulesComponent {
   getAllModules(): void {
     this.usermanagerService.getAllModules().subscribe({
       next: data => (this.modules = data),
-      error: error => {
-        this.snackbar.danger(error);
-      }
+      error: err => (this.snackbar.danger(err, 5000))
     });
   }
 

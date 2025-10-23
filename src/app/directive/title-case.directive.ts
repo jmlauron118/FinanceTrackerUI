@@ -1,9 +1,9 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[autoTitleCase]'
+  selector: '[titleCase]'
 })
-export class AutoTitleCaseDirective {
+export class TitleCaseDirective {
   @HostListener('input', ['$event']) onInput(event: Event) {
     const input = event.target as HTMLInputElement;
     input.value = this.toTitleCase(input.value);
