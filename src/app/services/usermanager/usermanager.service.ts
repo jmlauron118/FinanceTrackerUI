@@ -20,6 +20,9 @@ import { ModuleActionModifyDto } from '@interfaces/usermanager/module-actions-dt
 import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
 import { UserRoleRequestDto } from '@interfaces/usermanager/user-roles-dto/user-role-request-dto';
 import { UserRoleModifyDto } from '@interfaces/usermanager/user-roles-dto/user-role-modify-dto';
+import { ModuleAccessResponseDto } from '@interfaces/usermanager/module-access-dto/module-access-response-dto';
+import { ModuleAccessRequestDto } from '@interfaces/usermanager/module-access-dto/module-access-request-dto';
+import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -141,7 +144,7 @@ export class UsermanagerService {
   }
   
   modifyUserRole(userRole: UserRoleModifyDto): Observable<UserRoleResponseDto> {
-    return this.http.post<UserRoleResponseDto>(`${this.apiUrl}/modify-user-role`, userRole)
+    return this.http.put<UserRoleResponseDto>(`${this.apiUrl}/modify-user-role`, userRole)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
@@ -151,4 +154,27 @@ export class UsermanagerService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion User Roles
+  
+  //#region Module Access
+  getAllModuleAccess(): Observable<ModuleAccessResponseDto[]> {
+    return this.http.get<ModuleAccessResponseDto[]>(`${this.apiUrl}/get-all-module-access`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addModuleAccess(moduleAccess: ModuleAccessRequestDto): Observable<ModuleAccessResponseDto> {
+    return this.http.post<ModuleAccessResponseDto>(`${this.apiUrl}/add-module-access`, moduleAccess)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  modifyModuleAccess(moduleAccess: ModuleAccessModifyDto): Observable<ModuleAccessResponseDto> {
+    return this.http.put<ModuleAccessResponseDto>(`${this.apiUrl}/modify-module-access`, moduleAccess)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  removeModuleAccess(id: number) {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.delete(`${this.apiUrl}/remove-module-access`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+  //#endregion Module Access
 }

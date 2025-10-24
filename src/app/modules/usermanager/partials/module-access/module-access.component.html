@@ -1,1 +1,29 @@
-<p>module-access works!</p>
+<div class="inner-forms"> 
+    <div class="wrapper row">
+        <section class="forms">
+            <table class="table table-hover" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Username - Role</th>
+                        <th>Module - Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ma of moduleAccess">
+                        <td>
+                            <span>{{ ma.username }} - {{ ma.role }}</span>
+                            <div class="nav-container">
+                                <a class="active" (click)="openEditModuleAccessDialog(ma)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>&nbsp;
+                                <a class="active red" (click)="confirmDelete(ma.moduleAccessId)"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a>
+                            </div>
+                        </td>
+                        <td>{{ ma.moduleName }} - {{ma.actionName }}</td>
+                    </tr>
+                    <tr *ngIf="moduleAccess.length === 0" class="text-center text-muted">
+                        <td colspan="2">No module access found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

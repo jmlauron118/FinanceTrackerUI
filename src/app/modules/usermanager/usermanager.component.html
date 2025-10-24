@@ -33,7 +33,7 @@
             <div class="jumbotron tab-pane fade active show" role="tabpanel" [class.active]="isActive('users')" [class.show]="isShown('users')">
                 <div class="header">
                     <h5>Users</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.usersComponent.openAddUserDialog()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="usersComponent.openAddUserDialog()">
                         <i class="fa fa-plus"></i> Add User
                     </button>
                     <hr />
@@ -46,7 +46,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('roles')" [class.show]="isShown('roles')">
                 <div class="header">
                     <h5>Roles</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.rolesComponent.openAddRoleDialog()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="rolesComponent.openAddRoleDialog()">
                         <i class="fa fa-plus"></i> Add Role
                     </button>
                     <hr />
@@ -59,7 +59,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('modules')" [class.show]="isShown('modules')">
                 <div class="header">
                     <h5>Modules</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.modulesComponent.openAddModuleDialog()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="modulesComponent.openAddModuleDialog()">
                         <i class="fa fa-plus"></i> Add Module
                     </button>
                     <hr />
@@ -72,7 +72,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('actions')" [class.show]="isShown('actions')">
                 <div class="header">
                     <h5>Actions</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.actionComponent.openAddActionDialog()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="actionComponent.openAddActionDialog()">
                         <i class="fa fa-plus"></i> Add Action
                     </button>
                     <hr />
@@ -85,7 +85,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('module-actions')" [class.show]="isShown('module-actions')">
                 <div class="header" *ngIf="isActive('module-actions')">
                     <h5>Module Actions</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="this.moduleActionComponent.openAddModuleActionDialog()">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="moduleActionComponent.openAddModuleActionDialog()">
                         <i class="fa fa-plus"></i> Add Module Action
                     </button>
                     <hr />
@@ -98,7 +98,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('user-roles')" [class.show]="isShown('user-roles')">
                 <div class="header" *ngIf="isActive('user-roles')">
                     <h5>User Roles</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="userRoleComponent.openAddUserRoleDialog()">
                         <i class="fa fa-plus"></i> Add User Role
                     </button>
                     <hr />
@@ -111,7 +111,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('module-access')" [class.show]="isShown('module-access')">
                 <div class="header" *ngIf="isActive('module-access')">
                     <h5>Module Access</h5>
-                    <button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="moduleAccessComponent.openAddModuleAccessDialog()">
                         <i class="fa fa-plus"></i> Add Module Access
                     </button>
                     <hr />

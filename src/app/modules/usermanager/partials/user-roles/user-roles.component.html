@@ -1,1 +1,31 @@
-<p>user-roles works!</p>
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <table class="table table-hover" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Full name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let userRole of userRoles">
+                        <td>
+                            <span>{{ userRole.fullname }}</span><br/>
+                            <div class="nav-container">
+                                <a class="active" (click)="openEditUserRoleDialog(userRole)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>&nbsp;
+                                <a class="active red" (click)="confirmDelete(userRole.userRoleId)"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a>
+                            </div>
+                        </td>
+                        <td>{{ userRole.username }}</td>
+                        <td>{{ userRole.role }}</td>
+                    </tr>
+                    <tr *ngIf="userRoles.length === 0">
+                        <td colspan="3" class="text-center text-muted">No user roles found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

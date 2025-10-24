@@ -43,7 +43,7 @@ export class ModuleActionsComponent {
   openAddModuleActionDialog(): void {
     const dialogRef = this.dialog.open(ModuleActionDialogComponent, {
       panelClass: 'custom-dialog',
-      width: '500px',
+      width: '400px',
       maxWidth: '90vw'
     });
 

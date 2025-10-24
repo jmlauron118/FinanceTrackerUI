@@ -8,6 +8,7 @@ import { ModuleActionsComponent } from './partials/module-actions/module-actions
 import { UserRolesComponent } from './partials/user-roles/user-roles.component';
 import { ModuleAccessComponent } from './partials/module-access/module-access.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SnackbarService } from '@services/snackbar.service';
 
 @Component({
   selector: 'app-usermanager',
@@ -21,6 +22,12 @@ export class UserManagerComponent {
   @ViewChild(ModulesComponent) modulesComponent!: ModulesComponent;
   @ViewChild(ActionsComponent) actionComponent!: ActionsComponent;
   @ViewChild(ModuleActionsComponent) moduleActionComponent!: ModuleActionsComponent;
+  @ViewChild(UserRolesComponent) userRoleComponent!: UserRolesComponent;
+  @ViewChild(ModuleAccessComponent) moduleAccessComponent!: ModuleAccessComponent;
+
+  constructor(
+    private snackbar: SnackbarService
+  ) {}
 
   title = 'User Manager';
   activeTab = 'users';
@@ -31,9 +38,8 @@ export class UserManagerComponent {
 
     setTimeout(() => {
       this.showTab = tab;
-      this.loadData(this.activeTab);
+      this.onTabChange(this.showTab);
     }, 200); 
-
   }
 
   isActive(tab: string): boolean {
@@ -44,21 +50,17 @@ export class UserManagerComponent {
     return this.showTab === tab;
   }
 
-  loadData(tab: string): void {
-    if(tab==='users'){
-      this.usersComponent.getAllUsers();
-    }
-    else if(tab === 'roles') {
-      this.rolesComponent.getAllRoles();
-    }
-    else if(tab === 'modules') {
-      this.modulesComponent.getAllModules();
-    }
-    else if(tab === 'actions') {
-      this.actionComponent.getAllActions();
-    }
-    else if (tab === 'module-actions') {
-      this.moduleActionComponent.getAllModuleActions();
-    }
+  onTabChange(tab: string): void {
+    const tabActions: Record<string, () => void> = {
+      'users': () => this.usersComponent.getAllUsers(),
+      'roles': () => this.rolesComponent.getAllRoles(),
+      'modules': () => this.modulesComponent.getAllModules(),
+      'actions': () => this.actionComponent.getAllActions(),
+      'module-actions': () => this.moduleActionComponent.getAllModuleActions(),
+      'user-roles': () => this.userRoleComponent.getAllUserRoles(),
+      'module-access': () => this.moduleAccessComponent.getAllModuleAccess()
+    };
+
+    tabActions[tab] ? tabActions[tab]() : this.snackbar.danger(`Unknown tab: ${tab}`);
   }
 }
