@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, Observable, Observer } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
 import { UserRequestDto } from '@interfaces/usermanager/users-dto/user-request-dto';
 import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
