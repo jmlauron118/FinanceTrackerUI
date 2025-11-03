@@ -5,16 +5,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from '@services/snackbar.service';
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
 import { ModuleDialogComponent } from './module-dialog/module-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-modules',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './modules.component.html',
   styleUrls: ['./modules.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ModulesComponent {
   modules: ModuleResponseDto[] = [];
+
+  filteredData = [...this.modules];
+  searchBar = '';
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -23,10 +27,24 @@ export class ModulesComponent {
   ) {}
 
   getAllModules(): void {
+    this.searchBar = '';
     this.usermanagerService.getAllModules().subscribe({
-      next: data => (this.modules = data),
+      next: data => {
+        this.modules = data;
+        this.filteredData = [...data];
+      },
       error: err => (this.snackbar.danger(err, 5000))
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchBar.toLowerCase().trim();
+
+    this.filteredData = this.modules.filter(module => 
+      Object.values(module).some(value => 
+        value && value.toString().toLowerCase().includes(term)
+      )
+    );
   }
 
   openAddModuleDialog(): void {

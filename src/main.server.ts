@@ -2,9 +2,10 @@ import { bootstrapApplication, BootstrapContext } from '@angular/platform-browse
 import { LayoutComponent } from './app/layout/layout.component';
 import { config } from './app/app.config.server';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { AppComponent } from 'app/app.component';
 
 const bootstrap = (context: BootstrapContext) => 
-    bootstrapApplication(LayoutComponent, {
+    bootstrapApplication(AppComponent, {
         ...config,
         providers: [
             ...config.providers || [],

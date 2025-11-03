@@ -6,16 +6,20 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ModuleActionDialogComponent } from './module-action-dialog/module-action-dialog.component';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-module-actions',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './module-actions.component.html',
   styleUrls: ['./module-actions.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ModuleActionsComponent {
   moduleActions: ModuleActionResponseDto[] = [];
+
+  filteredData = [...this.moduleActions];
+  searchBar = '';
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -24,10 +28,24 @@ export class ModuleActionsComponent {
   ) {}
 
   getAllModuleActions(): void {
+    this.searchBar = '';
     this.usermanagerService.getAllModuleActions().subscribe({
-      next: data => (this.moduleActions = data),
+      next: data => {
+        this.moduleActions = data;
+        this.filteredData = [...data];
+      },
       error: err => (this.snackbar.danger(err, 5000))
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchBar.toLowerCase().trim();
+
+    this.filteredData = this.moduleActions.filter(ma => 
+      Object.values(ma).some(value =>
+        value && value.toString().toLowerCase().includes(term)
+      )
+    );
   }
 
   removeModuleAction(id: number): void {

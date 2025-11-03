@@ -1,7 +1,10 @@
 <div class="inner-forms"> 
     <div class="wrapper row">
         <section class="forms">
-            <table class="table table-hover" [cellSpacing]="0">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <table class="table table-hover table-container" [cellSpacing]="0">
                 <thead>
                     <tr>
                         <th>Username - Role</th>
@@ -9,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let ma of moduleAccess">
+                    <tr *ngFor="let ma of filteredData">
                         <td>
                             <span>{{ ma.username }} - {{ ma.role }}</span>
                             <div class="nav-container">
@@ -19,8 +22,8 @@
                         </td>
                         <td>{{ ma.moduleName }} - {{ma.actionName }}</td>
                     </tr>
-                    <tr *ngIf="moduleAccess.length === 0" class="text-center text-muted">
-                        <td colspan="2">No module access found</td>
+                    <tr *ngIf="filteredData.length === 0">
+                        <td class="text-center text-muted" colspan="2">No module access found</td>
                     </tr>
                 </tbody>
             </table>

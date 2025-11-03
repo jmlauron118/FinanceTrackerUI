@@ -6,17 +6,20 @@ import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user
 import { SnackbarService } from '@services/snackbar.service';
 import { UserRoleDialogComponent } from './user-role-dialog/user-role-dialog.component';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
-import { title } from 'process';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-roles',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './user-roles.component.html',
   styleUrls: ['./user-roles.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class UserRolesComponent {
   userRoles: UserRoleResponseDto[] = [];
+
+  filteredData = [...this.userRoles];
+  searchBar = '';
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -25,10 +28,24 @@ export class UserRolesComponent {
   ) {}
 
   getAllUserRoles(): void {
+    this.searchBar = '';
     this.usermanagerService.getAllUserRoles().subscribe({
-      next: data => (this.userRoles = data),
+      next: data => {
+        this.userRoles = data;
+        this.filteredData = [...data];
+      },
       error: err => (this.snackbar.danger(err, 5000))
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchBar.toLowerCase().trim();
+
+    this.filteredData = this.userRoles.filter(ur => 
+      Object.values(ur).some(value =>
+        value && value.toString().toLowerCase().includes(term)
+      )
+    );
   }
 
   removeUserRole(id: number): void {

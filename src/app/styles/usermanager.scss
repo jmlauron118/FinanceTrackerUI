@@ -146,3 +146,23 @@
 .max-w-max {
     max-width: max-content;
 }
+
+.table-search {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 1rem;
+    
+    .search-box {
+        border-radius: 7px;
+        padding: 5px 10px;
+        border: 1px solid #ccc !important;
+        border-radius: 6px;
+        outline: none !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box:focus {
+        border-color: $primary-color !important;
+        box-shadow: 0 0 5px rgba(63, 81, 181, 0.4);
+    }
+}

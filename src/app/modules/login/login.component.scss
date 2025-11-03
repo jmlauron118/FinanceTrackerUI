@@ -1,0 +1,19 @@
+@use '../../../styles.scss' as *;
+
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  form {
+    margin-top: 3rem;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: end;
+  }
+}

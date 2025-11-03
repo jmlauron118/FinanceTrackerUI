@@ -1,7 +1,10 @@
 <div class="inner-forms">
     <div class="wrapper row">
         <section class="forms">
-            <table class="table table-hover" [cellSpacing]="0">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <table class="table table-hover table-container" [cellSpacing]="0">
                 <thead>
                     <tr>
                         <th>Module</th>
@@ -12,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let module of modules">
+                    <tr *ngFor="let module of filteredData">
                         <td>
                             <span><i [class]="module.icon"></i> &nbsp;{{ module.moduleName }}</span><br/>
                             <div class="nav-container">
@@ -26,7 +29,7 @@
                             <div class="status badge badge-pill" [ngClass]="module.isActive ? 'badge-success' : 'badge-danger'">{{ module.isActive ? 'Active' : 'Inactive' }}</div>
                         </td>
                     </tr>
-                    <tr *ngIf="modules.length === 0">
+                    <tr *ngIf="filteredData.length === 0">
                         <td colspan="5" class="text-center text-muted">No modules found.</td>
                     </tr>
                 </tbody>

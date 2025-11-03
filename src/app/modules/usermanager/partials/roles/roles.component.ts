@@ -5,16 +5,20 @@ import { RoleResponseDto } from '@interfaces/usermanager/roles-dto/role-response
 import { CommonModule } from '@angular/common';
 import { SnackbarService } from '@services/snackbar.service';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-roles',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './roles.component.html',
   styleUrls: ['./roles.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class RolesComponent {
   roles: RoleResponseDto[] = [];
+
+  filteredData = [...this.roles];
+  searchBar = '';
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -23,10 +27,24 @@ export class RolesComponent {
   ) {}
 
   getAllRoles(): void {
+    this.searchBar = '';
     this.usermanagerService.getAllRoles().subscribe({
-      next: (data) => (this.roles = data),
+      next: (data) => {
+        this.roles = data;
+        this.filteredData = [...data];
+      },
       error: (err) => (this.snackbar.danger(err, 5000))
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchBar.toLowerCase().trim();
+
+    this.filteredData = this.roles.filter(role => 
+      Object.values(role).some(value => 
+        value && value.toString().toLowerCase().includes(term)
+      )
+    );
   }
 
   openAddRoleDialog(): void {

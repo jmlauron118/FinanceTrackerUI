@@ -1,7 +1,10 @@
 <div class="inner-forms">
     <div class="wrapper row">
         <section class="forms">
-            <table class="table table-hover" [cellSpacing]="0">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <table class="table table-hover table-container" [cellSpacing]="0">
                 <thead>
                     <tr>
                         <th>Action</th>
@@ -10,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let action of actions">
+                    <tr *ngFor="let action of filteredData">
                         <td>
                             <span>{{ action.actionName }}</span>
                             <div class="nav-container">
@@ -22,7 +25,7 @@
                             <div class="status badge badge-pill" [ngClass]="action.isActive ? 'badge-success' : 'badge-danger'">{{ action.isActive ? 'Active' : 'Inactive' }}</div>
                         </td>
                     </tr>
-                    <tr *ngIf="actions.length === 0">
+                    <tr *ngIf="filteredData.length === 0">
                         <td colspan="3" class="text-center text-muted">No actions found</td>
                     </tr>
                 </tbody>

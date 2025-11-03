@@ -6,16 +6,20 @@ import { SnackbarService } from '@services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 import { ActionModifyDto } from '@interfaces/usermanager/actions-dto/action-modify-dto';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-actions',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ActionsComponent {
   actions: ActionResponseDto[] = [];
+
+  filteredData = [...this.actions];
+  searchBar ='';
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -24,10 +28,24 @@ export class ActionsComponent {
   ) {}
 
   getAllActions(): void {
+    this.searchBar ='';
     this.usermanagerService.getAllActions().subscribe({
-      next: data => (this.actions = data),
+      next: data => {
+        this.actions = data;
+        this.filteredData = [...data];
+      },
       error: err => (this.snackbar.danger(err, 5000))
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchBar.toLowerCase().trim();
+
+    this.filteredData = this.actions.filter(action => 
+      Object.values(action).some(value => 
+        value && value.toString().toLowerCase().includes(term)
+      )
+    );
   }
 
   openAddActionDialog(): void {

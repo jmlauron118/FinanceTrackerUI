@@ -1,7 +1,10 @@
 <div class="inner-forms">
     <div class="wrapper row">
         <section class="forms">
-            <table class="table table-hover" [cellSpacing]="0">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <table class="table table-hover table-container" [cellSpacing]="0">
                 <thead>
                     <tr>
                         <th>Full Name</th>
@@ -10,8 +13,8 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let user of users">
+                <tbody class="table-wrapper">
+                    <tr *ngFor="let user of filteredData">
                         <td>
                             <span>{{ user.lastname }}, {{ user.firstname }}</span><br/>
                             <div class="nav-container">
@@ -24,7 +27,7 @@
                             <div class="status badge badge-pill" [ngClass]="user.isActive ? 'badge-success' : 'badge-danger'">{{ user.isActive ? 'Active' : 'Inactive' }}</div>
                         </td>
                     </tr>
-                    <tr *ngIf="users.length === 0">
+                    <tr *ngIf="filteredData.length === 0">
                         <td colspan="4" class="text-center text-muted">No users found.</td>
                     </tr>
                 </tbody>

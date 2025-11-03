@@ -23,6 +23,7 @@ import { UserRoleModifyDto } from '@interfaces/usermanager/user-roles-dto/user-r
 import { ModuleAccessResponseDto } from '@interfaces/usermanager/module-access-dto/module-access-response-dto';
 import { ModuleAccessRequestDto } from '@interfaces/usermanager/module-access-dto/module-access-request-dto';
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
+import { UserModules } from '@interfaces/usermanager/user-modules';
 
 @Injectable({
   providedIn: 'root'

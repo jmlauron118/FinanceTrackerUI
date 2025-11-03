@@ -12,20 +12,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 
 export class SidebarComponent {
-  @Input() userModules: string[] = [];
+  @Input() userModules: UserModules[] = [];
   @Input() isOpen = false;
   @Output() closeSidebar = new EventEmitter<void>();
 
-  menuItems: UserModules[] =[
-    { moduleName: 'Dashboard', modulePage: 'dashboard', icon: 'fa fa-fw fa-home' },
-    { moduleName: 'User Manager', modulePage: 'usermanager', icon: 'fa fa-fw fa-users' }
-  ];
-
-  get visibleMenu() {
-    return this.menuItems.filter(item =>
-      this.userModules.includes(item.modulePage)
-    );
-  }
+  constructor (
+  ) {}
 
   onOverlayClick() {
     this.closeSidebar.emit();

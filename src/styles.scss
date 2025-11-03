@@ -191,6 +191,48 @@ textarea{
   color: $light-color !important;
 }
 
+.table-container {
+  max-height: fit-content; /* set your desired height */
+  overflow-y: auto;
+  display: block;
+}
+
+/* Make table take full width */
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Keep header fixed */
+.table-container thead,
+.table-container tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Only tbody will scroll */
+.table-container tbody {
+  display: block;
+  max-height: 500px; /* smaller than container */
+  overflow-y: auto;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+thead {
+  background: #f4f4f4;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+
+
 
 
 

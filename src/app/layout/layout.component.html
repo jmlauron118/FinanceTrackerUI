@@ -1,19 +1,19 @@
 <div class="layout-container">
-    <header (click)="$event.stopPropagation()">
+    <header *ngIf="!isLoginRoute" (click)="$event.stopPropagation()">
         <app-header (toggleSidebar)="onToggleSidebar()"></app-header>
     </header>
 
-    <section class="side-nav">
+    <section class="side-nav" *ngIf="!isLoginRoute">
         <app-sidebar [userModules]="userModules" [isOpen]="isSidebarOpen" #sidebar (closeSidebar)="onToggleSidebar()"></app-sidebar>
     </section>
-
-    <div class="main-container">
+    
+    <div class="main-container" *ngIf="!isLoginRoute">
         <main role="main" class="pb-3">
             <router-outlet></router-outlet>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" *ngIf="!isLoginRoute">
         <app-footer></app-footer>
     </footer>
 </div>
