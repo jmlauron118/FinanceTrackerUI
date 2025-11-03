@@ -34,10 +34,6 @@ export class UsersComponent {
     this.getAllUsers();
   }
 
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit!!!');
-  }
-
   getAllUsers(): void {
     this.searchBar = '';
     this.usermanagerService.getAllUsers().subscribe({
@@ -70,7 +66,7 @@ export class UsersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.users.push(result);
+        this.getAllUsers();
       }
     });
   }

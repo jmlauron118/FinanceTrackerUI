@@ -67,7 +67,7 @@ export class ModuleActionsComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.moduleActions.push(result);
+        this.getAllModuleActions();
       }
     });
   }

@@ -68,7 +68,7 @@ export class ModuleAccessComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.moduleAccess.push(result);
+        this.getAllModuleAccess();
       }
     });
   }

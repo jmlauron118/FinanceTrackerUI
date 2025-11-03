@@ -13,7 +13,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-6 mb-3">
                 <mat-label>Last Name</mat-label>
-                <input matInput formControlName="lastname" autoTitleCase/>
+                <input matInput formControlName="lastname" titleCase/>
                 <mat-error *ngIf="userControl['lastname'].touched && userControl['lastname'].hasError('required')">
                     Last name is required!
                 </mat-error>

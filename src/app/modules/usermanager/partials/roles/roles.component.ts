@@ -56,7 +56,7 @@ export class RolesComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.roles.push(result);
+        this.getAllRoles();
       }
     });
   }
