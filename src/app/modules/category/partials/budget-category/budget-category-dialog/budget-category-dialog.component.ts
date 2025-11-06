@@ -10,6 +10,7 @@ import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { BudgetCategoryModifyDto } from '@interfaces/category/budget-category-dto/budget-category-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-budget-category-dialog',
@@ -41,9 +42,9 @@ export class BudgetCategoryDialogComponent {
 
   addBudgetCategory(budgetCategory: BudgetCategoryRequestDto): void {
     this.categoryService.addBudgetCategory(budgetCategory).subscribe({
-      next: data => {
-        this.snackbar.success('Budget category added successfully.');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 4000))
     });
@@ -51,9 +52,9 @@ export class BudgetCategoryDialogComponent {
 
   modifyBudgetCategory(budgetCategory: BudgetCategoryModifyDto): void {
     this.categoryService.modifyBudgetCategory(budgetCategory).subscribe({
-      next: data => {
-        this.snackbar.success('Budget category modified successfully.');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 4000))
     });

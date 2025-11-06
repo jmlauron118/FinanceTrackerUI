@@ -31,14 +31,14 @@ export class ModuleActionDialogComponent {
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ModuleActionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { moduleAction?: ModuleActionResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: ModuleActionResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.moduleActionForm = this.fb.group({
-      moduleActionId: [data?.moduleAction?.moduleActionId || null],
-      moduleId: [data?.moduleAction?.moduleId || null, Validators.required],
-      actionId: [data?.moduleAction?.actionId || null, Validators.required]
+      moduleActionId: [data?.moduleActionId || null],
+      moduleId: [data?.moduleId || null, Validators.required],
+      actionId: [data?.actionId || null, Validators.required]
     });
   }
 
@@ -49,9 +49,9 @@ export class ModuleActionDialogComponent {
 
   addModuleAction(moduleAction: ModuleActionRequestDto): void {
     this.usermanagerService.addModuleAction(moduleAction).subscribe({
-      next: data => {
-        this.snackbar.success('Module action added successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -59,9 +59,9 @@ export class ModuleActionDialogComponent {
 
   modifyModuleAction(moduleAction: ModuleActionModifyDto): void {
     this.usermanagerService.modifyModuleAction(moduleAction).subscribe({
-      next: data => {
-        this.snackbar.success('Module action modified successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -69,14 +69,14 @@ export class ModuleActionDialogComponent {
 
   getModuleList(): void {
     this.usermanagerService.getAllModules(1).subscribe({
-      next: data => (this.activeModules = data),
+      next: response => (this.activeModules = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     });
   }
 
   getActionList(): void {
     this.usermanagerService.getAllActions(1).subscribe({
-      next: data => (this.activeActions = data),
+      next: response => (this.activeActions = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     });
   }

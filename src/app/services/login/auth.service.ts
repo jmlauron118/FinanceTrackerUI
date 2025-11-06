@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { SnackbarService } from '@services/snackbar.service';
 import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '@interfaces/login/decoded-token';
+import { ResponseModel } from '@interfaces/response-model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,8 +67,8 @@ export class AuthService {
     return [];
   }
 
-  getUserModules(): Observable<UserModules[]> {
-    return this.http.get<UserModules[]>('/api/usermanager/get-user-modules')
+  getUserModules(): Observable<ResponseModel<UserModules[]>> {
+    return this.http.get<ResponseModel<UserModules[]>>('/api/usermanager/get-user-modules')
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 

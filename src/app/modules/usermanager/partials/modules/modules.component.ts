@@ -29,9 +29,9 @@ export class ModulesComponent {
   getAllModules(): void {
     this.searchBar = '';
     this.usermanagerService.getAllModules().subscribe({
-      next: data => {
-        this.modules = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.modules = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -66,9 +66,7 @@ export class ModulesComponent {
       panelClass: 'custom-dialog',
       width: '700px',
       maxWidth: '90vw',
-      data: {
-        module
-      }
+      data: module
     });
 
     dialogRef.afterClosed().subscribe(result => {

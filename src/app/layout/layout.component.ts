@@ -41,7 +41,7 @@ export class LayoutComponent {
 
     if(isPlatformBrowser(this.platformId)) {
       this.authService.getUserModules().subscribe({
-        next: data => (this.userModules = data),
+        next: response => (this.userModules = response.data),
         error: err => (this.snackbar.danger(err, 4000))
       });
     }

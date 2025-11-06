@@ -27,26 +27,26 @@ export class ModuleDialogComponent {
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ModuleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { module?: ModuleResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: ModuleResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.moduleForm = this.fb.group({
-      moduleId: [data?.module?.moduleId || null],
-      moduleName: [data?.module?.moduleName || '', Validators.required],
-      modulePage: [data?.module?.modulePage || '', Validators.required],
-      description: [data?.module?.description || '', Validators.required],
-      icon: [data?.module?.icon || '', Validators.required],
-      sortOrder: [data?.module?.sortOrder, Validators.required],
-      isActive: [data?.module?.isActive ?? 1]
+      moduleId: [data?.moduleId || null],
+      moduleName: [data?.moduleName || '', Validators.required],
+      modulePage: [data?.modulePage || '', Validators.required],
+      description: [data?.description || '', Validators.required],
+      icon: [data?.icon || '', Validators.required],
+      sortOrder: [data?.sortOrder, Validators.required],
+      isActive: [data?.isActive ?? 1]
     });
   }
 
   addModule(module: ModuleRequestDto): void {
     this.usermanagerService.addModule(module).subscribe({
-      next: data => {
-        this.snackbar.success('Module added successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: error => {
         this.snackbar.danger(error, 4000);
@@ -56,9 +56,9 @@ export class ModuleDialogComponent {
 
   modifyModule(module: ModuleModifyDto): void {
     this.usermanagerService.modifyModule(module).subscribe({
-      next: data => {
-        this.snackbar.success('Module modified successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: error => {
         this.snackbar.danger(error, 4000);

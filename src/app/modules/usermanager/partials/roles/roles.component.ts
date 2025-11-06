@@ -29,9 +29,9 @@ export class RolesComponent {
   getAllRoles(): void {
     this.searchBar = '';
     this.usermanagerService.getAllRoles().subscribe({
-      next: (data) => {
-        this.roles = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.roles = response.data;
+        this.filteredData = [...response.data];
       },
       error: (err) => (this.snackbar.danger(err, 5000))
     });
@@ -66,9 +66,7 @@ export class RolesComponent {
       panelClass: 'custom-dialog',
       width: '400px',
       maxWidth: '90vw',
-      data: {
-        role
-      }
+      data: role
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -13,8 +13,8 @@ export class ForbiddenComponent {
 
   goBack(): void {
     this.authService.getUserModules().subscribe({
-      next: modules => {
-        const module = modules[0];
+      next: response => {
+        const module = response.data[0];
 
         this.router.navigate([`/${module.modulePage.toLowerCase()}`]);
       }

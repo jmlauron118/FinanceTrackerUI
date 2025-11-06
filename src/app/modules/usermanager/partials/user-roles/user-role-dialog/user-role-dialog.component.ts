@@ -30,14 +30,14 @@ export class UserRoleDialogComponent {
     private confirm: ConfirmDialogService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<UserRoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { userRole?: UserRoleResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: UserRoleResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.userRoleForm = this.fb.group({
-      userRoleId: [data?.userRole?.userRoleId || null],
-      userId: [data?.userRole?.userId || null, Validators.required],
-      roleId: [data?.userRole?.roleId || null, Validators.required]
+      userRoleId: [data?.userRoleId || null],
+      userId: [data?.userId || null, Validators.required],
+      roleId: [data?.roleId || null, Validators.required]
     });
   }
 
@@ -48,9 +48,9 @@ export class UserRoleDialogComponent {
 
   addUserRole(userRole: UserRoleRequestDto): void {
     this.usermanagerService.addUserRole(userRole).subscribe({
-      next: data => {
-        this.snackbar.success('User role added successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -68,14 +68,14 @@ export class UserRoleDialogComponent {
 
   getUserList(): void {
     this.usermanagerService.getAllUsers(1).subscribe({
-      next: data => (this.activeUsers = data),
+      next: response => (this.activeUsers = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     });
   }
 
   getRoleList(): void {
     this.usermanagerService.getAllRoles(1).subscribe({
-      next: data => (this.activeRoles = data),
+      next: response => (this.activeRoles = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     });
   }

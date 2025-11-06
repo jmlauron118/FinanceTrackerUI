@@ -27,23 +27,23 @@ export class RoleDialogComponent {
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<RoleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { role?: RoleResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: RoleResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.roleForm = this.fb.group({
-      roleId: [data?.role?.roleId || null],
-      role: [data?.role?.role || '', Validators.required],
-      description: [data?.role?.description || '', Validators.required],
-      isActive: [data?.role?.isActive ?? 1]
+      roleId: [data?.roleId || null],
+      role: [data?.role || '', Validators.required],
+      description: [data?.description || '', Validators.required],
+      isActive: [data?.isActive ?? 1]
     });
   }
 
   addRole(role: RoleRequestDto): void {
     this.usermanagerService.addRole(role).subscribe({
-      next: data => {
-        this.snackbar.success('Role added successfully!');
-        this.dialogRef.close(data)
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data)
       },
       error: error => {
         this.snackbar.danger(error, 5000);
@@ -53,9 +53,9 @@ export class RoleDialogComponent {
 
   modifyRole(role: RoleModifyDto): void {
     this.usermanagerService.modifyRole(role).subscribe({
-      next: data => {
-        this.snackbar.success('Role modified successfully!');
-        this.dialogRef.close(data)
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data)
       },
       error: error => {
         this.snackbar.danger(error, 4000);

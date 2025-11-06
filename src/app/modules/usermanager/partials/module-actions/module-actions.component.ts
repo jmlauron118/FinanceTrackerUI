@@ -32,9 +32,9 @@ export class ModuleActionsComponent {
   getAllModuleActions(): void {
     this.searchBar = '';
     this.usermanagerService.getAllModuleActions().subscribe({
-      next: data => {
-        this.moduleActions = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.moduleActions = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -52,8 +52,8 @@ export class ModuleActionsComponent {
 
   removeModuleAction(id: number): void {
     this.usermanagerService.removeModuleAction(id).subscribe({
-      next: () => {
-        this.snackbar.success('Module action has been removed!');
+      next: response => {
+        this.snackbar.success(response.message);
         this.getAllModuleActions();
       },
       error: err => (this.snackbar.danger(err, 5000))
@@ -79,9 +79,7 @@ export class ModuleActionsComponent {
       panelClass: 'custom-dialog',
       width: '500px',
       maxWidth: '90vw',
-      data: {
-        moduleAction
-      }
+      data: moduleAction
     });
 
     dialogRef.afterClosed().subscribe(result => {

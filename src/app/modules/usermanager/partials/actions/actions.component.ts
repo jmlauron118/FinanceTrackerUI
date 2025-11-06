@@ -30,9 +30,9 @@ export class ActionsComponent {
   getAllActions(): void {
     this.searchBar ='';
     this.usermanagerService.getAllActions().subscribe({
-      next: data => {
-        this.actions = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.actions = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -67,9 +67,7 @@ export class ActionsComponent {
       panelClass: 'custom-dialog',
       width: '400px',
       maxWidth: '90vw',
-      data: {
-        action
-      }
+      data: action
     });
 
     dialogRef.afterClosed().subscribe(result => {

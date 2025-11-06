@@ -33,9 +33,9 @@ export class ModuleAccessComponent {
   getAllModuleAccess(): void {
     this.searchBar = '';
     this.usermanagerService.getAllModuleAccess().subscribe({
-      next: data => {
-        this.moduleAccess = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.moduleAccess = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -53,8 +53,8 @@ export class ModuleAccessComponent {
 
   removeModuleAccess(id: number): void {
     this.usermanagerService.removeModuleAccess(id).subscribe({
-      next: () => {
-        this.snackbar.success('Module access has been removed!');
+      next: response => {
+        this.snackbar.success(response.message);
         this.getAllModuleAccess();
       },
       error: err => (this.snackbar.danger(err, 5000))
@@ -80,9 +80,7 @@ export class ModuleAccessComponent {
       panelClass: 'custom-dialog',
       width: '450px',
       maxWidth: '90vw',
-      data: {
-        moduleAccess
-      }
+      data: moduleAccess
     });
 
     dialogRef.afterClosed().subscribe(result => {

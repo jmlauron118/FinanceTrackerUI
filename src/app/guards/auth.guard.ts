@@ -60,9 +60,9 @@ export const authGuard: CanActivateFn = (route, state) => {
     }
  
     authService.getUserModules().subscribe({
-      next: modules => {
+      next: response => {
         const currentModule = route.data['moduleName'] as string;
-        const hasAccess = modules.some(m => m.modulePage.toLowerCase() === currentModule);
+        const hasAccess = response.data.some(m => m.modulePage.toLowerCase() === currentModule);
 
         if (!hasAccess) {
           snackbar.warning(`❌ Access denied to module: ${currentModule}`);

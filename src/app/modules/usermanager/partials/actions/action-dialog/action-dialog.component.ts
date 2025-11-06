@@ -27,23 +27,23 @@ export class ActionDialogComponent {
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ActionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { action?: ActionResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: ActionResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.actionForm = this.fb.group({
-      actionId: [data?.action?.actionId || 0],
-      actionName: [data?.action?.actionName || '', Validators.required],
-      description: [data?.action?.description || '', Validators.required],
-      isActive: [data?.action?.isActive ?? 1, Validators.required]
+      actionId: [data?.actionId || 0],
+      actionName: [data?.actionName || '', Validators.required],
+      description: [data?.description || '', Validators.required],
+      isActive: [data?.isActive ?? 1, Validators.required]
     });
   }
 
   addAction(action: ActionRequestDto): void {
     this.usermanagerService.addAction(action).subscribe({
-      next: data => {
-        this.snackbar.success('Action added successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -51,9 +51,9 @@ export class ActionDialogComponent {
 
   modifyAction(action: ActionModifyDto): void {
     this.usermanagerService.modifyAction(action).subscribe({
-      next: data => {
-        this.snackbar.success('Action modified successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });

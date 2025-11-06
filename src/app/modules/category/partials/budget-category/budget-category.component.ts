@@ -35,9 +35,9 @@ export class BudgetCategoryComponent {
 
   getAllBudgetCategories(): void {
     this.categoryService.getAllBudgetCategories().subscribe({
-      next: data => {
-        this.budgetCategory = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.budgetCategory = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });

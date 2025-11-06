@@ -55,8 +55,8 @@ export class LoginComponent {
     this.authService.login(creds).subscribe({
       next: () => {
         this.authService.getUserModules().subscribe({
-          next: modules => {
-            const defaultModule = modules[0];
+          next: response => {
+            const defaultModule = response.data[0];
 
             this.router.navigate([defaultModule.modulePage.toLowerCase()]);
           }

@@ -37,9 +37,9 @@ export class UsersComponent {
   getAllUsers(): void {
     this.searchBar = '';
     this.usermanagerService.getAllUsers().subscribe({
-      next: (data) => {
-        this.users = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.users = response.data;
+        this.filteredData = [...response.data];
       },
       error: (err) => {
         this.snackbar.danger(err, 5000);
@@ -76,9 +76,8 @@ export class UsersComponent {
       panelClass: 'custom-dialog',
       width: '700px',
       maxWidth: '90vw',
-      data: {
-        user
-      }
+      data: user
+
     });
 
     dialogRef.afterClosed().subscribe(result => {

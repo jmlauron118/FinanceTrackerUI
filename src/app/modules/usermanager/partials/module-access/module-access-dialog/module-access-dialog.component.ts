@@ -12,7 +12,6 @@ import { InputDirectivesModule } from "app/shared/input-directives.module";
 import { ModuleActionResponseDto } from '@interfaces/usermanager/module-actions-dto/module-action-response-dto';
 import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
-import { isMainModule } from '@angular/ssr/node';
 
 @Component({
   selector: 'app-module-access-dialog',
@@ -32,14 +31,14 @@ export class ModuleAccessDialogComponent {
     private confirm: ConfirmDialogService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ModuleAccessDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { moduleAccess?: ModuleAccessResponseDto }
+    @Inject(MAT_DIALOG_DATA) public data: ModuleAccessResponseDto
   ) {
     this.isEditMode = !!data;
 
     this.moduleAccessForm = this.fb.group({
-      moduleAccessId: [data?.moduleAccess?.moduleAccessId || null],
-      moduleActionId: [data?.moduleAccess?.moduleActionId || null, Validators.required],
-      userRoleId: [data?.moduleAccess?.userRoleId || null, Validators.required]
+      moduleAccessId: [data?.moduleAccessId || null],
+      moduleActionId: [data?.moduleActionId || null, Validators.required],
+      userRoleId: [data?.userRoleId || null, Validators.required]
     });
   }
 
@@ -50,9 +49,9 @@ export class ModuleAccessDialogComponent {
 
   addModuleAccess(moduleAccess: ModuleAccessRequestDto): void {
     this.usermanagerService.addModuleAccess(moduleAccess).subscribe({
-      next: data => {
-        this.snackbar.success('Module access added successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -60,9 +59,9 @@ export class ModuleAccessDialogComponent {
 
   modifyModuleAccess(moduleAccess: ModuleAccessModifyDto): void {
     this.usermanagerService.modifyModuleAccess(moduleAccess).subscribe({
-      next: data => {
-        this.snackbar.success('Module access modified successfully!');
-        this.dialogRef.close(data);
+      next: response => {
+        this.snackbar.success(response.message);
+        this.dialogRef.close(response.data);
       },
       error: err => (this.snackbar.danger(err, 5000))
     })
@@ -70,14 +69,14 @@ export class ModuleAccessDialogComponent {
 
   getModuleActionList(): void {
     this.usermanagerService.getAllModuleActions().subscribe({
-      next: data => (this.moduleActionList = data),
+      next: response => (this.moduleActionList = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     })
   }
 
   getUserRoleList(): void {
     this.usermanagerService.getAllUserRoles().subscribe({
-      next: data => (this.userRoleList = data),
+      next: response => (this.userRoleList = response.data),
       error: err => (this.snackbar.danger(err, 5000))
     })
   }

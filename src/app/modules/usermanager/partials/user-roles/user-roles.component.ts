@@ -32,9 +32,9 @@ export class UserRolesComponent {
   getAllUserRoles(): void {
     this.searchBar = '';
     this.usermanagerService.getAllUserRoles().subscribe({
-      next: data => {
-        this.userRoles = data;
-        this.filteredData = [...data];
+      next: response => {
+        this.userRoles = response.data;
+        this.filteredData = [...response.data];
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -52,8 +52,8 @@ export class UserRolesComponent {
 
   removeUserRole(id: number): void {
     this.usermanagerService.removeUserRole(id).subscribe({
-      next: () => {
-        this.snackbar.success('User role has been removed!')
+      next: response => {
+        this.snackbar.success(response.message)
         this.getAllUserRoles();
       },
       error: err => (this.snackbar.danger(err, 5000))
@@ -79,9 +79,7 @@ export class UserRolesComponent {
       panelClass: 'custom-dialog',
       width: '400px',
       maxWidth: '90vw',
-      data: {
-        userRole
-      }
+      data: userRole
     });
 
     dialogRef.afterClosed().subscribe(result => {
