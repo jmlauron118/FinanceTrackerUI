@@ -67,7 +67,8 @@ export class AuthService {
   }
 
   getUserModules(): Observable<UserModules[]> {
-    return this.http.get<UserModules[]>('/api/usermanager/get-user-modules');
+    return this.http.get<UserModules[]>('/api/usermanager/get-user-modules')
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
   logout(): void {

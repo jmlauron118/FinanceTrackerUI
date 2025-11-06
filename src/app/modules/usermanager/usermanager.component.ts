@@ -61,6 +61,6 @@ export class UserManagerComponent {
       'module-access': () => this.moduleAccessComponent.getAllModuleAccess()
     };
 
-    tabActions[tab] ? tabActions[tab]() : this.snackbar.danger(`Unknown tab: ${tab}`);
+    tabActions[tab] ? tabActions[tab]() : this.snackbar.warning(`Unknown tab: ${tab}`);
   }
 }

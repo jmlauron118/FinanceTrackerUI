@@ -9,6 +9,7 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { ActionRequestDto } from '@interfaces/usermanager/actions-dto/action-request-dto';
 import { ActionModifyDto } from '@interfaces/usermanager/actions-dto/action-modify-dto';
 import { UpperCaseDirective } from 'app/directive/uppercase.directive';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-action-dialog',
@@ -24,6 +25,7 @@ export class ActionDialogComponent {
     private fb: FormBuilder,
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ActionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { action?: ActionResponseDto }
   ) {
@@ -63,15 +65,25 @@ export class ActionDialogComponent {
       return;
     }
 
-    if(this.isEditMode){
-      this.modifyAction(this.actionForm.value);
-    }
-    else{
-      const { actionName, description, isActive } = this.actionForm.value;
-      const newAction: ActionRequestDto = { actionName, description, isActive };
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} Action`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this action?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if(result){
+        if(this.isEditMode){
+          this.modifyAction(this.actionForm.value);
+        }
+        else{
+          const { actionName, description, isActive } = this.actionForm.value;
+          const newAction: ActionRequestDto = { actionName, description, isActive };
 
-      this.addAction(newAction);
-    }
+          this.addAction(newAction);
+        }
+      }
+    });
   }
 
   onCancel() {

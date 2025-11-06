@@ -10,6 +10,8 @@ import { ModuleActionRequestDto } from '@interfaces/usermanager/module-actions-d
 import { ModuleActionModifyDto } from '@interfaces/usermanager/module-actions-dto/module-action-modify-dto';
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
 import { ActionResponseDto } from '@interfaces/usermanager/actions-dto/action-response-dto';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-module-action-dialog',
@@ -27,6 +29,7 @@ export class ModuleActionDialogComponent {
     private fb: FormBuilder,
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ModuleActionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { moduleAction?: ModuleActionResponseDto }
   ) {
@@ -84,15 +87,25 @@ export class ModuleActionDialogComponent {
       return;
     }
 
-    if(this.isEditMode) {
-      this.modifyModuleAction(this.moduleActionForm.value);
-    }
-    else{
-      const { moduleId, actionId } = this.moduleActionForm.value;
-      const newModuleAction: ModuleActionRequestDto = { moduleId, actionId };
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} Module Action`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this module action?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if(result) {
+        if(this.isEditMode) {
+          this.modifyModuleAction(this.moduleActionForm.value);
+        }
+        else{
+          const { moduleId, actionId } = this.moduleActionForm.value;
+          const newModuleAction: ModuleActionRequestDto = { moduleId, actionId };
 
-      this.addModuleAction(newModuleAction);
-    }
+          this.addModuleAction(newModuleAction);
+        }
+      }
+    });
   }
 
   onCancel() {

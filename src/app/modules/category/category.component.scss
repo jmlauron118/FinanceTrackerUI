@@ -1,6 +1,6 @@
-@use '../../styles.scss' as *;
+@use '../../../styles.scss' as *;
 
-#usermanager {
+#categories {
     margin-top: 2rem;
 
     .list-group{
@@ -10,7 +10,6 @@
     }
 
     .form-container {
-
         h5 {
             display: inline-block;
             margin-right: 1rem;
@@ -93,8 +92,10 @@
     }
 }
 
+
+
 @media screen and (max-width: $bootstrap-breakpoint-md) {
-    #usermanager {
+    #categories {
         .list-group-divider {
             display: block;
         }
@@ -115,7 +116,7 @@
 }
 
 @media screen and (min-width: $bootstrap-breakpoint-md) {
-    #usermanager {
+    #categories {
         .form-container {
             padding-left: 0;
         }

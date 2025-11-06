@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { filter } from 'rxjs/operators';
 import { UserModules } from '@interfaces/usermanager/user-modules';
 import { AuthService } from '@services/login/auth.service';
+import { SnackbarService } from '@services/snackbar.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,7 +25,9 @@ export class LayoutComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackbar: SnackbarService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
@@ -35,10 +38,13 @@ export class LayoutComponent {
 
   ngOnInit() {
     console.log('layout loaded');
-    // this.userModules = this.authService.getUserModulesFromToken();
-    this.authService.getUserModules().subscribe({
-      next: data => (this.userModules = data)
-    });
+
+    if(isPlatformBrowser(this.platformId)) {
+      this.authService.getUserModules().subscribe({
+        next: data => (this.userModules = data),
+        error: err => (this.snackbar.danger(err, 4000))
+      });
+    }
   }
 
   onToggleSidebar() {

@@ -11,6 +11,8 @@ import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto
 import { InputDirectivesModule } from "app/shared/input-directives.module";
 import { ModuleActionResponseDto } from '@interfaces/usermanager/module-actions-dto/module-action-response-dto';
 import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { isMainModule } from '@angular/ssr/node';
 
 @Component({
   selector: 'app-module-access-dialog',
@@ -27,6 +29,7 @@ export class ModuleAccessDialogComponent {
   constructor(
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ModuleAccessDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { moduleAccess?: ModuleAccessResponseDto }
@@ -85,15 +88,25 @@ export class ModuleAccessDialogComponent {
       return;
     }
 
-    if(this.isEditMode) {
-      this.modifyModuleAccess(this.moduleAccessForm.value);
-    }
-    else {
-      const { moduleActionId, userRoleId } = this.moduleAccessForm.value;
-      const newModuleAccess: ModuleAccessRequestDto = { moduleActionId, userRoleId };
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} Module Access`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this module access?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if(result) {
+        if(this.isEditMode) {
+          this.modifyModuleAccess(this.moduleAccessForm.value);
+        }
+        else {
+          const { moduleActionId, userRoleId } = this.moduleAccessForm.value;
+          const newModuleAccess: ModuleAccessRequestDto = { moduleActionId, userRoleId };
 
-      this.addModuleAccess(newModuleAccess);
-    }
+          this.addModuleAccess(newModuleAccess);
+        }
+      }
+    });
   }
 
   onCancel() {

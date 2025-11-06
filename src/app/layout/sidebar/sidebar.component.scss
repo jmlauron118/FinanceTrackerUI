@@ -29,6 +29,7 @@ $sidebar-hover-color: #edf0f2;
         transition: all 0.3s;
         background-color: $semi-dark-color;
         overflow-y: auto;
+        overflow-x: hidden;
 
         .sidebar-menu-list {
             list-style: none;
@@ -96,7 +97,6 @@ $sidebar-hover-color: #edf0f2;
                 }
 
                 &.sidebar-menu-dropdown.active {
-                    // background-color: darken($sidebar-hover-color, 1.5);
                     background-color: color-adjust($sidebar-hover-color, $primary-color, 0.1);
                 }
             }

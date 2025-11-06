@@ -9,6 +9,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
 import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
 import { TitleCaseDirective } from 'app/directive/title-case.directive';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-user-dialog',
@@ -26,6 +27,7 @@ export class UserDialogComponent {
     private fb: FormBuilder,
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user?: UserResponseDto }
   ) {
@@ -75,15 +77,25 @@ export class UserDialogComponent {
       return;
     }
 
-    if(this.isEditMode){
-      this.modifyUser(this.userForm.value);
-    }
-    else {
-      const { firstname, lastname, gender, username, password, isActive } = this.userForm.value;
-      const newUser: UserRequestDto = { firstname, lastname, gender, username, password, isActive };
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} User`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this user?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if (result) {
+        if(this.isEditMode){
+          this.modifyUser(this.userForm.value);
+        }
+        else {
+          const { firstname, lastname, gender, username, password, isActive } = this.userForm.value;
+          const newUser: UserRequestDto = { firstname, lastname, gender, username, password, isActive };
 
-      this.addUser(newUser);
-    }
+          this.addUser(newUser);
+        }
+      }
+    });
   }
 
   onCancel() {

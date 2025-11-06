@@ -7,6 +7,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { UserRoleDialogComponent } from './user-role-dialog/user-role-dialog.component';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-user-roles',
@@ -24,7 +25,8 @@ export class UserRolesComponent {
   constructor(
     private usermanagerService: UsermanagerService,
     private dialog: MatDialog,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService
   ) {}
 
   getAllUserRoles(): void {
@@ -90,18 +92,12 @@ export class UserRolesComponent {
   }
 
   confirmDelete(id: number): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      panelClass: 'custom-dialog',
-      data: {
-        title: 'Remove User Role',
-        message: 'Are you sure you want to delete this user role?'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.removeUserRole(id);
-      }
+    this.confirm.openConfirm({
+      title: 'Remove User Role',
+      message: 'Are you sure you want to delete this user role?',
+      icon: 'warning'
+    }).subscribe(result => {
+      if (result) this.removeUserRole(id);
     });
   }
 }

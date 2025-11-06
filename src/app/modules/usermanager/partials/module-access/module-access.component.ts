@@ -8,6 +8,7 @@ import { ModuleAccessDialogComponent } from './module-access-dialog/module-acces
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-module-access',
@@ -26,6 +27,7 @@ export class ModuleAccessComponent {
     private usermanagerService: UsermanagerService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService
   ) {}
 
   getAllModuleAccess(): void {
@@ -91,18 +93,12 @@ export class ModuleAccessComponent {
   }
 
   confirmDelete(id: number): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-       panelClass: 'custom-dialog',
-       data: {
-        title: 'Remove Module Access',
-        message: 'Are you sure you want to remove this module access?'
-       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.removeModuleAccess(id);
-      }
+    this.confirm.openConfirm({
+      title: 'Remove Module Access',
+      message: 'Are you sure you want to remove this module access?',
+      icon: 'warning'
+    }).subscribe(result => {
+      if(result) this.removeModuleAccess(id);
     });
   }
 }

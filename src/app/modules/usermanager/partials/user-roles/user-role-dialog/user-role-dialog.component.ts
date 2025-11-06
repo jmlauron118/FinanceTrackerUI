@@ -10,6 +10,7 @@ import { UserRoleRequestDto } from '@interfaces/usermanager/user-roles-dto/user-
 import { UserRoleModifyDto } from '@interfaces/usermanager/user-roles-dto/user-role-modify-dto';
 import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response-dto';
 import { RoleResponseDto } from '@interfaces/usermanager/roles-dto/role-response-dto';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-user-role-dialog',
@@ -26,6 +27,7 @@ export class UserRoleDialogComponent {
   constructor(
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<UserRoleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { userRole?: UserRoleResponseDto }
@@ -84,15 +86,25 @@ export class UserRoleDialogComponent {
       return;
     }
 
-    if(this.isEditMode) {
-      this.modifyUserRole(this.userRoleForm.value);
-    }
-    else{
-      const { userId, roleId } = this.userRoleForm.value;
-      const newUserRole: UserRoleRequestDto = { userId, roleId };
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} User Role`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this user role?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if (result) {
+        if(this.isEditMode) {
+          this.modifyUserRole(this.userRoleForm.value);
+        }
+        else{
+          const { userId, roleId } = this.userRoleForm.value;
+          const newUserRole: UserRoleRequestDto = { userId, roleId };
 
-      this.addUserRole(newUserRole);
-    }
+          this.addUserRole(newUserRole);
+        }
+      }
+    });
   }
 
   onCancel() {

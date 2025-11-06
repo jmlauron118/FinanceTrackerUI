@@ -7,6 +7,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { ModuleActionDialogComponent } from './module-action-dialog/module-action-dialog.component';
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-module-actions',
@@ -24,7 +25,8 @@ export class ModuleActionsComponent {
   constructor(
     private usermanagerService: UsermanagerService,
     private dialog: MatDialog,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService
   ) {}
 
   getAllModuleActions(): void {
@@ -90,18 +92,12 @@ export class ModuleActionsComponent {
   }
 
   confirmDelete(id: number): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      panelClass: 'custom-dialog',
-      data: {
-        title: 'Delete Module Action',
-        message: 'Are you sure you want to delete this module action?'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.removeModuleAction(id);
-      }
+    this.confirm.openConfirm({
+      title: 'Remove Module Action',
+      message: 'Are you sure you want to remove this module action?',
+      icon: 'warning'
+    }).subscribe(result => {
+      if(result) this.removeModuleAction(id);
     });
   }
 }

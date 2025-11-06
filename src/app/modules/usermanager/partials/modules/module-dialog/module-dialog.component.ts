@@ -9,6 +9,7 @@ import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-re
 import { ModuleRequestDto } from '@interfaces/usermanager/modules-dto/module-request-dto';
 import { ModuleModifyDto } from '@interfaces/usermanager/modules-dto/module-modify-dto';
 import { InputDirectivesModule } from 'app/shared/input-directives.module';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-module-dialog',
@@ -24,6 +25,7 @@ export class ModuleDialogComponent {
     private fb: FormBuilder,
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
+    private confirm: ConfirmDialogService,
     public dialogRef: MatDialogRef<ModuleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { module?: ModuleResponseDto }
   ) {
@@ -70,15 +72,25 @@ export class ModuleDialogComponent {
       return;
     }
 
-    if(this.isEditMode) {
-      this.modifyModule(this.moduleForm.value);
-    }
-    else{
-      const { moduleName, description, modulePage, icon, sortOrder, isActive } = this.moduleForm.value;
-      const newModule: ModuleRequestDto = { moduleName, description, modulePage, icon, sortOrder, isActive }
+    this.confirm.openConfirm({
+      title: `${this.isEditMode ? 'Update' : 'Save'} Module`,
+      message: `Are you sure you want to ${this.isEditMode ? 'update' : 'save'} this module?`,
+      confirmText: 'Yes',
+      cancelText: 'No',
+      icon: 'question'
+    }).subscribe(result => {
+      if (result) {
+        if(this.isEditMode) {
+          this.modifyModule(this.moduleForm.value);
+        }
+        else{
+          const { moduleName, description, modulePage, icon, sortOrder, isActive } = this.moduleForm.value;
+          const newModule: ModuleRequestDto = { moduleName, description, modulePage, icon, sortOrder, isActive }
 
-      this.addModule(newModule);
-    }
+          this.addModule(newModule);
+        }
+      }
+    });
   }
   onCancel() {
     this.dialogRef.close();

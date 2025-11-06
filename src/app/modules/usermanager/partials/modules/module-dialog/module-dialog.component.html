@@ -39,7 +39,8 @@
                     Sort no. is required!
                 </mat-error>
             </mat-form-field>
-            <div class="mt-2 col-md-12 mb-3">
+            <div class="col-md-12">
+                <mat-label class="ms-2">Status</mat-label>
                 <mat-button-toggle-group formControlName="isActive" aria-label="Module Status" class="max-w-max">
                     <mat-button-toggle class="badge-success" [value]="1">Active</mat-button-toggle>
                     <mat-button-toggle class="badge-danger" [value]="0">Inactive</mat-button-toggle>

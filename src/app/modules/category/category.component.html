@@ -1,0 +1,43 @@
+<h4>{{ title }}</h4>
+
+<div id="categories" class="row pt-2">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('budget')" (click)="setActiveTab('budget')">
+                <i class="fa fa-fw fa-wallet"></i> &nbsp;Budget Category
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('expense')" (click)="setActiveTab('expense')">
+                <i class="fa fa-fw fa-hand-holding-usd"></i> &nbsp;Expense Category
+            </a>
+        </div>
+        <hr class="list-group-divider" />
+    </div>
+     <div class="col-md-9 form-container">
+        <div class="tab-content">
+            <!-- BUDGET CATEGORY TAB -->
+            <div class="jumbotron tab-pane fade active show" role="tabpanel" [class.active]="isActive('budget')" [class.show]="isShown('budget')">
+                <div class="header">
+                    <h5>Budget Category</h5>
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="budgetCategoryComponent.openAddBudgetCategoryDialog()">
+                        <i class="fa fa-plus"></i> Add Budget Category
+                    </button>
+                    <hr />
+                    <!-- Users content -->
+                     <app-budget-category></app-budget-category>
+                </div>
+            </div>
+            <!-- EXPENSE CATEGORY TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('expense')" [class.show]="isShown('expense')">
+                <div class="header">
+                    <h5>Expense Category</h5>
+                    <button mat-flat-button class="btn btn-primary btn-sm">
+                        <i class="fa fa-plus"></i> Add Expense Category
+                    </button>
+                    <hr />
+                    <!-- Users content -->
+                     <app-expense-category></app-expense-category>
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
