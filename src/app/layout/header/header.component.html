@@ -8,11 +8,11 @@
     <div class="navbar-nav flex-row ms-md-auto nav-container-right">
         <div class="dropdown">
             <a id="dropdownMenuButton" class="dropdown-toggle text-light" data-bs-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">
-                Username
+                {{ username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                 <li>
-                    <a class="dropdown-item" data-toggle="modal" data-target="#modalChangePassword">
+                    <a class="dropdown-item" (click)="onChangePassword()">
                         <i class="fa fa-fw me-2 fa-lock"></i>Change Password
                     </a>
                 </li> 

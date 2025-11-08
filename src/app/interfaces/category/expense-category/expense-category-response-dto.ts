@@ -1,5 +1,5 @@
-import { BudgetCategoryRequestDto } from "../budget-category-dto/budget-category-request-dto";
+import { ExpenseCategoryRequestDto } from "./expense-category-request-dto";
 
-export interface ExpenseCategoryResponseDto extends BudgetCategoryRequestDto {
+export interface ExpenseCategoryResponseDto extends ExpenseCategoryRequestDto {
     expenseCategoryId: number;
 }

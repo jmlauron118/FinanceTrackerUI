@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, switchMap, tap } from 'rxjs';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LoginCreds } from '@interfaces/login/login-creds';
 import { UserModules } from '@interfaces/usermanager/user-modules';
@@ -38,33 +38,31 @@ export class AuthService {
   login(loginCreds: LoginCreds): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, loginCreds).pipe(
       tap((response: any) => {
-        if(this.localStorageSafe) {
+        if (this.localStorageSafe && Array.isArray(response.modules) && response.modules.length > 0) {
           localStorage.setItem(this.tokenKey, response.token);
         }
 
-        this.userModulesSubject.next(response.userModules);
+        this.userModulesSubject.next(response.modules);
       }),
       catchError(err => this.errorHandler.handleError(err))
     );
   }
 
-  getUserModulesFromToken(): UserModules[] {
+  getUserInfo(): string{
     const token = this.getToken();
 
-    if(!token) return [];
+    if(!token) return '';
 
     try{
       const decoded = jwtDecode<DecodedToken>(token);
 
-      if(decoded.modules){
-        return JSON.parse(decoded.modules);
-      }
+      return decoded.sub.toUpperCase();
     }
     catch(e) {
       this.snackbar.danger(`Invalid token format: ${e}`, 4000);
     }
 
-    return [];
+    return '';
   }
 
   getUserModules(): Observable<ResponseModel<UserModules[]>> {

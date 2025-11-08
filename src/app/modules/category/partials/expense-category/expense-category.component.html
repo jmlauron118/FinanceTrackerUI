@@ -1,1 +1,35 @@
-<p>expense-category works!</p>
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <table class="table table-hover table-container" [cellSpacing]="0">
+                <thead>
+                    <tr>
+                        <th>Expense Category</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="table-wrapper">
+                    <tr *ngFor="let ec of filteredData">
+                        <td>
+                            <span>{{ ec.expenseCategoryName }}</span><br/>
+                            <div class="nav-container">
+                                <a class="active" (click)="openModifyExpenseCategoryDialog(ec)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                            </div>
+                        </td>
+                        <td>{{ ec.expenseCategoryDescription }}</td>
+                        <td>
+                            <div class="status badge badge-pill" [ngClass]="ec.isActive ? 'badge-success' : 'badge-danger'">{{ ec.isActive ? 'Active' : 'Inactive' }}</div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="filteredData.length === 0">
+                        <td colspan="4" class="text-center text-muted">No expense category found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>

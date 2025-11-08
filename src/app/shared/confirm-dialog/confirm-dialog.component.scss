@@ -24,3 +24,24 @@ $icon-bg-color: #2b6777;
         justify-content: center;
     }
 }
+
+.custom-dialog {
+    .mat-mdc-dialog-surface {
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    mat-button-toggle-group {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    mat-button-toggle {
+        min-width: 100px;
+        text-transform: capitalize;
+    }
+
+    .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
+        color: white;
+    }
+}

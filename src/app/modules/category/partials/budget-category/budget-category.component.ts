@@ -61,9 +61,7 @@ export class BudgetCategoryComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.getAllBudgetCategories();
-      }
+      if(result) this.getAllBudgetCategories();
     });
   }
 
@@ -76,9 +74,7 @@ export class BudgetCategoryComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.getAllBudgetCategories();
-      }
+      if(result) this.getAllBudgetCategories();
     });
   }
 }

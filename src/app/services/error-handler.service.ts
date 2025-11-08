@@ -17,7 +17,7 @@ export class ErrorHandlerService {
             errorMessage = `Client Error: ${error.error.message}`;
         }
         else if (error && typeof error.status !== 'undefined') {
-            errorMessage = `Server error (${error.status}): ${error.statusText || 'No message returned from server.'}`;
+            errorMessage = `${error.error.message || 'No message returned from server.'}`;
         }
         else if(error && error.message) {
             errorMessage = error.message;

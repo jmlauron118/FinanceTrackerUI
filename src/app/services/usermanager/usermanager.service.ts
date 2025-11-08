@@ -24,6 +24,7 @@ import { ModuleAccessResponseDto } from '@interfaces/usermanager/module-access-d
 import { ModuleAccessRequestDto } from '@interfaces/usermanager/module-access-dto/module-access-request-dto';
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
 import { ResponseModel } from '@interfaces/response-model';
+import { ChangePasswordDto } from '@interfaces/login/change-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,11 @@ export class UsermanagerService {
 
   modifyUser(user: UserModifyDto): Observable<ResponseModel<UserResponseDto>> {
     return this.http.put<ResponseModel<UserResponseDto>>(`${this.apiUrl}/modify-user`, user)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  changePassword(changePassword: ChangePasswordDto): Observable<ResponseModel<any>> {
+    return this.http.put<any>(`${this.apiUrl}/change-password`, changePassword)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion Users

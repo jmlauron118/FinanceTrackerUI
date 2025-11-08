@@ -30,7 +30,7 @@
             <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('expense')" [class.show]="isShown('expense')">
                 <div class="header">
                     <h5>Expense Category</h5>
-                    <button mat-flat-button class="btn btn-primary btn-sm">
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="expenseCategoryComponent.openAddExpenseCategoryDialog()">
                         <i class="fa fa-plus"></i> Add Expense Category
                     </button>
                     <hr />

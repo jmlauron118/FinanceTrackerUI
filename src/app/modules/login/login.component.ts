@@ -53,14 +53,15 @@ export class LoginComponent {
     const creds: LoginCreds = this.loginForm.value;
 
     this.authService.login(creds).subscribe({
-      next: () => {
-        this.authService.getUserModules().subscribe({
-          next: response => {
-            const defaultModule = response.data[0];
+      next: res => {
+        if(Array.isArray(res.modules) && res.modules.length === 0) {
+          this.snackbar.warning("No module(s) assigned. Please contact the administrator.", 4000);
+          return;
+        }
 
-            this.router.navigate([defaultModule.modulePage.toLowerCase()]);
-          }
-        });
+        const defaultModule = res.modules[0];
+
+        this.router.navigate([defaultModule.modulePage.toLowerCase()]);
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
