@@ -7,6 +7,7 @@ import { ForbiddenComponent } from './shared/pages/forbidden/forbidden.component
 import { CategoryComponent } from './modules/category/category.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { UserManagerComponent } from './modules/usermanager/usermanager.component';
+import { BudgetEntryListComponent } from './modules/budgetmanager/budget-entry-list/budget-entry-list.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -24,6 +25,7 @@ export const routes: Routes = [
             {
                 path: 'category',
                 component: CategoryComponent,
+                canActivate: [authGuard],
                 data: { moduleName: 'category' }
             },
             {
@@ -31,6 +33,12 @@ export const routes: Routes = [
                 component: UserManagerComponent,
                 canActivate: [authGuard],
                 data: { moduleName: 'usermanager' } 
+            },
+            {
+                path: 'budgetmanager',
+                component: BudgetEntryListComponent,
+                canActivate: [authGuard],
+                data: { moduleName: 'budgetmanager' }
             }
         ]
     },

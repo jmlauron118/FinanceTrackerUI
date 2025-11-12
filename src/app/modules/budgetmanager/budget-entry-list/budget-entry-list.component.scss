@@ -1,0 +1,134 @@
+@use '../../../../styles.scss' as *;
+
+.be-header{
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        background-color: $primary-color !important;
+    }
+}
+
+.budget-list{
+    .toolbar{
+        display:flex; 
+        gap:1rem; 
+        align-items:center; 
+        margin-bottom:1rem;
+        justify-content: space-between;
+
+        .page-size{
+            display: flex;
+            flex-direction: column;
+
+            span{
+                font-size: 12px;
+            }
+        }
+
+        .table-search {
+            .btn-clear-search {
+                font-size: 20px;
+                margin-right: .5rem;
+                color: $color-default;
+
+                &:hover{
+                    color: $dark-color;
+                }
+            }
+        }
+    }
+
+    .page-btn {
+        height: 30px;
+        min-width: 0;
+        max-width: fit-content;
+        color: $light-color !important;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+
+        .page-control {
+            display:flex; 
+            align-items:center; 
+            gap:.5rem;
+
+            .mat-mdc-button:not(:disabled){
+                color: $primary-color;
+            }
+        }
+
+        .page-info{
+            display:flex; 
+            align-items:center; 
+        }
+    }
+
+    .action-content {
+        position: relative; 
+        width: 8%; 
+        text-align: right;
+
+        .btn-action{
+            cursor: pointer;
+            color: $dark-color;
+
+            i {
+                font-size: 25px;
+            }
+
+            &:hover{
+                color: $primary-color;
+            }
+        }
+
+        .dropdown-menu {
+            min-width: auto;
+
+            .dropdown-item{
+                cursor: pointer;
+            }
+        }
+    }
+
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .budget-list{
+        .pagination {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.custom-select-height {
+    .mat-mdc-form-field-infix{
+        padding: 0 !important;
+        display: flex;
+        align-items: anchor-center;
+        min-height: 35px;
+    }
+}
+
+.custom-height-field {
+    width: 230px;
+    padding-top: 2rem;
+
+    .mat-mdc-form-field-flex {
+        height: 35px; /* or your desired height */
+        align-items: center;
+        padding-top: 2px;
+    }
+}
+
+
+
+

@@ -7,10 +7,10 @@
     </div>
     <div class="navbar-nav flex-row ms-md-auto nav-container-right">
         <div class="dropdown">
-            <a id="dropdownMenuButton" class="dropdown-toggle text-light" data-bs-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">
+            <a #dropdownMenuButton class="dropdown-toggle text-light" data-bs-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">
                 {{ username }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" (click)="hideDropdown(dropdownMenuButton)">
                 <li>
                     <a class="dropdown-item" (click)="onChangePassword()">
                         <i class="fa fa-fw me-2 fa-lock"></i>Change Password

@@ -20,7 +20,7 @@ html {
 $primary-color: #2b6777; //2b6777
 $secondary-color: #52ab98;
 $tertiary-color: #c8d8e4;
-$color-default: #808080;
+$color-default: #bdbdbdaf;
 $light-color: #ffffff;
 $semi-dark-color: #f2f2f2;
 $dark-color: #344038;
@@ -129,6 +129,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: $light-color !important;
 }
 
+.badge-primary {
+    background-color: $primary-color !important;
+    color: $light-color !important;
+}
+
 textarea{
     resize: none;
 }
@@ -197,9 +202,9 @@ textarea{
 }
 
 .table-container {
-  max-height: fit-content; /* set your desired height */
+  max-height: 500px;
   overflow-y: auto;
-  display: block;
+  height: 500px;
 
   th, td {
     padding: 8px 12px;
@@ -211,7 +216,6 @@ textarea{
     background: #f4f4f4;
     position: sticky;
     top: 0;
-    // z-index: 2;
   }
 }
 
@@ -227,14 +231,15 @@ textarea{
   display: table;
   width: 100%;
   table-layout: fixed;
+  z-index: 1;
 }
 
 /* Only tbody will scroll */
-.table-container tbody {
-  display: block;
-  max-height: 500px; /* smaller than container */
-  overflow-y: auto;
-}
+// .table-container tbody {
+//   display: block;
+//   max-height: 500px; /* smaller than container */
+//   overflow-y: auto;
+// }
 
 .table-search {
     display: flex;
@@ -280,6 +285,7 @@ textarea{
 .max-w-max {
     max-width: max-content;
 }
+
 
 
 

@@ -3,6 +3,7 @@ import { AuthService } from '@services/login/auth.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-header',
@@ -44,5 +45,11 @@ export class HeaderComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result) return;
     });
+  }
+
+  hideDropdown(button: HTMLElement) {
+    const dropdown = new bootstrap.Dropdown(button);
+    
+    if(dropdown) dropdown.hide();
   }
 }
