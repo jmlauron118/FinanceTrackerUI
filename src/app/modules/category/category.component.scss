@@ -1,4 +1,4 @@
-@use '../../../styles.scss' as *;
+@use '../../styles/variables.scss' as *;
 
 #categories {
     margin-top: 2rem;
@@ -89,6 +89,11 @@
             padding: 1rem;
             background-color: #ffffff;
         }
+    }
+
+    textarea {
+        resize: none;
+        height: 4rem !important;
     }
 }
 

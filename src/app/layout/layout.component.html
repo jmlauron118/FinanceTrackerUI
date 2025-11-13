@@ -4,7 +4,7 @@
     </header>
 
     <section class="side-nav" *ngIf="!isLoginRoute">
-        <app-sidebar [userModules]="userModules" [isOpen]="isSidebarOpen" #sidebar (closeSidebar)="onToggleSidebar()"></app-sidebar>
+        <app-sidebar [userModules]="userModules" [isOpen]="isSidebarOpen" (closeSidebar)="onCloseSideBar()"></app-sidebar>
     </section>
     
     <div class="main-container" *ngIf="!isLoginRoute">

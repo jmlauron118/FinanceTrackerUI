@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
@@ -15,7 +15,8 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-expense-category-dialog',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, TitleCaseDirective],
   templateUrl: './expense-category-dialog.component.html',
-  styleUrl: './expense-category-dialog.component.scss'
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class ExpenseCategoryDialogComponent {
   expenseCategoryForm!: FormGroup;

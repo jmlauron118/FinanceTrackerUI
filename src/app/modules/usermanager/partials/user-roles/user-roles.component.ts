@@ -5,7 +5,6 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
 import { SnackbarService } from '@services/snackbar.service';
 import { UserRoleDialogComponent } from './user-role-dialog/user-role-dialog.component';
-import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
@@ -13,7 +12,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-user-roles',
   imports: [CommonModule, FormsModule],
   templateUrl: './user-roles.component.html',
-  styleUrls: ['./user-roles.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class UserRolesComponent {

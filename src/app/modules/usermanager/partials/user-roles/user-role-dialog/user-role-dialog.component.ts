@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,7 +16,8 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-user-role-dialog',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './user-role-dialog.component.html',
-  styleUrl: './user-role-dialog.component.scss'
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserRoleDialogComponent {
   userRoleForm!: FormGroup;

@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-roles',
   imports: [CommonModule, FormsModule],
   templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class RolesComponent {

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'app/shared/material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,7 +15,8 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-module-dialog',
   imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, InputDirectivesModule],
   templateUrl: './module-dialog.component.html',
-  styleUrls: ['./module-dialog.component.scss']
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModuleDialogComponent {
   moduleForm!: FormGroup;

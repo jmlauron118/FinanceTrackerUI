@@ -11,7 +11,7 @@ import { BudgetCategoryDialogComponent } from './budget-category-dialog/budget-c
   selector: 'app-budget-category',
   imports: [CommonModule, FormsModule],
   templateUrl: './budget-category.component.html',
-  styleUrls: ['./budget-category.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class BudgetCategoryComponent {

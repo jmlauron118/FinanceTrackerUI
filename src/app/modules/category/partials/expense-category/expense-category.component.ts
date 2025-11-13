@@ -12,7 +12,7 @@ import { ExpenseCategoryDialogComponent } from './expense-category-dialog/expens
   selector: 'app-expense-category',
   imports: [CommonModule, FormsModule],
   templateUrl: './expense-category.component.html',
-  styleUrls: ['./expense-category.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class ExpenseCategoryComponent {

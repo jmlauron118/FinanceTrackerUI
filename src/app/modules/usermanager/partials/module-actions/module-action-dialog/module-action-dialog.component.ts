@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModuleActionResponseDto } from '@interfaces/usermanager/module-actions-dto/module-action-response-dto';
@@ -17,7 +17,8 @@ import { subscribe } from 'diagnostics_channel';
   selector: 'app-module-action-dialog',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
   templateUrl: './module-action-dialog.component.html',
-  styleUrl: './module-action-dialog.component.scss'
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModuleActionDialogComponent {
   moduleActionForm!: FormGroup;

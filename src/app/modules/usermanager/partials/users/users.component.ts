@@ -12,7 +12,7 @@ import { FormsModule } from "@angular/forms";
   selector: 'app-users',
   imports: [CommonModule, MaterialModule, FormsModule],
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class UsersComponent {

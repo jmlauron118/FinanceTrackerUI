@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BudgetCategoryComponent } from './partials/budget-category/budget-category.component';
 import { ExpenseCategoryComponent } from './partials/expense-category/expense-category.component';
@@ -9,7 +9,8 @@ import { SnackbarService } from '@services/snackbar.service';
   selector: 'app-category',
   imports: [CommonModule, BudgetCategoryComponent, ExpenseCategoryComponent, MatButtonModule],
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  styleUrls: ['./category.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CategoryComponent {
   title = 'Categories';

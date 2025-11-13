@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -17,7 +17,8 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-module-access-dialog',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, InputDirectivesModule],
   templateUrl: './module-access-dialog.component.html',
-  styleUrl: './module-access-dialog.component.scss'
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModuleAccessDialogComponent {
   moduleAccessForm!: FormGroup;

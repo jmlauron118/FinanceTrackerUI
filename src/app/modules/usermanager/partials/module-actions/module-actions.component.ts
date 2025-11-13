@@ -13,7 +13,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-module-actions',
   imports: [CommonModule, FormsModule],
   templateUrl: './module-actions.component.html',
-  styleUrls: ['./module-actions.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class ModuleActionsComponent {

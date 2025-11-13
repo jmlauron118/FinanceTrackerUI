@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, PLATFORM_ID, Inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
@@ -18,7 +18,6 @@ import { SnackbarService } from '@services/snackbar.service';
 })
 
 export class LayoutComponent {
-  @ViewChild('sidebar', {read: ElementRef}) sidebarRef!: ElementRef;
   isLoginRoute = false;
   userModules: UserModules[] = [];
   isSidebarOpen = false;
@@ -37,8 +36,6 @@ export class LayoutComponent {
   }
 
   ngOnInit() {
-    console.log('layout loaded');
-
     if(isPlatformBrowser(this.platformId)) {
       this.authService.getUserModules().subscribe({
         next: response => (this.userModules = response.data),
@@ -49,5 +46,9 @@ export class LayoutComponent {
 
   onToggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen
+  }
+
+  onCloseSideBar() {
+    this.isSidebarOpen = false;
   }
 }

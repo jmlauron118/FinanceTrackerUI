@@ -7,10 +7,11 @@ import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.serv
 import { SnackbarService } from '@services/snackbar.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
+import { BudgetEntryComponent } from './budget-entry/budget-entry.component';
 
 @Component({
   selector: 'app-budget-entry-list',
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule, BudgetEntryComponent],
   templateUrl: './budget-entry-list.component.html',
   styleUrls: ['./budget-entry-list.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -29,28 +30,15 @@ export class BudgetEntryListComponent {
 
   searchControl = new FormControl('');
   private destroy$ = new Subject<void>();
+  showEntryForm = false;
 
   constructor (
     private budgetManagerService: BudgetmanagerService,
     private snackbar: SnackbarService
   ) {}
 
-  // ngAfterViewInit() {
-  //   if (this.dropdownButton?.nativeElement) {
-  //     // Wait for DOM stability
-  //     setTimeout(() => {
-  //       new bootstrap.Dropdown(this.dropdownButton!.nativeElement, {
-  //         popperConfig: {
-  //           strategy: 'fixed'
-  //         }
-  //       });
-  //     });
-  //   } else {
-  //     console.warn('Dropdown button reference not found.');
-  //   }
-  // }
-
   ngOnInit(): void {
+    this.showEntryForm = false;
     this.loadPage(1);
 
     this.searchControl.valueChanges.pipe(
@@ -74,9 +62,7 @@ export class BudgetEntryListComponent {
           this.meta = result.meta;
           this.createPageNumbers();
         },
-        error: err => {
-          this.snackbar.danger(err, 5000);
-        }
+        error: err => (this.snackbar.danger(err, 5000))
       });
   }
 
@@ -127,5 +113,13 @@ export class BudgetEntryListComponent {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onNewEntry() {
+    this.showEntryForm = true;
+  }
+
+  onBack() {
+    this.showEntryForm = false;
   }
 }

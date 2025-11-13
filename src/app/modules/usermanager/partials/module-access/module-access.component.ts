@@ -6,7 +6,6 @@ import { SnackbarService } from '@services/snackbar.service';
 import { ModuleAccessResponseDto } from '@interfaces/usermanager/module-access-dto/module-access-response-dto';
 import { ModuleAccessDialogComponent } from './module-access-dialog/module-access-dialog.component';
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
-import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
@@ -14,7 +13,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   selector: 'app-module-access',
   imports: [CommonModule, FormsModule],
   templateUrl: './module-access.component.html',
-  styleUrls: ['./module-access.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class ModuleAccessComponent {

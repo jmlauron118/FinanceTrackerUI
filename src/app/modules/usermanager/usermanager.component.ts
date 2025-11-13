@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsersComponent } from './partials/users/users.component';
 import { RolesComponent } from './partials/roles/roles.component';
@@ -15,6 +15,7 @@ import { SnackbarService } from '@services/snackbar.service';
   templateUrl: './usermanager.component.html',
   styleUrls: ['./usermanager.component.scss'],
   imports: [CommonModule, UsersComponent, RolesComponent, ModulesComponent, ActionsComponent, ModuleActionsComponent, UserRolesComponent, ModuleAccessComponent, MatButtonModule],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserManagerComponent {
   @ViewChild(UsersComponent) usersComponent!: UsersComponent;

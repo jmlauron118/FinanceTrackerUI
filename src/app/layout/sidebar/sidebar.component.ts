@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UserModules } from '../../interfaces/usermanager/user-modules';
 import { NgForOf, CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -18,9 +18,21 @@ export class SidebarComponent {
   @Output() closeSidebar = new EventEmitter<void>();
 
   constructor (
+    private router: Router
   ) {}
 
   onOverlayClick() {
     this.closeSidebar.emit();
+  }
+
+  onSidebarClick(route: string) {
+    const targetUrl = '/' + route.toLowerCase();
+
+    if (this.router.url === targetUrl) { 
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.closeSidebar.emit();
+        this.router.navigate([targetUrl]);
+      });
+    }
   }
 }

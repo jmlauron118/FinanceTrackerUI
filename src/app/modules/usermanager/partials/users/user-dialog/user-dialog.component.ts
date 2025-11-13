@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
@@ -16,7 +16,8 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
   standalone: true,
   imports: [CommonModule, FormsModule, MaterialModule, ReactiveFormsModule, TitleCaseDirective],
   templateUrl: './user-dialog.component.html',
-  styleUrls: ['./user-dialog.component.scss']
+  styleUrls: [],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserDialogComponent {
   userForm!: FormGroup;

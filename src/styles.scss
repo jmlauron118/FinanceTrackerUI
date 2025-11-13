@@ -1,8 +1,5 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.dev/guide/theming
-
 @use '@angular/material' as mat;
+@use './app/styles/variables.scss' as va;
 
 html {
   @include mat.theme((
@@ -16,35 +13,6 @@ html {
   ));
 }
 
-//Colors
-$primary-color: #2b6777; //2b6777
-$secondary-color: #52ab98;
-$tertiary-color: #c8d8e4;
-$color-default: #bdbdbdaf;
-$light-color: #ffffff;
-$semi-dark-color: #f2f2f2;
-$dark-color: #344038;
-$color-danger: #dd4545;
-$color-warning: #eb7f22;
-$color-success: #2e9c0e;
-$color-info: #2196f3;
-$hover-danger: #c73535;
-
-$sidebar-bg-color: $primary-color;
-$main-content-bg-color: $light-color;
-
-//Sizes
-$bootstrap-breakpoint-sm: 576px;
-$bootstrap-breakpoint-md: 768px;
-$bootstrap-breakpoint-lg: 992px;
-$bootstrap-breakpoint-xl: 1200px;
-
-$header-height: 56px;
-$sidebar-width-open: 320px;
-$sidebar-width-collapsed: 56px;
-
-$footer-height: 40px;
-
 html {
     font-size: 14px;
     margin: 0 !important;
@@ -54,32 +22,32 @@ html {
 
 body {
     font-weight: 400;
-    color: $dark-color !important;
+    color: va.$dark-color !important;
     font-size: 14px;
-    background-color: $main-content-bg-color;
+    background-color: va.$main-content-bg-color;
     margin-bottom: 60px;
 }
 
 .btn-primary {
-  color: $light-color !important;
-  background-color: $primary-color !important;
-  border-color: $primary-color !important;
+  color: va.$light-color !important;
+  background-color: va.$primary-color !important;
+  border-color: va.$primary-color !important;
 }
 
 .btn-danger {
-  color: $light-color !important;
-  background-color: $color-danger !important;
-  border-color: $color-danger !important;
+  color: va.$light-color !important;
+  background-color: va.$color-danger !important;
+  border-color: va.$color-danger !important;
 }
 
 .list-group-item.active {
-  color: $light-color !important;
-  background-color: $primary-color !important;
-  border-color: $primary-color !important;
+  color: va.$light-color !important;
+  background-color: va.$primary-color !important;
+  border-color: va.$primary-color !important;
 }
 
 .sidebar-container .sidebar .sidebar-menu-list .sidebar-submenu-list .sidebar-submenu.active, .sidebar-container .sidebar .sidebar-menu-list .sidebar-submenu-list .sidebar-submenu:hover, .sidebar-container .sidebar .sidebar-menu-list .sidebar-menu.active:not(.sidebar-menu-dropdown), .sidebar-container .sidebar .sidebar-menu-list .sidebar-menu:hover:not(.sidebar-menu-dropdown) {
-  color: $primary-color;
+  color: va.$primary-color;
 }
 
 html, body { height: 100%; }
@@ -99,8 +67,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .badge-success {
-    background-color: $color-success !important;
-    color: $light-color !important;
+    background-color: va.$color-success !important;
+    color: va.$light-color !important;
 }
 
 .badge-pill {
@@ -110,28 +78,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .badge-default {
-    background-color: $color-default !important;
-    color: $light-color !important;
+    background-color: va.$color-default !important;
+    color: va.$light-color !important;
 }
 
 .badge-warning {
-    background-color: $color-warning !important;
-    color: $light-color !important;
+    background-color: va.$color-warning !important;
+    color: va.$light-color !important;
 }
 
 .badge-danger {
-    background-color: $color-danger !important;
-    color: $light-color !important;
+    background-color: va.$color-danger !important;
+    color: va.$light-color !important;
 }
 
 .badge-info {
-    background-color: $color-info !important;
-    color: $light-color !important;
+    background-color: va.$color-info !important;
+    color: va.$light-color !important;
 }
 
 .badge-primary {
-    background-color: $primary-color !important;
-    color: $light-color !important;
+    background-color: va.$primary-color !important;
+    color: va.$light-color !important;
 }
 
 textarea{
@@ -139,10 +107,10 @@ textarea{
 }
 
 .text-red {
-    color: $color-danger;
+    color: va.$color-danger;
 
     &:hover {
-        color: $hover-danger !important;
+        color: va.$hover-danger !important;
     }
 }
 
@@ -168,25 +136,25 @@ textarea{
 
 /* ✅ Success */
 .snackbar-success {
-  background-color: $color-success !important;
+  background-color: va.$color-success !important;
   color: #fff !important;
 }
 
 /* ✅ Error */
 .snackbar-error {
-  background-color: $color-danger !important;
+  background-color: va.$color-danger !important;
   color: #fff !important;
 }
 
 /* ✅ Warning */
 .snackbar-warning {
-  background-color: $color-warning !important;
+  background-color: va.$color-warning !important;
   color: #fff !important;
 }
 
 /* ✅ Info */
 .snackbar-info {
-  background-color: $color-info !important;
+  background-color: va.$color-info !important;
   color: #fff !important;
 }
 
@@ -198,13 +166,12 @@ textarea{
 }
 
 .mat-mdc-snack-bar-action{
-  color: $light-color !important;
+  color: va.$light-color !important;
 }
 
 .table-container {
   max-height: 500px;
   overflow-y: auto;
-  height: 500px;
 
   th, td {
     padding: 8px 12px;
@@ -256,7 +223,7 @@ textarea{
     }
 
     .search-box:focus {
-        border-color: $primary-color !important;
+        border-color: va.$primary-color !important;
         box-shadow: 0 0 5px rgba(63, 81, 181, 0.4);
     }
 }

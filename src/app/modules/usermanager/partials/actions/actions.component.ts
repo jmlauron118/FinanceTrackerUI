@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-actions',
   imports: [CommonModule, FormsModule],
   templateUrl: './actions.component.html',
-  styleUrls: ['./actions.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class ActionsComponent {

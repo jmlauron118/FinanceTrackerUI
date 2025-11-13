@@ -1,15 +1,16 @@
-@use '../../../../styles.scss' as *;
+@use '../../../styles/variables.scss' as *;
 
-.be-header{
-    display: flex;
-    justify-content: space-between;
+.budget-list {
+    .be-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    button {
-        background-color: $primary-color !important;
+        button {
+            background-color: $primary-color !important;
+        }
     }
-}
 
-.budget-list{
     .toolbar{
         display:flex; 
         gap:1rem; 
@@ -37,6 +38,10 @@
                 }
             }
         }
+    }
+
+    .table-container{
+        height: 500px;
     }
 
     .page-btn {
@@ -129,6 +134,24 @@
     }
 }
 
+.budget-entry-container {
+    position: relative;
+}
+
+.fade-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.fade-box.show {
+    opacity: 1;
+    visibility: visible;
+}
 
 
 

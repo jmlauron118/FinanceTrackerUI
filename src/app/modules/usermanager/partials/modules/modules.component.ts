@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-modules',
   imports: [CommonModule, FormsModule],
   templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.scss'],
+  styleUrls: [],
   encapsulation: ViewEncapsulation.None
 })
 export class ModulesComponent {
