@@ -5,6 +5,9 @@ import { ErrorHandlerService } from '@services/error-handler.service';
 import { BudgetEntryResponseDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-response-dto';
 import { PaginationMetadata } from '@interfaces/pagination-metadata';
 import { ResponseModel } from '@interfaces/response-model';
+import { BudgetEntryRequestDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-request-dto';
+import { BudgetEntryModifyDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-modify-dto';
+import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +51,27 @@ export class BudgetmanagerService {
         }),
         catchError(err => this.errorHandler.handleError(err))
       );
+  }
+
+  addBudgetEntry(budgetRequest: BudgetEntryRequestDto): Observable<ResponseModel<BudgetEntryResponseDto>> {
+    return this.http.post<ResponseModel<BudgetEntryResponseDto>>(`${this.apiUrl}/add-budget-entry`, budgetRequest)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  modifyBudgetEntry(budgetRequest: BudgetEntryModifyDto): Observable<ResponseModel<BudgetEntryResponseDto>> {
+    return this.http.put<ResponseModel<BudgetEntryResponseDto>>(`${this.apiUrl}/modify-budget-entry`, budgetRequest)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  removeBudgetEntry(id: number) {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.delete<ResponseModel<any>>(`${this.apiUrl}/remove-budget-entry`, {params})
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  removeBudgetEntryBulk(idList: BudgetEntryDeleteDto[]) {
+    return this.http.delete<ResponseModel<any>>(`${this.apiUrl}/remove-budget-entry-bulk`, {body: idList})
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion Budget Entry
 }

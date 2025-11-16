@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Update' : 'New' }} Entry</h2>
+<hr mat-dialog-title-divider/>
+
+<form [formGroup]="budgetEntryForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <div class="row">
+            <mat-form-field appearance="outline" class="col-12 mb-3">
+                <mat-label>Date</mat-label>
+                <input matInput formControlName="dateUsed" [matDatepicker]="picker"/>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="budgetEntryControls['dateUsed'].touched && budgetEntryControls['dateUsed'].hasError('required')">
+                    Date is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Budget Category</mat-label>
+                <mat-select formControlName="budgetCategoryId" (selectionChange)="onBudgetCategoryChange($event.value)">
+                    <mat-option *ngFor="let bc of budgetCategoryData" [value]="bc.budgetCategoryId">
+                        {{ bc.budgetCategoryName }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="budgetEntryControls['budgetCategoryId'].touched && budgetEntryControls['budgetCategoryId'].hasError('required')">
+                    Budget category is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6 mb-3">
+                <mat-label>Expense Category</mat-label>
+                <mat-select formControlName="expenseCategoryId">
+                    <mat-option *ngFor="let ec of expenseCategoryData" [value]="ec.expenseCategoryId">
+                        {{ ec.expenseCategoryName }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="budgetEntryControls['expenseCategoryId'].touched && budgetEntryControls['expenseCategoryId'].hasError('required')">
+                    Expense category is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-12 mb-3">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+                <mat-error *ngIf="budgetEntryControls['description'].touched && budgetEntryControls['description'].hasError('required')">
+                    Description is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-12 mb-3">
+                <mat-label>Amount</mat-label>
+                <input matInput type="text" formControlName="amount" withDecimal class="text-end"/>
+                <mat-error *ngIf="budgetEntryControls['amount'].touched && budgetEntryControls['amount'].hasError('required')">
+                    Amount is required!
+                </mat-error>
+                <mat-error *ngIf="budgetEntryControls['amount'].hasError('min')">
+                    Amount must be greater than 0!
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="budgetEntryForm.invalid">
+            {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+    </mat-dialog-actions>
+</form>

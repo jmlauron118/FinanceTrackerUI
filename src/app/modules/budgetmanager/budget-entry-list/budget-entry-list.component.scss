@@ -96,6 +96,20 @@
             .dropdown-item{
                 cursor: pointer;
             }
+
+            .edit {
+                color: $color-info;
+                &:hover{
+                    color: $color-info-dark;
+                }
+            }
+
+            .remove {
+                color: $color-danger;
+                &:hover{
+                    color: $hover-danger;
+                }
+            }
         }
     }
 

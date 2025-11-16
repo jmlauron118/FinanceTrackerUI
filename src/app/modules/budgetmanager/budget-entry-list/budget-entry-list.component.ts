@@ -7,11 +7,13 @@ import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.serv
 import { SnackbarService } from '@services/snackbar.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
-import { BudgetEntryComponent } from './budget-entry/budget-entry.component';
+import { MatDialog } from '@angular/material/dialog';
+import { BudgetEntryDialogComponent } from './budget-entry-dialog/budget-entry-dialog.component';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 
 @Component({
   selector: 'app-budget-entry-list',
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule, BudgetEntryComponent],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
   templateUrl: './budget-entry-list.component.html',
   styleUrls: ['./budget-entry-list.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -30,15 +32,15 @@ export class BudgetEntryListComponent {
 
   searchControl = new FormControl('');
   private destroy$ = new Subject<void>();
-  showEntryForm = false;
 
   constructor (
     private budgetManagerService: BudgetmanagerService,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private dialog: MatDialog,
+    private confirm: ConfirmDialogService
   ) {}
 
   ngOnInit(): void {
-    this.showEntryForm = false;
     this.loadPage(1);
 
     this.searchControl.valueChanges.pipe(
@@ -64,6 +66,16 @@ export class BudgetEntryListComponent {
         },
         error: err => (this.snackbar.danger(err, 5000))
       });
+  }
+
+  removeBudgetEntry(id: number): void {
+    this.budgetManagerService.removeBudgetEntry(id).subscribe({
+      next: response => {
+        this.snackbar.success(response.message);
+        this.loadPage(this.meta?.currentPage || 1);
+      },
+      error: err => (this.snackbar.danger(err, 5000))
+    });
   }
 
   changePageSize(size: number) {
@@ -106,20 +118,49 @@ export class BudgetEntryListComponent {
     }
   }
 
-  toggleDropdown(index: number): void {
-    this.activeDropdown = this.activeDropdown === index ? null : index;
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  onNewEntry() {
-    this.showEntryForm = true;
+  openAddNewEntryDialog(): void {
+    const dialogRef = this.dialog.open(BudgetEntryDialogComponent, {
+      panelClass: 'custom-dialog',
+      width: '500px',
+      maxWidth: '90vw'
+    });
+
+    dialogRef.componentInstance.entrySaved.subscribe(() => {
+      this.loadPage(this.meta?.currentPage || 1);
+    });
   }
 
-  onBack() {
-    this.showEntryForm = false;
+  openEditEntryDialog(budgetEntry: BudgetEntryResponseDto): void {
+    const dialogRef = this.dialog.open(BudgetEntryDialogComponent, {
+      panelClass: 'custom-dialog',
+      width: '500px',
+      maxWidth: '90vw',
+      data: budgetEntry
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.loadPage(this.meta?.currentPage || 1);
+      }
+    });
+  }
+
+  onRemoveEntry(id: number): void {
+    this.confirm.openConfirm({
+      title: 'Remove Budget Entry',
+      message: 'Are you sure you want to remove this budget entry?',
+      confirmText: 'Remove',
+      cancelText: 'Cancel',
+      icon: 'warning'
+    }).subscribe(result => {
+      if (result) {
+        this.removeBudgetEntry(id);
+      }
+    });
   }
 }

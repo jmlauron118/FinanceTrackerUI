@@ -1,89 +1,84 @@
-<div class="budget-entry-container">
-    <div class="budget-list fade-box" [class.show]="!showEntryForm">
-        <div class="be-header">
-            <h4>{{ title }}</h4>
-            <button mat-flat-button type="button" (click)="onNewEntry()">
-                <i class="fas fa-plus"></i> New Entry
-            </button>
-        </div>
-        <div class="toolbar">
-            <div class="page-size">
-                <span>Page size</span>
-                <mat-form-field appearance="outline" style="width: 70px;" class="custom-select-height">
-                    <mat-select [value]="pageSize" (selectionChange)="changePageSize($event.value)">
-                        <mat-option *ngFor="let opt of pageSizeOptions" [value]="opt">
-                            {{ opt }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="table-search">
-                <mat-form-field appearance="outline" class="custom-height-field">
-                    <input matInput type="text" placeholder="Search.." [formControl]="searchControl" />
-                    <a matSuffix type="button" class="btn-clear-search" *ngIf="searchControl.value" (click)="searchControl.setValue('')">
-                        <i class="fas fa-times"></i>
-                    </a>
-                </mat-form-field>
-            </div> 
-        </div>
-        <div class="table-container">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th style="width: 35%;">Description</th>
-                        <th>Amount</th>
-                        <th style="width: 8%;"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let e of entries; let i = index">
-                        <td>{{ e.dateUsed | date: 'mediumDate' }}</td>
-                        <td>{{ e.budgetCategoryName }} {{ e.expenseCategoryId ? '>' : '' }} {{ e.expenseCategoryName }}</td>
-                        <td style="width: 35%;">{{ e.description }}</td>
-                        <td style="text-align: right;">₱{{ e.amount | number: '1.2-2' }}</td>
-                        <td class="action-content dropdown">
-                            <a #dropdownButton class="btn-action dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item"><i class="fas fa-pen"></i> Edit</a></li> 
-                                <li> <a class="dropdown-item"><i class="fas fa-trash"></i> Remove</a></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr *ngIf="entries.length === 0">
-                        <td colspan="5" class="text-center text-muted">No budget entries found.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <nav class="pagination">
-            <div class="page-control">
-                <button mat-button (click)="loadPage(1)" [disabled]="!meta || meta.currentPage === 1">First</button>
-                <button mat-button (click)="goToPrevious()" [disabled]="!meta || !meta.hasPrevious"><i class="fas fa-angle-double-left"></i></button>
-
-                <ng-container *ngFor="let p of pageNumbers" class="page-num">
-                    <button mat-button class="page-btn" [ngClass]="p === pageNumber ? 'badge-primary' : 'badge-default'" (click)="loadPage(p)">
-                        {{ p }}
-                    </button>
-                </ng-container>
-
-                <button mat-button (click)="goToNext()" [disabled]="!meta || !meta.hasNext"><i class="fas fa-angle-double-right"></i></button>
-                <button mat-button (click)="loadPage(meta?.totalPages ?? 1)" [disabled]="!meta || meta.totalPages === 0 || meta.currentPage === meta.totalPages">Last</button>
-            </div>
-            <div class="page-info">
-            <small *ngIf="meta">
-                Showing page {{meta.currentPage}} of {{meta.totalPages}} — total {{meta.totalCount}} items
-            </small>
-            </div>
-        </nav>
+<div class="budget-list">
+    <div class="be-header">
+        <h4>{{ title }}</h4>
+        <button mat-flat-button type="button" (click)="openAddNewEntryDialog()">
+            <i class="fas fa-plus"></i> New Entry
+        </button>
     </div>
-    <div class="fade-box" [class.show]="showEntryForm">
-        <app-budget-entry (back)="onBack()"></app-budget-entry>
+    <div class="toolbar">
+        <div class="page-size">
+            <span>Page size</span>
+            <mat-form-field appearance="outline" style="width: 70px;" class="custom-select-height">
+                <mat-select [value]="pageSize" (selectionChange)="changePageSize($event.value)">
+                    <mat-option *ngFor="let opt of pageSizeOptions" [value]="opt">
+                        {{ opt }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="table-search">
+            <mat-form-field appearance="outline" class="custom-height-field">
+                <input matInput type="text" placeholder="Search.." [formControl]="searchControl" />
+                <a matSuffix type="button" class="btn-clear-search" *ngIf="searchControl.value" (click)="searchControl.setValue('')">
+                    <i class="fas fa-times"></i>
+                </a>
+            </mat-form-field>
+        </div> 
     </div>
+    <div class="table-container">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th style="width: 35%;">Description</th>
+                    <th>Amount</th>
+                    <th style="width: 8%;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of entries; let i = index">
+                    <td>{{ e.dateUsed | date: 'mediumDate' }}</td>
+                    <td>{{ e.budgetCategoryName }} {{ e.expenseCategoryId ? '>' : '' }} {{ e.expenseCategoryName }}</td>
+                    <td style="width: 35%;">{{ e.description }}</td>
+                    <td style="text-align: right;">₱{{ e.amount | number: '1.2-2' }}</td>
+                    <td class="action-content dropdown">
+                        <a #dropdownButton class="btn-action dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item edit" (click)="openEditEntryDialog(e)"><i class="fas fa-pen"></i> Edit</a></li> 
+                            <li> <a class="dropdown-item remove" (click)="onRemoveEntry(e.budgetEntryId)"><i class="fas fa-trash"></i> Remove</a></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr *ngIf="entries.length === 0">
+                    <td colspan="5" class="text-center text-muted">No budget entries found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="pagination">
+        <div class="page-control">
+            <button mat-button (click)="loadPage(1)" [disabled]="!meta || meta.currentPage === 1">First</button>
+            <button mat-button (click)="goToPrevious()" [disabled]="!meta || !meta.hasPrevious"><i class="fas fa-angle-double-left"></i></button>
+
+            <ng-container *ngFor="let p of pageNumbers" class="page-num">
+                <button mat-button class="page-btn" [ngClass]="p === pageNumber ? 'badge-primary' : 'badge-default'" (click)="loadPage(p)">
+                    {{ p }}
+                </button>
+            </ng-container>
+
+            <button mat-button (click)="goToNext()" [disabled]="!meta || !meta.hasNext"><i class="fas fa-angle-double-right"></i></button>
+            <button mat-button (click)="loadPage(meta?.totalPages ?? 1)" [disabled]="!meta || meta.totalPages === 0 || meta.currentPage === meta.totalPages">Last</button>
+        </div>
+        <div class="page-info">
+        <small *ngIf="meta">
+            Showing page {{meta.currentPage}} of {{meta.totalPages}} — total {{meta.totalCount}} items
+        </small>
+        </div>
+    </nav>
 </div>
 
