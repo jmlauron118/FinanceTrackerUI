@@ -40,8 +40,23 @@
         }
     }
 
+    .selection-control {
+        display: flex;
+        justify-content: space-between;
+        gap: .3rem;
+
+        .btn-control {
+            display: flex;
+            gap: .3rem;
+        }
+    }
+
     .table-container{
         height: 500px;
+
+        .cb-width {
+            width: 3%;
+        }
     }
 
     .page-btn {
@@ -125,6 +140,12 @@
             flex-direction: column;
             align-items: center;
         }
+
+        .table-container{
+            .cb-width {
+                width: 7%;
+            }
+        }
     }
 }
 
@@ -166,6 +187,3 @@
     opacity: 1;
     visibility: visible;
 }
-
-
-

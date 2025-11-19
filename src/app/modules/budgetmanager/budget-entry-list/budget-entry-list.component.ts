@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BudgetEntryResponseDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-response-dto';
 import { PaginationMetadata } from '@interfaces/pagination-metadata';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil, take } from 'rxjs';
 import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ import { MaterialModule } from 'app/shared/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetEntryDialogComponent } from './budget-entry-dialog/budget-entry-dialog.component';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { SelectionService } from '@services/selection.service';
+import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
 
 @Component({
   selector: 'app-budget-entry-list',
@@ -22,26 +24,30 @@ export class BudgetEntryListComponent {
   entries: BudgetEntryResponseDto[] = [];
   meta: PaginationMetadata | null = null;
   title = 'Budget Entry List';
-
   pageNumber = 1;
   pageSize = 10;
   pageSizeOptions = [5, 10, 20, 50];
   pageNumbers: number[] = [];
-
   activeDropdown: number | null = null;
-
   searchControl = new FormControl('');
   private destroy$ = new Subject<void>();
+  private firstLoad$ = new Subject<void>();
+  selectionMode = false;
 
+  @ViewChild('selectAllCheckbox', {static: false}) selectAllCheckbox!: ElementRef<HTMLInputElement>;
   constructor (
     private budgetManagerService: BudgetmanagerService,
     private snackbar: SnackbarService,
     private dialog: MatDialog,
-    private confirm: ConfirmDialogService
+    private confirm: ConfirmDialogService,
+    public selection: SelectionService<{ id: number }>
   ) {}
 
   ngOnInit(): void {
     this.loadPage(1);
+    this.selectionMode = false;
+
+    this.initSelection();
 
     this.searchControl.valueChanges.pipe(
       debounceTime(400),
@@ -49,6 +55,16 @@ export class BudgetEntryListComponent {
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.loadPage(1);
+    });
+  }
+
+  initSelection(): void {
+    this.firstLoad$
+    .pipe(take(1))
+    .subscribe(() => {
+      this.selection.setItems(this.entries.map(e => ({ id: e.budgetEntryId })));
+      this.selectionMode = false;
+      this.selection.clear();
     });
   }
 
@@ -63,6 +79,7 @@ export class BudgetEntryListComponent {
           this.entries = result.items.data;
           this.meta = result.meta;
           this.createPageNumbers();
+          this.firstLoad$.next();
         },
         error: err => (this.snackbar.danger(err, 5000))
       });
@@ -73,6 +90,18 @@ export class BudgetEntryListComponent {
       next: response => {
         this.snackbar.success(response.message);
         this.loadPage(this.meta?.currentPage || 1);
+        this.initSelection();
+      },
+      error: err => (this.snackbar.danger(err, 5000))
+    });
+  }
+
+  removeBudgetEntryBulk(idList: BudgetEntryDeleteDto[]): void {
+    this.budgetManagerService.removeBudgetEntryBulk(idList).subscribe({
+      next: response => {
+        this.snackbar.success(response.message);
+        this.loadPage(this.getCurrentPageNumber());
+        this.initSelection();
       },
       error: err => (this.snackbar.danger(err, 5000))
     });
@@ -81,6 +110,7 @@ export class BudgetEntryListComponent {
   changePageSize(size: number) {
     this.pageSize = size,
     this.loadPage(1);
+    this.initSelection();
   }
 
   goToPrevious() {
@@ -131,7 +161,8 @@ export class BudgetEntryListComponent {
     });
 
     dialogRef.componentInstance.entrySaved.subscribe(() => {
-      this.loadPage(this.meta?.currentPage || 1);
+      this.loadPage(1);
+      this.initSelection();
     });
   }
 
@@ -146,6 +177,7 @@ export class BudgetEntryListComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.loadPage(this.meta?.currentPage || 1);
+        this.initSelection();
       }
     });
   }
@@ -162,5 +194,50 @@ export class BudgetEntryListComponent {
         this.removeBudgetEntry(id);
       }
     });
+  }
+
+  toggleSelectionMode(){
+    this.selectionMode = !this.selectionMode;
+    if (!this.selectionMode) this.selection.clear();
+  }
+
+  toggleRowSelection(id: number, event: Event) {
+    this.selection.toggle(id, event);
+  }
+
+  get hasSelection(): boolean {
+    return this.selection.getSelectedIds().length > 0;
+  }
+
+  onRemoveSelectedEntries() {
+    const selectedIds = this.selection.getSelectedIds();
+
+    if (selectedIds.length !== 0) {
+      this.confirm.openConfirm({
+        title: 'Remove Selected Budget Entries',
+        message: `Are you sure you want to remove the selected ${selectedIds.length} budget entr${selectedIds.length > 1 ? 'ies' : 'y'}?`,
+        confirmText: 'Remove',
+        cancelText: 'Cancel',
+        icon: 'warning'
+      }).subscribe(result => {
+        if (result) {
+          this.removeBudgetEntryBulk(selectedIds);
+        }
+      });
+    }
+  }
+
+  getCurrentPageNumber(): number {
+    const pageSize = this.meta?.pageSize || 1;
+    const selectedCount = this.selection.getSelectedCount();
+    const totalCount = this.meta?.totalCount || 0;
+    const currentPage = this.meta?.currentPage || 1;
+    let remainingCount: number;
+    let actualPageNumber: number;
+
+    remainingCount = totalCount - selectedCount;
+    actualPageNumber = Math.ceil(remainingCount / pageSize);
+    
+    return currentPage > actualPageNumber ? actualPageNumber : currentPage;
   }
 }

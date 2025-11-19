@@ -4,32 +4,34 @@
             <div class="table-search">
                 <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
             </div>
-            <table class="table table-hover table-container" [cellSpacing]="0">
-                <thead>
-                    <tr>
-                        <th>Role</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let role of filteredData">
-                        <td>
-                            <span>{{ role.role }}</span><br/>
-                            <div class="nav-container">
-                                <a class="active" (click)="openModifyRoleDialog(role)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
-                            </div>
-                        </td>
-                        <td>{{ role.description }}</td>
-                        <td>
-                            <div class="status badge badge-pill" [ngClass]="role.isActive ? 'badge-success' : 'badge-danger'">{{ role.isActive ? 'Active' : 'Inactive' }}</div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="filteredData.length === 0">
-                        <td colspan="3" class="text-center text-muted">No roles found.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="table table-hover table-container" [cellSpacing]="0">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of filteredData">
+                            <td>
+                                <span>{{ role.role }}</span><br/>
+                                <div class="nav-container">
+                                    <a class="active" (click)="openModifyRoleDialog(role)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                                </div>
+                            </td>
+                            <td>{{ role.description }}</td>
+                            <td>
+                                <div class="status badge badge-pill" [ngClass]="role.isActive ? 'badge-success' : 'badge-danger'">{{ role.isActive ? 'Active' : 'Inactive' }}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="filteredData.length === 0">
+                            <td colspan="3" class="text-center text-muted">No roles found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
 </div>

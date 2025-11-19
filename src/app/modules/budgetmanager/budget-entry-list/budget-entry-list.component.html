@@ -5,7 +5,7 @@
             <i class="fas fa-plus"></i> New Entry
         </button>
     </div>
-    <div class="toolbar">
+    <div class="toolbar mt-2" *ngIf="selection.getItemCount() > 0">
         <div class="page-size">
             <span>Page size</span>
             <mat-form-field appearance="outline" style="width: 70px;" class="custom-select-height">
@@ -25,10 +25,24 @@
             </mat-form-field>
         </div> 
     </div>
+    <div class="selection-control ms-2" >
+        <div>
+            <label *ngIf="selectionMode" class="me-2">Selected {{ selection.getSelectedCount() }} item(s)</label>
+        </div>
+        <div class="btn-control">
+            <button class="btn btn-danger" *ngIf="selectionMode" (click)="onRemoveSelectedEntries()" [disabled]="!hasSelection" matTooltip="Delete" matTooltipPosition="left">
+                <i class="fas fa-trash"></i>
+            </button>
+            <button (click)="toggleSelectionMode()" *ngIf="selection.getItemCount() > 0" class="btn badge-primary" matTooltip="{{ !selectionMode ? 'Select' : 'Unselect' }}" matTooltipPosition="left">
+                <i class="fas" [ngClass]="selectionMode ? 'fa-times' : 'fa-tasks'"></i>
+            </button>
+        </div>
+    </div>
     <div class="table-container">
         <table class="table table-hover">
             <thead>
                 <tr>
+                    <th class="cb-width" *ngIf="selectionMode"></th>
                     <th>Date</th>
                     <th>Category</th>
                     <th style="width: 35%;">Description</th>
@@ -38,6 +52,13 @@
             </thead>
             <tbody>
                 <tr *ngFor="let e of entries; let i = index">
+                    <td *ngIf="selectionMode" class="cb-width">
+                        <label class="control control-checkbox">
+                            <input type="checkbox" [checked]="selection.isSelected(e.budgetEntryId)" (change)="toggleRowSelection(e.budgetEntryId, $event)" />
+                            <div class="control_indicator"></div>
+                        </label>
+                    </td>
+
                     <td>{{ e.dateUsed | date: 'mediumDate' }}</td>
                     <td>{{ e.budgetCategoryName }} {{ e.expenseCategoryId ? '>' : '' }} {{ e.expenseCategoryName }}</td>
                     <td style="width: 35%;">{{ e.description }}</td>
