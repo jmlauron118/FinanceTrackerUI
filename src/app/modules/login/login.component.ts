@@ -39,10 +39,10 @@ export class LoginComponent {
       const token = localStorage.getItem('ft_access_token');
       
       if (token) {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/budgetmanager');
       } else {
         this.isVisible = true;
-        console.log('login loaded');
+        console.log('login loaded'); 
       }
     }
   }

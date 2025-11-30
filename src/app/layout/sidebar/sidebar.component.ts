@@ -15,7 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class SidebarComponent {
   @Input() userModules: UserModules[] = [];
   @Input() isOpen = false;
-  @Output() closeSidebar = new EventEmitter<void>();
+  @Output() closeSidebar = new EventEmitter<string>();
+  @Output() reloadModule = new EventEmitter<void>();
 
   constructor (
     private router: Router
@@ -30,7 +31,7 @@ export class SidebarComponent {
 
     if (this.router.url === targetUrl) { 
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.closeSidebar.emit();
+        this.closeSidebar.emit(targetUrl);
         this.router.navigate([targetUrl]);
       });
     }

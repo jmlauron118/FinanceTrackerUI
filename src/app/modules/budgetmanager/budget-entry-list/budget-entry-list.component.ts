@@ -44,6 +44,7 @@ export class BudgetEntryListComponent {
   ) {}
 
   ngOnInit(): void {
+    console.log("Component reloaded!!!");
     this.loadPage(1);
     this.selectionMode = false;
 

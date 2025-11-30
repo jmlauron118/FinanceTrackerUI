@@ -8,7 +8,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const platformId = inject(PLATFORM_ID);
   const router = inject(Router);
   const auth = inject(AuthService);
-
+  
   // ✅ Skip SSR rendering for authenticated users
   if (!isPlatformBrowser(platformId)) {
     const token = globalThis.localStorage?.getItem('ft_access_token');

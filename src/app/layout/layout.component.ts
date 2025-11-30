@@ -21,6 +21,8 @@ export class LayoutComponent {
   isLoginRoute = false;
   userModules: UserModules[] = [];
   isSidebarOpen = false;
+  currentModule = "";
+  loadLayout = false;
 
   constructor(
     private router: Router,
@@ -31,7 +33,26 @@ export class LayoutComponent {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.isLoginRoute = event.urlAfterRedirects === '/login';
+        if (!this.loadLayout) {
+          const url = event.urlAfterRedirects;
+
+          if(isPlatformBrowser(this.platformId)) {
+            const token = localStorage.getItem('ft_access_token');
+
+            if (!token) {
+              this.isLoginRoute = true;
+            }
+            else {
+              this.isLoginRoute = false;
+              this.loadLayout = true;
+
+              authService.getUserModules().subscribe({
+                next: response => (router.navigate([response.data[0].modulePage]))
+              });
+            }
+          }
+
+        }
       });
   }
 
@@ -48,7 +69,8 @@ export class LayoutComponent {
     this.isSidebarOpen = !this.isSidebarOpen
   }
 
-  onCloseSideBar() {
+  onCloseSideBar(newValue="") {
     this.isSidebarOpen = false;
+    this.currentModule = newValue;
   }
 }

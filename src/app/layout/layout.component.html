@@ -1,4 +1,4 @@
-<div class="layout-container">
+<!-- <div class="layout-container">
     <header *ngIf="!isLoginRoute" (click)="$event.stopPropagation()">
         <app-header (toggleSidebar)="onToggleSidebar()"></app-header>
     </header>
@@ -14,6 +14,25 @@
     </div>
 
     <footer class="border-top footer text-muted" *ngIf="!isLoginRoute">
+        <app-footer></app-footer>
+    </footer>
+</div> -->
+<div class="layout-container">
+    <header [class.hidden]="isLoginRoute" (click)="$event.stopPropagation()">
+        <app-header (toggleSidebar)="onToggleSidebar()"></app-header>
+    </header>
+
+    <section class="side-nav" [class.hidden]="isLoginRoute">
+        <app-sidebar [userModules]="userModules" [isOpen]="isSidebarOpen" (closeSidebar)="onCloseSideBar()"></app-sidebar>
+    </section>
+    
+    <div class="main-container" [class.hidden]="isLoginRoute">
+        <main role="main" class="pb-3">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" [class.hidden]="isLoginRoute">
         <app-footer></app-footer>
     </footer>
 </div>

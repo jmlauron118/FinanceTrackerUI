@@ -10,7 +10,7 @@ import { UserManagerComponent } from './modules/usermanager/usermanager.componen
 import { BudgetEntryListComponent } from './modules/budgetmanager/budget-entry-list/budget-entry-list.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    // { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'login', component: LoginComponent, canActivate: [loginGuard]},
     {
         path: '',
@@ -20,25 +20,29 @@ export const routes: Routes = [
                 path: 'dashboard',
                 component: DashboardComponent,
                 canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
                 data: { moduleName: 'dashboard' }
+            },
+            {
+                path: 'budgetmanager',
+                component: BudgetEntryListComponent,
+                canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
+                data: { moduleName: 'budgetmanager' }
             },
             {
                 path: 'category',
                 component: CategoryComponent,
                 canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
                 data: { moduleName: 'category' }
             },
             {
                 path: 'usermanager',
                 component: UserManagerComponent,
                 canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
                 data: { moduleName: 'usermanager' } 
-            },
-            {
-                path: 'budgetmanager',
-                component: BudgetEntryListComponent,
-                canActivate: [authGuard],
-                data: { moduleName: 'budgetmanager' }
             }
         ]
     },

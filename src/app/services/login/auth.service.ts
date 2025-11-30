@@ -18,8 +18,6 @@ export class AuthService {
   private readonly apiUrl = '/api/auth';
   private isBrowser!: boolean;
   private tokenKey = 'ft_access_token';
-  private userModulesSubject = new BehaviorSubject<UserModules[]>([]);
-  userModules$ = this.userModulesSubject.asObservable();
 
   constructor(
     private http: HttpClient, 
@@ -41,8 +39,6 @@ export class AuthService {
         if (this.localStorageSafe && Array.isArray(response.modules) && response.modules.length > 0) {
           localStorage.setItem(this.tokenKey, response.token);
         }
-
-        this.userModulesSubject.next(response.modules);
       }),
       catchError(err => this.errorHandler.handleError(err))
     );
@@ -75,7 +71,6 @@ export class AuthService {
       localStorage.removeItem(this.tokenKey);
     }
 
-    this.userModulesSubject.next([]);
     this.router.navigate(['/login']);
   }
 
