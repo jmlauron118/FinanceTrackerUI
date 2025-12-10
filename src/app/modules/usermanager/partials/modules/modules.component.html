@@ -11,6 +11,7 @@
                             <th>Module</th>
                             <th>Module Page</th>
                             <th>Description</th>
+                            <th>Parent Module</th>
                             <th>Sort No</th>
                             <th>Status</th>
                         </tr>
@@ -25,6 +26,7 @@
                             </td>
                             <td>{{ module.modulePage }}</td>
                             <td>{{ module.description }}</td>
+                            <td>{{ !module.parentModule ? 'N/A' : module.parentModule }}</td>
                             <td>{{ module.sortOrder }}</td>
                             <td>
                                 <div class="status badge badge-pill" [ngClass]="module.isActive ? 'badge-success' : 'badge-danger'">{{ module.isActive ? 'Active' : 'Inactive' }}</div>

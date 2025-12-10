@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'app/shared/material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -21,12 +21,14 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 export class ModuleDialogComponent {
   moduleForm!: FormGroup;
   isEditMode = false;
+  parentModules: ModuleResponseDto[] = [];
 
   constructor(
     private fb: FormBuilder,
     private usermanagerService: UsermanagerService,
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
+    private cd: ChangeDetectorRef,
     public dialogRef: MatDialogRef<ModuleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ModuleResponseDto
   ) {
@@ -39,7 +41,14 @@ export class ModuleDialogComponent {
       description: [data?.description || '', Validators.required],
       icon: [data?.icon || '', Validators.required],
       sortOrder: [data?.sortOrder, Validators.required],
-      isActive: [data?.isActive ?? 1]
+      isActive: [data?.isActive ?? 1],
+      parentId: [data?.parentId || null]
+    });
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.getAllParentModules();
     });
   }
 
@@ -67,6 +76,13 @@ export class ModuleDialogComponent {
     });
   }
 
+  getAllParentModules(): void {
+    this.usermanagerService.getAllParentModules().subscribe({
+      next: response => (this.parentModules = response.data),
+      error: err => (this.snackbar.danger(err, 4000))
+    });
+  }
+
   onSubmit() {
     if(this.moduleForm.invalid) {
       this.moduleForm.markAllAsTouched();
@@ -85,8 +101,8 @@ export class ModuleDialogComponent {
           this.modifyModule(this.moduleForm.value);
         }
         else{
-          const { moduleName, description, modulePage, icon, sortOrder, isActive } = this.moduleForm.value;
-          const newModule: ModuleRequestDto = { moduleName, description, modulePage, icon, sortOrder, isActive }
+          const { moduleName, description, modulePage, icon, sortOrder, isActive, parentId } = this.moduleForm.value;
+          const newModule: ModuleRequestDto = { moduleName, description, modulePage, icon, sortOrder, isActive, parentId }
 
           this.addModule(newModule);
         }

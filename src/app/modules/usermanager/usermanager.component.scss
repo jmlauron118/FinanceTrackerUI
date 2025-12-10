@@ -61,6 +61,10 @@
                                 opacity: 0;
                                 -webkit-transition: all .2s ease-in-out;
                                 transition: all .2s ease-in-out;
+                                display: flex;
+                                flex-direction: row;
+                                gap: 5px;
+
 
                                 a {
                                     text-decoration: none;
@@ -115,6 +119,7 @@
                         .nav-container {
                             opacity: 1 !important;
                             display: flex;
+                            flex-direction: row;
                         }
                     }
                 }

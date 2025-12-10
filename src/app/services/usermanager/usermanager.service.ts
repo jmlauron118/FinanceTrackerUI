@@ -82,6 +82,11 @@ export class UsermanagerService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
+  getAllParentModules(): Observable<ResponseModel<ModuleResponseDto[]>> {
+    return this.http.get<ResponseModel<ModuleResponseDto[]>>(`${this.apiUrl}/get-all-parent-modules`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
   addModule(module: ModuleRequestDto): Observable<ResponseModel<ModuleResponseDto>> {
     return this.http.post<ResponseModel<ModuleResponseDto>>(`${this.apiUrl}/add-module`, module)
       .pipe(catchError(err => this.errorHandler.handleError(err)));

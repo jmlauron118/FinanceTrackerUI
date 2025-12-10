@@ -14,7 +14,7 @@ export class ForbiddenComponent {
   goBack(): void {
     this.authService.getUserModules().subscribe({
       next: response => {
-        const module = response.data[0];
+        const module = this.authService.getDefaultModule(response.data);
 
         this.router.navigate([`/${module.modulePage.toLowerCase()}`]);
       }

@@ -5,17 +5,18 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { LoadingInterceptor } from './interceptor/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes, 
-      withRouterConfig({
-        onSameUrlNavigation: 'reload'
-      })
+    provideRouter(routes 
+      // ,withRouterConfig({
+      //   onSameUrlNavigation: 'reload'
+      // })
     ), 
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor, LoadingInterceptor])),
     DatePipe
   ]
 };

@@ -43,8 +43,10 @@ export class UserRoleDialogComponent {
   }
 
   ngOnInit(): void {
-    this.getUserList();
-    this.getRoleList();
+    setTimeout(() =>{
+      this.getUserList();
+      this.getRoleList();
+    });
   }
 
   addUserRole(userRole: UserRoleRequestDto): void {

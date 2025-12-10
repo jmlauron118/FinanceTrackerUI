@@ -1,9 +1,11 @@
 @use '../../styles/variables.scss' as *;
+@use "sass:color";
 
 $sidebar-hover-color: #edf0f2;
 
 %sidebar-menu-active {
     color: $primary-color;
+    background-color: color.mix($primary-color, $sidebar-hover-color, 10%);
 }
 
 %sidebar-menu {
@@ -83,6 +85,29 @@ $sidebar-hover-color: #edf0f2;
                     transition: opacity 0.3s;
                     white-space: nowrap;
                 }
+                
+                .parent-open {
+                    color: $primary-color;
+                }
+
+                .hide-text {
+                    display: none;
+                }
+
+                .caret {
+                    margin-left: auto;
+                    width: 0;
+                    height: 0;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-top: 6px solid #aaa; /* ▼ color */
+                    transform: rotate(-90deg);
+                    transition: transform .25s ease;
+                }
+
+                .caret.open {
+                    transform: rotate(0deg);
+                }
 
                 &:hover {
                     background-color: $sidebar-hover-color;
@@ -97,18 +122,26 @@ $sidebar-hover-color: #edf0f2;
                 }
 
                 &.sidebar-menu-dropdown.active {
+                    .menu-icon, .menu-text {
+                        color: $primary-color;
+                    }
+
+                    .caret {
+                        border-top-color: $primary-color;
+                    }
+
                     background-color: color-adjust($sidebar-hover-color, $primary-color, 0.1);
+
                 }
             }
 
             .sidebar-submenu-list {
                 .sidebar-submenu {
-                    padding: 0.5rem 1rem;
+                    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
                     @extend %sidebar-menu;
 
                     .submenu-icon {
                         font-size: 1rem;
-                        //margin-left: 0.1em;
                         margin-left: 1rem;
                         transition: margin 0.3s;
                     }

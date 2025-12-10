@@ -8,11 +8,12 @@ import { filter } from 'rxjs/operators';
 import { UserModules } from '@interfaces/usermanager/user-modules';
 import { AuthService } from '@services/login/auth.service';
 import { SnackbarService } from '@services/snackbar.service';
+import { LoadingComponent } from './loading/loading/loading.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent, FooterComponent, CommonModule],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, FooterComponent, CommonModule, LoadingComponent],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
@@ -35,7 +36,7 @@ export class LayoutComponent {
       .subscribe((event: NavigationEnd) => {
         if (!this.loadLayout) {
           const url = event.urlAfterRedirects;
-
+          
           if(isPlatformBrowser(this.platformId)) {
             const token = localStorage.getItem('ft_access_token');
 
@@ -46,9 +47,18 @@ export class LayoutComponent {
               this.isLoginRoute = false;
               this.loadLayout = true;
 
-              authService.getUserModules().subscribe({
-                next: response => (router.navigate([response.data[0].modulePage]))
-              });
+              if(url === '/' || url === '') {
+                authService.getUserModules().subscribe({
+                  next: response => {
+                    const defaultModule = authService.getDefaultModule(response.data);
+
+                    router.navigate([defaultModule.modulePage])
+                  }
+                });
+              }
+              else{
+                router.navigate([url]);
+              }
             }
           }
 

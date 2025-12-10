@@ -17,6 +17,7 @@ export class SidebarComponent {
   @Input() isOpen = false;
   @Output() closeSidebar = new EventEmitter<string>();
   @Output() reloadModule = new EventEmitter<void>();
+  isSubMenuOpen = false;
 
   constructor (
     private router: Router
@@ -35,5 +36,17 @@ export class SidebarComponent {
         this.router.navigate([targetUrl]);
       });
     }
+  }
+
+  hasChildren(module: UserModules) {
+    return module.childCount !== 0;
+  }
+
+  getChildren(parentId: number) {
+    return this.userModules.filter(m => m.parentId === parentId);
+  }
+
+  isChildActive(parentId: number): boolean {
+    return this.userModules.some(child => child.parentId === parentId && this.router.isActive(`/${child.modulePage.toLowerCase()}`, true));
   }
 }

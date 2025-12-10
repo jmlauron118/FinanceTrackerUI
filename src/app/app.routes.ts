@@ -20,28 +20,28 @@ export const routes: Routes = [
                 path: 'dashboard',
                 component: DashboardComponent,
                 canActivate: [authGuard],
-                runGuardsAndResolvers: 'always',
+                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'dashboard' }
             },
             {
-                path: 'budgetmanager',
+                path: 'budgetentrylist',
                 component: BudgetEntryListComponent,
                 canActivate: [authGuard],
-                runGuardsAndResolvers: 'always',
-                data: { moduleName: 'budgetmanager' }
+                // runGuardsAndResolvers: 'always',
+                data: { moduleName: 'budgetentrylist' }
             },
             {
                 path: 'category',
                 component: CategoryComponent,
                 canActivate: [authGuard],
-                runGuardsAndResolvers: 'always',
+                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'category' }
             },
             {
                 path: 'usermanager',
                 component: UserManagerComponent,
                 canActivate: [authGuard],
-                runGuardsAndResolvers: 'always',
+                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'usermanager' } 
             }
         ]

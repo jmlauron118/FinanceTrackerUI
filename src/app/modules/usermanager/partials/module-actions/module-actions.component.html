@@ -19,8 +19,8 @@
                             <td>
                             <span><i [className]="moduleAction.icon"></i>&nbsp; {{ moduleAction.moduleName }}</span>
                             <div class="nav-container">
-                                    <a class="active" (click)="openEditModuleActionDialog(moduleAction)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>&nbsp;
-                                    <a class="active red" (click)="confirmDelete(moduleAction.moduleActionId)"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a>
+                                    <div><a class="active" (click)="openEditModuleActionDialog(moduleAction)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a></div>
+                                    <div><a class="active red" (click)="confirmDelete(moduleAction.moduleActionId)"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a></div>
                             </div>
                             </td>
                             <td>{{ moduleAction.moduleDescription }}</td>

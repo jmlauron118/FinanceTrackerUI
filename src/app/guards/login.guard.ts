@@ -24,7 +24,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
   if (token) {
     auth.getUserModules().subscribe({
       next: response => {
-        const defaultModule = response.data[0];
+        const defaultModule = auth.getDefaultModule(response.data);
         
         router.navigate([defaultModule.modulePage.toLowerCase()]);
         return false; // prevent login route rendering

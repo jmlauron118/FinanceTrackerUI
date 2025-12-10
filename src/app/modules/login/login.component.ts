@@ -59,7 +59,7 @@ export class LoginComponent {
           return;
         }
 
-        const defaultModule = res.modules[0];
+        const defaultModule = this.authService.getDefaultModule(res.modules);
 
         this.router.navigate([defaultModule.modulePage.toLowerCase()]);
       },

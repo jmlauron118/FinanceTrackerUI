@@ -66,6 +66,12 @@ export class AuthService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
+  getDefaultModule(modules: UserModules[]): UserModules {
+    var routedModules = modules.filter(m => m.childCount == 0);
+
+    return routedModules[0];
+  }
+
   logout(): void {
     if(this.localStorageSafe) {
       localStorage.removeItem(this.tokenKey);

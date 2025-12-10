@@ -44,8 +44,10 @@ export class ModuleAccessDialogComponent {
   }
 
   ngOnInit(): void {
-    this.getModuleActionList();
-    this.getUserRoleList();
+    setTimeout(() => {
+      this.getModuleActionList();
+      this.getUserRoleList();
+    });
   }
 
   addModuleAccess(moduleAccess: ModuleAccessRequestDto): void {

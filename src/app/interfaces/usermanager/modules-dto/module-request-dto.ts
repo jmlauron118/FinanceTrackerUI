@@ -5,4 +5,5 @@ export interface ModuleRequestDto {
     icon: string;
     sortOrder: number;
     isActive: number;
+    parentId: number;
 }

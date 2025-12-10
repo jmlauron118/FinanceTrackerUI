@@ -7,13 +7,39 @@
                     <a class="navbar-brand">FINANCE TRACKER</a>
                 </span>
             </li>
-            <li *ngFor="let item of userModules" class="sidebar-menu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                (click)="onSidebarClick(item.modulePage)"
-                matTooltip="{{ !isOpen ? item.moduleName : '' }}" matTooltipPosition="right">
-                <a class="sidebar-link" [routerLink]="`${item.modulePage.toLowerCase()}`"></a>
-                <span class="menu-icon"><i [class]="item.icon"></i></span>
-                <span class="menu-text">{{ item.moduleName }}</span>
-            </li>
+
+            <!--Main Module List-->
+            <ng-container *ngFor="let item of userModules">
+
+                <!--If module has no children-->
+                <li *ngIf="item.childCount === 0 && item.parentId === 0" class="sidebar-menu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="onSidebarClick(item.modulePage)"
+                    matTooltip="{{ !isOpen ? item.moduleName : '' }}" matTooltipPosition="right">
+                    <a class="sidebar-link" [routerLink]="`${item.modulePage.toLowerCase()}`"></a>
+                    <span class="menu-icon"><i [class]="item.icon"></i></span>
+                    <span class="menu-text">{{ item.moduleName }}</span>
+                </li>
+
+                <!--If Module has children (Parent Menu)-->
+                <li *ngIf="hasChildren(item)" class="sidebar-menu sidebar-menu-dropdown" [ngClass]="isChildActive(item.moduleId) ? 'active' : 'collapse'"
+                    (click)="isSubMenuOpen = !isSubMenuOpen" matTooltip="{{ !isOpen ? item.moduleName : '' }}" matTooltipPosition="right">
+                    <a class="sidebar-link"></a>
+                    <span class="menu-icon"><i [class]="item.icon"></i></span>
+                    <span class="menu-text" [class.hide-text]="!isOpen">{{ item.moduleName }}</span>
+                    <span class="caret" [class.open]="isSubMenuOpen"></span>
+                </li>
+
+                <!--Children List-->
+                <li *ngIf="hasChildren(item)" class="sidebar-submenu-list panel-collapse" [ngClass]="isSubMenuOpen ? 'show' : 'collapse'">
+                    <ng-container *ngFor="let child of getChildren(item.moduleId)">
+                        <div class="sidebar-submenu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onSidebarClick(child.modulePage)">
+                            <a class="sidebar-link" [routerLink]="`${child.modulePage.toLowerCase()}`"></a>
+                            <span class="submenu-icon"><i [class]="child.icon"></i></span>
+                            <span class="submenu-text">{{ child.moduleName }}</span>
+                        </div>
+                    </ng-container>
+                </li>
+            </ng-container>
         </ul>
     </div>
     <div class="sidebar-overlay" *ngIf="isOpen" (click)="onOverlayClick()"></div>

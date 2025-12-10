@@ -44,8 +44,10 @@ export class ModuleActionDialogComponent {
   }
 
   ngOnInit(): void {
-    this.getModuleList();
-    this.getActionList();
+    setTimeout(() => {
+      this.getModuleList();
+      this.getActionList();
+    });
   }
 
   addModuleAction(moduleAction: ModuleActionRequestDto): void {

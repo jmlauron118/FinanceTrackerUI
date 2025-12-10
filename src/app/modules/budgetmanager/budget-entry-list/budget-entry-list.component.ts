@@ -12,6 +12,7 @@ import { BudgetEntryDialogComponent } from './budget-entry-dialog/budget-entry-d
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { SelectionService } from '@services/selection.service';
 import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
+import { LoadingService } from '@services/loading.service';
 
 @Component({
   selector: 'app-budget-entry-list',
@@ -40,11 +41,11 @@ export class BudgetEntryListComponent {
     private snackbar: SnackbarService,
     private dialog: MatDialog,
     private confirm: ConfirmDialogService,
+    private loading: LoadingService,
     public selection: SelectionService<{ id: number }>
   ) {}
 
   ngOnInit(): void {
-    console.log("Component reloaded!!!");
     this.loadPage(1);
     this.selectionMode = false;
 

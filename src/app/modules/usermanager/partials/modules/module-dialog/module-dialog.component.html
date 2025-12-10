@@ -25,12 +25,20 @@
                     Description is required!
                 </mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="col-md-9 mb-3">
+            <mat-form-field appearance="outline" class="col-md-4 mb-3">
                 <mat-label>Icon</mat-label>
                 <input matInput formControlName="icon" lowerCase placeholder="Ex. fa fa-fw fa-users"/>
                 <mat-error *ngIf="moduleControl['icon'].touched && moduleControl['icon'].hasError('required')">
                     Icon is required!
                 </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-4 mb-3">
+                <mat-label>Parent</mat-label>
+                <mat-select formControlName="parentId">
+                    <mat-option *ngFor="let parentModule of parentModules" [value]="parentModule.moduleId">
+                        <i [ngClass]="parentModule.icon"></i> {{ parentModule.moduleName }}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="col-md-3 mb-3">
                 <mat-label>Sort No</mat-label>
