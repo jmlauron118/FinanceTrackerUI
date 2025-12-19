@@ -32,7 +32,8 @@
                 <!--Children List-->
                 <li *ngIf="hasChildren(item)" class="sidebar-submenu-list panel-collapse" [ngClass]="isSubMenuOpen ? 'show' : 'collapse'">
                     <ng-container *ngFor="let child of getChildren(item.moduleId)">
-                        <div class="sidebar-submenu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onSidebarClick(child.modulePage)">
+                        <div class="sidebar-submenu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onSidebarClick(child.modulePage)"
+                            matTooltip="{{ !isOpen ? child.moduleName : '' }}" matTooltipPosition="right">
                             <a class="sidebar-link" [routerLink]="`${child.modulePage.toLowerCase()}`"></a>
                             <span class="submenu-icon"><i [class]="child.icon"></i></span>
                             <span class="submenu-text">{{ child.moduleName }}</span>

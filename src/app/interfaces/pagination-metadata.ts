@@ -5,4 +5,8 @@ export interface PaginationMetadata {
     totalPages: number;
     hasNext: boolean;
     hasPrevious: boolean;
+    totalIncome: number;
+    totalSavings: number;
+    totalExpenses: number;
+    totalBalance: number;
 }

@@ -1,5 +1,13 @@
 @use '../../../styles/variables.scss' as *;
 
+:root {
+    --income: rgba(112, 240, 118, 1);
+    --balance: rgba(112, 193, 240, 1);
+    --savings: rgba(227, 240, 112, 1);
+    --expenses: rgba(240, 112, 112, 1);
+    --icon-color: #afafaf34;
+}
+
 .budget-list {
     .be-header{
         display: flex;
@@ -8,6 +16,66 @@
 
         button {
             background-color: $primary-color !important;
+        }
+    }
+
+    .summary-card {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+
+        .sub-card{
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            margin-top: .5rem;
+            width: 200px;
+            border-left: 5px solid;
+            background-color: $light-color;
+            -webkit-box-shadow: 2px 2px 7px -1px #A8A8A8;
+            box-shadow: 2px 2px 7px -1px #A8A8A8;
+            position: relative;
+            overflow: hidden;
+
+            .card-icon::before {
+                content: var(--icon);
+                font-family: "Font Awesome 7 Free";
+                font-weight: 900;
+                color: var(--icon-color);
+                position: absolute;
+                z-index: 0;
+                font-size: 5rem;
+                right: 0;
+                bottom: -21px;
+            }
+
+            .card-header-text{
+                position: relative;
+                z-index: 1;
+            }
+            
+            .card-details-text {
+                font-size: 1.5rem;
+                position: relative;
+                z-index: 1;
+            }
+
+            &.balance {
+                border-left-color: var(--balance);
+            }
+
+            &.income {
+                border-left-color: var(--income);
+            }
+
+            &.savings {
+                border-left-color: var(--savings);
+            }
+
+            &.expenses {
+                border-left-color: var(--expenses);
+            }
         }
     }
 
@@ -52,10 +120,19 @@
     }
 
     .table-container{
-        height: 500px;
+        height: 400px;
+        overflow-y: auto;
 
         .cb-width {
             width: 3%;
+        }
+
+        .t-green {
+            color: $color-success;
+        }
+
+        .t-red {
+            color: $color-danger;
         }
     }
 
@@ -70,6 +147,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 1rem;
+        margin-bottom: 60px;
 
         .page-control {
             display:flex; 
@@ -145,6 +223,25 @@
             .cb-width {
                 width: 7%;
             }
+        }
+
+        .summary-card {
+            .sub-card {
+                h6 {
+                    font-size: 12px;
+                }
+                .card-details-text {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 940px) {
+    .budget-list{
+        .table-container {
+            height: 320px;
         }
     }
 }

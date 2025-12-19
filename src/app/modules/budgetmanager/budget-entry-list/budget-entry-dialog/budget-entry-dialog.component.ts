@@ -54,8 +54,10 @@ export class BudgetEntryDialogComponent {
   }
 
   ngOnInit(): void {
-    this.loadBudgetCategory();
-    this.loadExpenseCategory();
+    setTimeout(() =>{
+      this.loadBudgetCategory();
+      this.loadExpenseCategory();
+    });
   }
 
   addBudgetEntry(entry: BudgetEntryRequestDto): void {

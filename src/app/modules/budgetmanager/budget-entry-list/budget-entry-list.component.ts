@@ -71,6 +71,7 @@ export class BudgetEntryListComponent {
   }
 
   loadPage(page: number) {
+    this.loading.show();
     this.pageNumber = page < 0 ? 1 : page;
     const search = (this.searchControl.value || '').trim();
 
@@ -82,8 +83,12 @@ export class BudgetEntryListComponent {
           this.meta = result.meta;
           this.createPageNumbers();
           this.firstLoad$.next();
+          this.loading.hide();
         },
-        error: err => (this.snackbar.danger(err, 5000))
+        error: err => {
+          this.snackbar.danger(err, 5000);
+          this.loading.hide();
+        }
       });
   }
 

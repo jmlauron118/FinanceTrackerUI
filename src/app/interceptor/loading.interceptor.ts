@@ -6,11 +6,23 @@ import { finalize } from "rxjs";
 export const LoadingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
     const loading = inject(LoadingService);
 
-    loading.show();
-    
+    // Exempt budget entry API calls from showing the loading indicator
+    const exemptUrls = [
+        '/api/usermanager/get-user-modules', 
+        '/api/budgetmanager/get-budget-entires'
+    ]; // Add the specific endpoint(s) here
+
+    const isExempt = exemptUrls.some(url => req.url.includes(url));
+
+    if (!isExempt) {
+        loading.show();
+    }
+
     return next(req).pipe(
         finalize(() => {
-            loading.hide()
+            if (!isExempt) {
+                loading.hide();
+            }
         })
     );
-}
+};

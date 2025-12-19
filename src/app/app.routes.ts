@@ -8,9 +8,9 @@ import { CategoryComponent } from './modules/category/category.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { UserManagerComponent } from './modules/usermanager/usermanager.component';
 import { BudgetEntryListComponent } from './modules/budgetmanager/budget-entry-list/budget-entry-list.component';
+import { ExpensesBudgetListComponent } from './modules/budgetmanager/expenses-budget-list/expenses-budget-list.component';
 
 export const routes: Routes = [
-    // { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: 'login', component: LoginComponent, canActivate: [loginGuard]},
     {
         path: '',
@@ -20,28 +20,30 @@ export const routes: Routes = [
                 path: 'dashboard',
                 component: DashboardComponent,
                 canActivate: [authGuard],
-                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'dashboard' }
             },
             {
                 path: 'budgetentrylist',
                 component: BudgetEntryListComponent,
                 canActivate: [authGuard],
-                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'budgetentrylist' }
+            },
+            {
+                path: 'expensesbudgetlist',
+                component: ExpensesBudgetListComponent,
+                canActivate: [authGuard],
+                data: { moduleName: 'expensesbudgetlist' }
             },
             {
                 path: 'category',
                 component: CategoryComponent,
                 canActivate: [authGuard],
-                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'category' }
             },
             {
                 path: 'usermanager',
                 component: UserManagerComponent,
                 canActivate: [authGuard],
-                // runGuardsAndResolvers: 'always',
                 data: { moduleName: 'usermanager' } 
             }
         ]
