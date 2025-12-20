@@ -93,24 +93,32 @@ export class BudgetEntryListComponent {
   }
 
   removeBudgetEntry(id: number): void {
+    this.loading.show();
     this.budgetManagerService.removeBudgetEntry(id).subscribe({
       next: response => {
-        this.snackbar.success(response.message);
+        this.snackbar.success(response.message, 5000);
         this.loadPage(this.meta?.currentPage || 1);
         this.initSelection();
       },
-      error: err => (this.snackbar.danger(err, 5000))
+      error: err => {
+        this.snackbar.danger(err, 5000);
+        this.loading.hide();
+      }
     });
   }
 
   removeBudgetEntryBulk(idList: BudgetEntryDeleteDto[]): void {
+    this.loading.show();
     this.budgetManagerService.removeBudgetEntryBulk(idList).subscribe({
       next: response => {
-        this.snackbar.success(response.message);
+        this.snackbar.success(response.message, 5000);
         this.loadPage(this.getCurrentPageNumber());
         this.initSelection();
       },
-      error: err => (this.snackbar.danger(err, 5000))
+      error: err => {
+        this.snackbar.danger(err, 5000);
+        this.loading.hide();
+      }
     });
   }
 
@@ -228,7 +236,8 @@ export class BudgetEntryListComponent {
         icon: 'warning'
       }).subscribe(result => {
         if (result) {
-          this.removeBudgetEntryBulk(selectedIds);
+          const idList: BudgetEntryDeleteDto[] = selectedIds.map(id => ({ budgetEntryId: id }));
+          this.removeBudgetEntryBulk(idList);
         }
       });
     }

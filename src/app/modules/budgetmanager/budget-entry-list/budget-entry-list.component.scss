@@ -1,11 +1,11 @@
 @use '../../../styles/variables.scss' as *;
 
 :root {
-    --income: rgba(112, 240, 118, 1);
-    --balance: rgba(112, 193, 240, 1);
-    --savings: rgba(227, 240, 112, 1);
-    --expenses: rgba(240, 112, 112, 1);
-    --icon-color: #afafaf34;
+    --income: rgb(16, 192, 24);
+    --balance: rgb(28, 144, 211);
+    --savings: rgb(243, 135, 34);
+    --expenses: rgb(206, 33, 33);
+    --icon-color: #ffffff;
 }
 
 .budget-list {
@@ -26,55 +26,71 @@
         flex-wrap: wrap;
 
         .sub-card{
-            border-radius: 10px;
             padding: 1rem 1.5rem;
             font-weight: 500;
-            margin-top: .5rem;
-            width: 200px;
-            border-left: 5px solid;
+            margin-top: 1rem;
+            width: clamp(200px, 22%, 250px);
             background-color: $light-color;
-            -webkit-box-shadow: 2px 2px 7px -1px #A8A8A8;
-            box-shadow: 2px 2px 7px -1px #A8A8A8;
+            -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.17); 
+            box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.17);
             position: relative;
-            overflow: hidden;
 
-            .card-icon::before {
-                content: var(--icon);
-                font-family: "Font Awesome 7 Free";
-                font-weight: 900;
-                color: var(--icon-color);
+            .card-icon-container {
+                width: 45px;
+                height: 45px;
                 position: absolute;
-                z-index: 0;
-                font-size: 5rem;
-                right: 0;
-                bottom: -21px;
+                top: -10px;
+                -webkit-box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.17); 
+                box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.17);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                i {
+                    font-style: normal;
+                }
+
+                .card-icon::before {
+                    content: var(--icon);
+                    font-family: "Font Awesome 7 Free";
+                    font-weight: 900;
+                    color: var(--icon-color);
+                    z-index: 0;
+                    font-size: 1.5rem;
+                }
+
+                &.balance {
+                    background-color: var(--balance);
+                }
+
+                &.income {
+                    background-color: var(--income);
+                }
+
+                &.savings {
+                    background-color: var(--savings);
+                }
+
+                &.expenses {
+                    background-color: var(--expenses);
+                }
             }
 
-            .card-header-text{
-                position: relative;
-                z-index: 1;
-            }
-            
-            .card-details-text {
-                font-size: 1.5rem;
-                position: relative;
-                z-index: 1;
-            }
+            .info-container {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
 
-            &.balance {
-                border-left-color: var(--balance);
-            }
-
-            &.income {
-                border-left-color: var(--income);
-            }
-
-            &.savings {
-                border-left-color: var(--savings);
-            }
-
-            &.expenses {
-                border-left-color: var(--expenses);
+                .card-header-text{
+                    position: relative;
+                    z-index: 1;
+                }
+                
+                .card-details-text {
+                    font-size: 1.5rem;
+                    position: relative;
+                    z-index: 1;
+                }
             }
         }
     }

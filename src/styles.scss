@@ -134,6 +134,8 @@ textarea{
   letter-spacing: 0.3px;
 }
 
+
+
 /* ✅ Success */
 .snackbar-success {
   background-color: va.$color-success !important;
@@ -169,6 +171,10 @@ textarea{
   color: va.$light-color !important;
 }
 
+table {
+    overflow: hidden !important;
+}
+
 .table-container {
   max-height: 500px;
   overflow-y: auto;
@@ -177,6 +183,7 @@ textarea{
     padding: 8px 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-size: clamp(12px, 1.2vw, 14px);
   }
 
   thead {

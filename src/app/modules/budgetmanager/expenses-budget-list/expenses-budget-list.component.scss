@@ -1,0 +1,63 @@
+@use '../../../styles/variables.scss' as *;
+
+.expenses-budget-list {
+    .body-content {
+        margin: 5rem 1rem 0 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+
+        .ebl-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 1rem;
+            -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.17); 
+            box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.17);
+
+            .ebl-header {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                color: $light-color;
+                height: 40px;
+                width: 90%;
+                top: -15px;
+
+                button {
+                    position: absolute;
+                    right: 10px;
+                    color: $light-color;
+
+                    &:hover {
+                        color: $dark-color;
+                    }
+                }
+
+                h6 {
+                    margin: 0 !important;
+                }
+
+                &.budgeted {
+                    background-color: $color-info;
+                }
+
+                &.unbudgeted-m {
+                    background-color: $color-warning;
+                }
+
+                &.unbudgeted-p {
+                    background-color: $color-danger;
+                }
+            }
+
+            .table-content {
+                width: clamp(300px, 80vw, 500px);
+                margin-top: 1.5rem;
+            }
+        }
+    }
+}

@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class ExpensesBudgetListComponent {
-
+  title = 'Expenses Budget List';
 }

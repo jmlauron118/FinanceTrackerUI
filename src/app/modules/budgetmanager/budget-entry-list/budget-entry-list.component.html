@@ -6,32 +6,48 @@
         </button>
     </div>
     <div class="summary-card">
-        <div class="sub-card income">
-            <div class="card-icon" style="--icon: '\f4c0'"></div>
-            <h6 class="card-header-text">Total Income</h6>
-            <div>
-                <span class="card-details-text">&#8369;{{ meta?.totalIncome| number: '1.2-2' }}</span>
+        <div class="sub-card">
+            <div class="card-icon-container income">
+                <i class="card-icon" style="--icon: '\f4c0'"></i>
+            </div>
+            <div class="info-container">
+                <h6 class="card-header-text">Total Income</h6>
+                <div>
+                    <span class="card-details-text">&#8369;{{ meta?.totalIncome| number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
-        <div class="sub-card expenses">
-            <div class="card-icon" style="--icon: '\f543'"></div>
-            <h6 class="card-header-text">Total Expenses</h6>
-            <div>
-                <span class="card-details-text">&#8369;{{ meta?.totalExpenses| number: '1.2-2' }}</span>
+        <div class="sub-card">
+            <div class="card-icon-container expenses">
+                <i class="card-icon" style="--icon: '\f543'"></i>
+            </div>
+            <div class="info-container">
+                <h6 class="card-header-text">Total Expenses</h6>
+                <div>
+                    <span class="card-details-text">&#8369;{{ meta?.totalExpenses | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
-        <div class="sub-card balance">
-            <div class="card-icon" style="--icon: '\f555'"></div>
-            <h6 class="card-header-text">Total Balance</h6>
-            <div>
-                <span class="card-details-text">&#8369;{{ meta?.totalBalance| number: '1.2-2' }}</span>
+        <div class="sub-card">
+            <div class="card-icon-container balance">
+                <i class="card-icon" style="--icon: '\f555'"></i>
+            </div>
+            <div class="info-container">
+                <h6 class="card-header-text">Total Balance</h6>
+                <div>
+                    <span class="card-details-text">&#8369;{{ meta?.totalBalance | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
-        <div class="sub-card savings">
-            <div class="card-icon" style="--icon: '\f4d3'"></div>
-            <h6 class="card-header-text">Total Savings</h6>
-            <div>
-                <span class="card-details-text">&#8369;{{ meta?.totalSavings| number: '1.2-2' }}</span>
+        <div class="sub-card">
+            <div class="card-icon-container savings">
+                <i class="card-icon" style="--icon: '\f4d3'"></i>
+            </div>
+            <div class="info-container">
+                <h6 class="card-header-text">Total Savings</h6>
+                <div>
+                    <span class="card-details-text">&#8369;{{ meta?.totalSavings | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
     </div>
