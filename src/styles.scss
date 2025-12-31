@@ -13,6 +13,27 @@ html {
   ));
 }
 
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: va.$light-color; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: va.$default-color-dark; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: va.$primary-color; 
+}
+
 html {
     font-size: 14px;
     margin: 0 !important;

@@ -52,15 +52,25 @@
         </div>
     </div>
     <div class="toolbar mt-2" *ngIf="selection.getItemCount() > 0">
-        <div class="page-size">
-            <span>Page size</span>
-            <mat-form-field appearance="outline" style="width: 70px;" class="custom-select-height">
-                <mat-select [value]="pageSize" (selectionChange)="changePageSize($event.value)">
-                    <mat-option *ngFor="let opt of pageSizeOptions" [value]="opt">
-                        {{ opt }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div class="sort-group">
+            <div class="page-size">
+                <span>Page size</span>
+                <mat-form-field appearance="outline" style="width: 70px;" class="custom-select-height">
+                    <mat-select [value]="pageSize" (selectionChange)="changePageSize($event.value)">
+                        <mat-option *ngFor="let opt of pageSizeOptions" [value]="opt">
+                            {{ opt }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="sorter">
+                <div class="all" [class.active]="sorter" (click)="sorter = true; sortedLoadPage();">
+                    <span>All</span>
+                </div>
+                <div class="month" [class.active]="!sorter" (click)="sorter = false; sortedLoadPage();">
+                    <span>This Month</span>
+                </div>
+            </div>
         </div>
         <div class="table-search">
             <mat-form-field appearance="outline" class="custom-height-field">

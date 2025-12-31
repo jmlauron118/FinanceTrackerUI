@@ -34,6 +34,7 @@ export class BudgetEntryListComponent {
   private destroy$ = new Subject<void>();
   private firstLoad$ = new Subject<void>();
   selectionMode = false;
+  sorter = true;
 
   @ViewChild('selectAllCheckbox', {static: false}) selectAllCheckbox!: ElementRef<HTMLInputElement>;
   constructor (
@@ -75,7 +76,7 @@ export class BudgetEntryListComponent {
     this.pageNumber = page < 0 ? 1 : page;
     const search = (this.searchControl.value || '').trim();
 
-    this.budgetManagerService.getBudgetEntries(this.pageNumber, this.pageSize, search)
+    this.budgetManagerService.getBudgetEntries(this.pageNumber, this.pageSize, search, this.sorter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: result => {
@@ -83,13 +84,18 @@ export class BudgetEntryListComponent {
           this.meta = result.meta;
           this.createPageNumbers();
           this.firstLoad$.next();
-          this.loading.hide();
         },
         error: err => {
           this.snackbar.danger(err, 5000);
           this.loading.hide();
-        }
+        },
+        complete: () => this.loading.hide()
       });
+  }
+
+  sortedLoadPage() {
+    this.searchControl.setValue('');
+    this.loadPage(1);
   }
 
   removeBudgetEntry(id: number): void {

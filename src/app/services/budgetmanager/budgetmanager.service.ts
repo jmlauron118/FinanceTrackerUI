@@ -8,6 +8,8 @@ import { ResponseModel } from '@interfaces/response-model';
 import { BudgetEntryRequestDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-request-dto';
 import { BudgetEntryModifyDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-modify-dto';
 import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
+import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
+import { ExpensesBudgetRequestDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-request-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +23,13 @@ export class BudgetmanagerService {
   ) { }
 
   //#region Budget Entry
-  getBudgetEntries(pageNumber = 1, pageSize = 20, search: string)
+  getBudgetEntries(pageNumber = 1, pageSize = 20, search: string, sorted: boolean)
     : Observable<{items: ResponseModel<BudgetEntryResponseDto[]>, meta: PaginationMetadata | null}> {
     let params = new HttpParams()
                   .set('pageNumber', pageNumber.toString())
                   .set('pageSize', pageSize.toString())
-                  .set('search', search);
+                  .set('search', search)
+                  .set('sorted', sorted);
 
     return this.http.get<ResponseModel<BudgetEntryResponseDto[]>>(`${this.apiUrl}/get-budget-entires`, { params, observe: 'response'})
       .pipe(
@@ -74,4 +77,18 @@ export class BudgetmanagerService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion Budget Entry
+
+  //#region Expenses Budget
+  getExpensesBudgetByCategory(categoryId: number): Observable<ResponseModel<ExpensesBudgetResponseDto[]>> {
+    const params = new HttpParams().set('categoryId', categoryId.toString());
+
+    return this.http.get<ResponseModel<ExpensesBudgetResponseDto[]>>(`${this.apiUrl}/get-expenses-budget-by-category`, {params})
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addExpensesBudgetBulk(expensesBudgetRequest: ExpensesBudgetRequestDto[], categoryId: number): Observable<ResponseModel<ExpensesBudgetResponseDto>> {
+    return this.http.post<ResponseModel<ExpensesBudgetResponseDto>>(`${this.apiUrl}/add-expenses-budget-bulk?categoryId=${categoryId}`, expensesBudgetRequest)
+      .pipe(catchError(err => this.errorHandler.handleError(err))); 
+  }
+  //#endregion Expenses Budget
 }

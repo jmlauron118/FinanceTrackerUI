@@ -3,80 +3,182 @@
     <div class="body-content">
         <div class="ebl-content">
             <div class="ebl-header budgeted">
+                <button *ngIf="budgetedBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
+                    (click)="getExpensesBudgetData(1); budgetedBtnAction = false">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
                 <h6>BUDGETED</h6>
-                <button class="btn btn-sm"><i class="fa-solid fa-pencil"></i></button>
+                <div class="btn-content">
+                    <button class="btn btn-sm" (click)="onBudgetedExpensesActionClick()" 
+                        matTooltip="{{ budgetedBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <i class="fa-solid" [ngClass]="budgetedBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    </button>
+                    <button class="btn btn-sm" *ngIf="budgetedBtnAction" matTooltip="New Line" matTooltipPosition="above"
+                        (click)="addRow(1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
             <div class="table-content">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
+                            <th class="remove-hdr" *ngIf="budgetedBtnAction"></th>
                             <th>Expenses</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Food & Dining</td>
-                            <td>₱10,000.00</td>
+                        <tr *ngFor="let data of budgetedData; let i = index">
+                            <!--If edit mode is no activated-->
+                            <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
+                            <td *ngIf="!budgetedBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
+
+                            <!--If edit mode is activated-->
+                            <td *ngIf="budgetedBtnAction">
+                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                    (click)="removeRow(i, 1)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                            <td *ngIf="budgetedBtnAction">
+                                <input type="text"class="table-input" [(ngModel)]="data.description" />
+                            </td>
+                            <td *ngIf="budgetedBtnAction">
+                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Transportation</td>
-                            <td>₱5,000.00</td>
+
+                        <!--If there is no data-->
+                        <tr *ngIf="budgetedData.length === 0">
+                            <td colspan="3" style="text-align: center;">No budgeted expenses found.</td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="totals">
+                    <span>TOTAL:</span>
+                    <span>₱{{ getTotal(budgetedData) | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
         <div class="ebl-content">
             <div class="ebl-header unbudgeted-m">
+                <button *ngIf="monthlyBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
+                    (click)="getExpensesBudgetData(2); monthlyBtnAction = false">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
                 <h6>UNBUDGETED (MONTHLY)</h6>
-                <button class="btn btn-sm"><i class="fa-solid fa-pencil"></i></button>
+                <div class="btn-content">
+                    <button class="btn btn-sm" (click)="onMonthlyExpensesActionClick()" 
+                        matTooltip="{{ monthlyBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <i class="fa-solid" [ngClass]="monthlyBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    </button>
+                    <button class="btn btn-sm" *ngIf="monthlyBtnAction" matTooltip="New Line" matTooltipPosition="above"
+                        (click)="addRow(2)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
             <div class="table-content">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
+                            <th class="remove-hdr" *ngIf="monthlyBtnAction"></th>
                             <th>Expenses</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Food & Dining</td>
-                            <td>₱10,000.00</td>
+                        <tr *ngFor="let data of monthlyData; let i = index">
+                            <!--If edit mode is no activated-->
+                            <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
+                            <td *ngIf="!monthlyBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
+
+                            <!--If edit mode is activated-->
+                            <td *ngIf="monthlyBtnAction">
+                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                    (click)="removeRow(i, 2)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                            <td *ngIf="monthlyBtnAction">
+                                <input type="text"class="table-input" [(ngModel)]="data.description" />
+                            </td>
+                            <td *ngIf="monthlyBtnAction">
+                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Transportation</td>
-                            <td>₱5,000.00</td>
+
+                        <!--If there is no data-->
+                        <tr *ngIf="monthlyData.length === 0">
+                            <td colspan="3" style="text-align: center;">No unbudgeted expenses (monthly) found.</td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="totals">
+                    <span>TOTAL:</span>
+                    <span>₱{{ getTotal(monthlyData) | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
         <div class="ebl-content">
             <div class="ebl-header unbudgeted-p">
-                <h6>UNBUDGETED (CURRENT PAYROLL)</h6>
-                <button class="btn btn-sm"><i class="fa-solid fa-pencil"></i></button>
+                <button *ngIf="payrollBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
+                    (click)="getExpensesBudgetData(3); payrollBtnAction = false">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <h6>UNBUDGETED (PAYROLL)</h6>
+                <div class="btn-content">
+                    <button class="btn btn-sm" (click)="onPayrollExpensesActionClick()" 
+                        matTooltip="{{ payrollBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <i class="fa-solid" [ngClass]="payrollBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    </button>
+                    <button class="btn btn-sm" *ngIf="payrollBtnAction" matTooltip="New Line" matTooltipPosition="above"
+                        (click)="addRow(3)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
             </div>
             <div class="table-content">
-                <table class="table table-hover">
+                <table class="table">
                     <thead>
                         <tr>
+                            <th class="remove-hdr" *ngIf="payrollBtnAction"></th>
                             <th>Expenses</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Food & Dining</td>
-                            <td>₱10,000.00</td>
+                        <tr *ngFor="let data of payrollData; let i = index">
+                            <!--If edit mode is no activated-->
+                            <td *ngIf="!payrollBtnAction">{{ data.description }}</td>
+                            <td *ngIf="!payrollBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
+
+                            <!--If edit mode is activated-->
+                            <td *ngIf="payrollBtnAction">
+                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                    (click)="removeRow(i, 3)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                            <td *ngIf="payrollBtnAction">
+                                <input type="text"class="table-input" [(ngModel)]="data.description" />
+                            </td>
+                            <td *ngIf="payrollBtnAction">
+                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Transportation</td>
-                            <td>₱5,000.00</td>
+
+                        <!--If there is no data-->
+                        <tr *ngIf="payrollData.length === 0">
+                            <td colspan="3" style="text-align: center;">No unbudgeted expenses (payroll) found.</td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="totals">
+                    <span>TOTAL:</span>
+                    <span>₱{{ getTotal(payrollData) | number: '1.2-2' }}</span>
+                </div>
             </div>
         </div>
     </div>

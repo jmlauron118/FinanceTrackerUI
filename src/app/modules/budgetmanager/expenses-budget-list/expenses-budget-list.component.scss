@@ -1,6 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 
 .expenses-budget-list {
+    margin-bottom: 60px;
     .body-content {
         margin: 5rem 1rem 0 1rem;
         display: flex;
@@ -11,8 +12,8 @@
         .ebl-content {
             display: flex;
             justify-content: center;
-            align-items: center;
             position: relative;
+            height: fit-content;
             padding: 1rem;
             -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.17); 
             box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.17);
@@ -27,12 +28,25 @@
                 width: 90%;
                 top: -15px;
 
-                button {
+                .btn-reset {
                     position: absolute;
-                    right: 10px;
+                    left: 10px;
                     color: $light-color;
 
                     &:hover {
+                        color: $dark-color;
+                    }
+                }
+
+                .btn-content {
+                    position: absolute;
+                    right: 10px;
+
+                    button {
+                        color: $light-color;
+                    }
+
+                    button:hover {
                         color: $dark-color;
                     }
                 }
@@ -57,6 +71,37 @@
             .table-content {
                 width: clamp(300px, 80vw, 500px);
                 margin-top: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .remove-hdr {
+                    width: 30px;
+                }
+
+                .btn-remove {
+                    color: $color-danger;
+
+                    &:hover {
+                        color: $hover-danger;
+                    }
+                }
+
+                .table-input {
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                    border-bottom: 1px solid $color-default;
+                }
+
+                .totals {
+                    display: flex;
+                    justify-content: flex-end;
+                    font-weight: 500;
+                    gap: .5rem;
+                    border-top: 1px solid $color-default;
+                    padding-top: 0.5rem;
+                }
             }
         }
     }
