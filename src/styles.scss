@@ -364,6 +364,43 @@ table {
     background: #2aa1c0;
 }
 
+/*Responsive Table*/
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+@media (max-width: 600px) {
+    .responsive-table thead {
+        display: none !important; /* Hide table headers */
+    }
+
+    .responsive-table tr {
+        display: block;
+        margin-bottom: 2rem;
+    }
+
+    .responsive-table td {
+        display: block;
+        text-align: right;
+        position: relative;
+        padding-left: 40%;
+    }
+
+    .responsive-table {
+        th, td {
+            border: 1px solid #ddd;
+        }
+    }
+
+    .responsive-table td::before {
+        content: attr(data-label); /* Add labels for each cell */
+        position: absolute;
+        left: 10px;
+        text-align: left;
+        font-weight: bold;
+    }
+}
 
 
 

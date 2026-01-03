@@ -1,7 +1,7 @@
 export interface BudgetEntryResponseDto {
-    budgetEntryId: number,
+    budgetEntryId: number;
     budgetCategoryId: number;
-    budgetCategoryName: string,
+    budgetCategoryName: string;
     expenseCategoryId?: number;
     expenseCategoryName?: string;
     description: string;

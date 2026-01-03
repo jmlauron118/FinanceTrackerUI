@@ -1,0 +1,70 @@
+@use '../../../../styles/variables.scss' as *;
+
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+}
+
+.sync-table-container {
+    overflow: none;
+    margin: 0 1rem;
+
+    .date-used {
+        margin-bottom: 1rem;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .table > :not(caption) > * > * {
+        background-color: transparent !important;
+    }
+
+    thead, tbody {
+        display: block;
+    }
+
+    tbody {
+        overflow-y: auto;    /* enable vertical scroll */
+        vertical-align: middle;
+        max-height: 500px;
+    }
+
+    thead tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* ensures consistent column widths */
+    }
+
+    tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .table-input {
+        outline: none;
+        border: none;
+        width: 100%;
+        border-bottom: 1px solid $color-default;
+        padding: 4px; /* Add padding for better usability */
+        background-color: transparent;
+        font-size: 14px;
+    }
+
+    .amount {
+        text-align: right;
+        font-size: 14px;
+    }
+}
+
+.input-error {
+    border-bottom: 1px solid red !important;
+}
+
+.select-error {
+    border-bottom: 1px solid red !important;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}

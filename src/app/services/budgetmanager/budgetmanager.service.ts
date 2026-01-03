@@ -61,6 +61,11 @@ export class BudgetmanagerService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
+  syncBudgetEntries(budgetRequest: BudgetEntryRequestDto[]) {
+    return this.http.post<ResponseModel<any>>(`${this.apiUrl}/sync-budget-entries`, budgetRequest)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
   modifyBudgetEntry(budgetRequest: BudgetEntryModifyDto): Observable<ResponseModel<BudgetEntryResponseDto>> {
     return this.http.put<ResponseModel<BudgetEntryResponseDto>>(`${this.apiUrl}/modify-budget-entry`, budgetRequest)
       .pipe(catchError(err => this.errorHandler.handleError(err)));

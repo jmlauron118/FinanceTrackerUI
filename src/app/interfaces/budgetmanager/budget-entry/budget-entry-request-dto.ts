@@ -1,7 +1,7 @@
 export interface BudgetEntryRequestDto {
     budgetCategoryId: number;
     expenseCategoryId?: number;
-    description: number;
+    description: string;
     amount: number;
     dateUsed: string;
 }

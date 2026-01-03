@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>Sync Unbudgeted Expenses</h2>
+<hr mat-dialog-title-divider/>
+
+<div class="sync-table-container">
+    <mat-form-field appearance="outline" class="date-used">
+        <mat-label>Date Used</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dateUsed"/>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="sync-table-container">
+        <table class="table responsive-table">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Budget Category</th>
+                    <th>Expense Category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let entry of unbudgetedExpensesData">
+                    <td data-label="Budget Category">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Budget Category</mat-label>
+                            <mat-select [(ngModel)]="entry.budgetCategoryId" (selectionChange)="onBudgetCategoryChange(entry)">
+                                <mat-option *ngFor="let bc of budgetCategoryData" [value]="bc.budgetCategoryId">
+                                    {{ bc.budgetCategoryName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td data-label="Expense Category">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Expense Category</mat-label>
+                            <mat-select [(ngModel)]="entry.expenseCategoryId" [disabled]="entry.budgetCategoryName !== 'Other Expenses'"
+                                (ngModelChange)="entry.budgetCategoryName !== 'Other Expenses' ? entry.expenseCategoryId = undefined : null">
+                                <mat-option *ngFor="let ec of expenseCategoryData" [value]="ec.expenseCategoryId">
+                                    {{ ec.expenseCategoryName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td data-label="Description">
+                        <input type="text" class="table-input" [(ngModel)]="entry.description" />
+                    </td>
+                    <td class="amount" data-label="Amount">
+                        ₱{{ entry.amount | number: '1.2-2' }}
+                    </td>
+                </tr> -->
+                <tr *ngFor="let entry of unbudgetedExpensesData">
+                    <td data-label="Description">
+                        <input type="text" class="table-input" [(ngModel)]="entry.description" 
+                            [ngClass]="{'input-error': !entry.description}" placeholder="Enter description" />
+                    </td>
+                    <td data-label="Budget Category">
+                        <mat-form-field appearance="outline" 
+                                        [ngClass]="{'select-error': !entry.budgetCategoryId}">
+                            <mat-label>Budget Category</mat-label>
+                            <mat-select [(ngModel)]="entry.budgetCategoryId" (selectionChange)="onBudgetCategoryChange(entry)">
+                                <mat-option *ngFor="let bc of budgetCategoryData" [value]="bc.budgetCategoryId">
+                                    {{ bc.budgetCategoryName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td data-label="Expense Category">
+                        <mat-form-field appearance="outline"
+                                        [ngClass]="{'select-error': entry.budgetCategoryName === 'Other Expenses' && !entry.expenseCategoryId}">
+                            <mat-label>Expense Category</mat-label>
+                            <mat-select [(ngModel)]="entry.expenseCategoryId" [disabled]="entry.budgetCategoryName !== 'Other Expenses'"
+                                        (ngModelChange)="entry.budgetCategoryName !== 'Other Expenses' ? entry.expenseCategoryId = undefined : null">
+                                <mat-option *ngFor="let ec of expenseCategoryData" [value]="ec.expenseCategoryId">
+                                    {{ ec.expenseCategoryName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td class="amount" data-label="Amount">
+                        ₱{{ entry.amount | number: '1.2-2' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="onSync()">Sync</button>
+</mat-dialog-actions>

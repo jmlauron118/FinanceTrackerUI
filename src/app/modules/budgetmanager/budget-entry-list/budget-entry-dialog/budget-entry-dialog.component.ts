@@ -129,10 +129,10 @@ export class BudgetEntryDialogComponent {
   }
 
   resetForm(): void {
-    const dateUsedValue = this.budgetEntryForm.get('dateUsed')?.value; // Preserve the value of dateUsed
+    const dateUsedValue = this.budgetEntryForm.get('dateUsed')?.value;
     this.budgetEntryForm.reset();
     this.budgetEntryForm.get('expenseCategoryId')?.disable();
-    this.budgetEntryForm.get('dateUsed')?.setValue(dateUsedValue); // Restore the value of dateUsed
+    this.budgetEntryForm.get('dateUsed')?.setValue(dateUsedValue);
   }
 
   onBudgetCategoryChange(value: number): void {

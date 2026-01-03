@@ -2,11 +2,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
+import { MatDialog } from '@angular/material/dialog';
 import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { LoadingService } from '@services/loading.service';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
+import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expenses-dialog/sync-unbudgeted-expenses-dialog.component';
 
 @Component({
   selector: 'app-expenses-budget-list',
@@ -28,7 +30,8 @@ export class ExpensesBudgetListComponent {
     private budgetManagerService: BudgetmanagerService,
     private snackbar: SnackbarService,
     private loading: LoadingService,
-    private confirm: ConfirmDialogService
+    private confirm: ConfirmDialogService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -158,6 +161,27 @@ export class ExpensesBudgetListComponent {
           this.saveExpensesBudget(this.payrollData, 3);
         }
       });
+    }
+  }
+
+  onSyncUnbudgetedExpenses(): void {
+    if (this.payrollData.length > 0) {
+      const dialogRef = this.dialog.open(SyncUnbudgetedExpensesDialogComponent, {
+        panelClass: 'custom-dialog',
+        width: '90vw',
+        maxWidth: '100vw',
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result.status) {
+          this.getExpensesBudgetData(1); // Budgeted
+          this.getExpensesBudgetData(3); // Payroll
+        }
+      });
+    }
+    else {
+      this.snackbar.warning('No unbudgeted expenses found!');
     }
   }
 }
