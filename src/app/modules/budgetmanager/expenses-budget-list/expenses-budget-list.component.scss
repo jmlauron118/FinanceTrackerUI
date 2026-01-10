@@ -102,6 +102,31 @@
                     border-top: 1px solid $color-default;
                     padding-top: 0.5rem;
                 }
+
+                .peso {
+                    position: absolute;
+                }
+
+                .btn-control {
+                    display: flex;
+                    align-items: center;
+
+                    i.fa-grip-lines {
+                        color: $color-default;
+                    }
+                }
+            }
+
+            .card-loading {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                width: 100%;
+                height: -webkit-fill-available;
+                top: -15px;
+                backdrop-filter: blur(2px);
+                z-index: 3;
             }
         }
     }

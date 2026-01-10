@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { UserModules } from '@interfaces/usermanager/user-modules';
 import { AuthService } from '@services/login/auth.service';
 import { SnackbarService } from '@services/snackbar.service';
-import { LoadingComponent } from './loading/loading/loading.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @Component({
   selector: 'app-layout',

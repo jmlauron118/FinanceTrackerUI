@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, map, switchMap, tap } from 'rxjs';
+import { Observable, catchError, map, switchMap, tap } from 'rxjs';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { LoginCreds } from '@interfaces/login/login-creds';
 import { UserModules } from '@interfaces/usermanager/user-modules';

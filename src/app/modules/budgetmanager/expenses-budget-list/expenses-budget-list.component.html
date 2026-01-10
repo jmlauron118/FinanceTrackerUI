@@ -2,6 +2,9 @@
     <h4>{{ title }}</h4>
     <div class="body-content">
         <div class="ebl-content">
+            <div class="card-loading" *ngIf="budgetedLoading">
+                <div class="spinner"></div>
+            </div>
             <div class="ebl-header budgeted">
                 <button *ngIf="budgetedBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
                     (click)="getExpensesBudgetData(1); budgetedBtnAction = false">
@@ -20,7 +23,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table">
+                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(1, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="budgetedBtnAction"></th>
@@ -28,30 +31,34 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr *ngFor="let data of budgetedData; let i = index">
+                    <tbody>                        
+                        <tr *ngFor="let data of budgetedData; let i = index" cdkDrag [cdkDragDisabled]="!budgetedBtnAction">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
                             <td *ngIf="!budgetedBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
                             <td *ngIf="budgetedBtnAction">
-                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                <div class="btn-control">
+                                    <i class="fa-solid fa-grip-lines"></i>
+                                    <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                     (click)="removeRow(i, 1)">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
+                                </div>
                             </td>
                             <td *ngIf="budgetedBtnAction">
                                 <input type="text"class="table-input" [(ngModel)]="data.description" />
                             </td>
                             <td *ngIf="budgetedBtnAction">
+                                <span class="peso">₱</span>
                                 <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>
 
                         <!--If there is no data-->
                         <tr *ngIf="budgetedData.length === 0">
-                            <td colspan="3" style="text-align: center;">No budgeted expenses found.</td>
+                            <td colspan="2" style="text-align: center;">No budgeted expenses found.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -62,6 +69,9 @@
             </div>
         </div>
         <div class="ebl-content">
+            <div class="card-loading" *ngIf="monthlyLoading">
+                <div class="spinner"></div>
+            </div>
             <div class="ebl-header unbudgeted-m">
                 <button *ngIf="monthlyBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
                     (click)="getExpensesBudgetData(2); monthlyBtnAction = false">
@@ -80,7 +90,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table">
+                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(2, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="monthlyBtnAction"></th>
@@ -89,28 +99,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of monthlyData; let i = index">
+                        <tr *ngFor="let data of monthlyData; let i = index" cdkDrag [cdkDragDisabled]="!monthlyBtnAction">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
                             <td *ngIf="!monthlyBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
                             <td *ngIf="monthlyBtnAction">
-                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
-                                    (click)="removeRow(i, 2)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                <div class="btn-control">
+                                    <i class="fa-solid fa-grip-lines"></i>
+                                    <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                        (click)="removeRow(i, 2)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                             <td *ngIf="monthlyBtnAction">
                                 <input type="text"class="table-input" [(ngModel)]="data.description" />
                             </td>
                             <td *ngIf="monthlyBtnAction">
+                                <span class="peso">₱</span>
                                 <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>
 
                         <!--If there is no data-->
-                        <tr *ngIf="monthlyData.length === 0">
+                        <tr *ngIf="monthlyData.length === 0" >
                             <td colspan="3" style="text-align: center;">No unbudgeted expenses (monthly) found.</td>
                         </tr>
                     </tbody>
@@ -122,6 +136,9 @@
             </div>
         </div>
         <div class="ebl-content">
+            <div class="card-loading" *ngIf="payrollLoading">
+                <div class="spinner"></div>
+            </div>
             <div class="ebl-header unbudgeted-p">
                 <button *ngIf="payrollBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
                     (click)="getExpensesBudgetData(3); payrollBtnAction = false">
@@ -140,7 +157,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table">
+                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(3, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="payrollBtnAction"></th>
@@ -149,22 +166,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of payrollData; let i = index">
+                        <tr *ngFor="let data of payrollData; let i = index" cdkDrag [cdkDragDisabled]="!payrollBtnAction">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!payrollBtnAction">{{ data.description }}</td>
                             <td *ngIf="!payrollBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
                             <td *ngIf="payrollBtnAction">
-                                <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
-                                    (click)="removeRow(i, 3)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                <div class="btn-control">
+                                    <i class="fa-solid fa-grip-lines"></i>
+                                    <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
+                                        (click)="removeRow(i, 3)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                             <td *ngIf="payrollBtnAction">
                                 <input type="text"class="table-input" [(ngModel)]="data.description" />
                             </td>
                             <td *ngIf="payrollBtnAction">
+                                <span class="peso">₱</span>
                                 <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>

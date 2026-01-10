@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { MaterialModule } from 'app/shared/material.module';
 import { LoginCreds } from '@interfaces/login/login-creds';
 import { SnackbarService } from '@services/snackbar.service';
-import { LoadingComponent } from 'app/layout/loading/loading/loading.component';
+import { LoadingComponent } from 'app/layout/loading/loading.component';
 import { LoadingService } from '@services/loading.service';
 
 

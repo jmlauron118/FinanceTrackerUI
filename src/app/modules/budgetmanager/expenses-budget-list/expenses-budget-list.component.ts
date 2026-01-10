@@ -5,14 +5,14 @@ import { MaterialModule } from 'app/shared/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.service';
 import { SnackbarService } from '@services/snackbar.service';
-import { LoadingService } from '@services/loading.service';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
 import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expenses-dialog/sync-unbudgeted-expenses-dialog.component';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 @Component({
   selector: 'app-expenses-budget-list',
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [CommonModule, FormsModule, MaterialModule, DragDropModule],
   templateUrl: './expenses-budget-list.component.html',
   styleUrls: ['./expenses-budget-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -25,11 +25,13 @@ export class ExpensesBudgetListComponent {
   budgetedData: ExpensesBudgetResponseDto[] = [];
   monthlyData: ExpensesBudgetResponseDto[] = [];
   payrollData: ExpensesBudgetResponseDto[] = [];
+  budgetedLoading = false;
+  monthlyLoading = false;
+  payrollLoading = false;
 
   constructor(
     private budgetManagerService: BudgetmanagerService,
     private snackbar: SnackbarService,
-    private loading: LoadingService,
     private confirm: ConfirmDialogService,
     private dialog: MatDialog
   ) {}
@@ -40,8 +42,32 @@ export class ExpensesBudgetListComponent {
     this.getExpensesBudgetData(3); // Payroll
   }
 
+  onDrop(categoryId: number, event: CdkDragDrop<any[]>) {
+    this.setMoveItemArray(categoryId, event);
+  }
+
+  setMoveItemArray(categoryId: number, event: CdkDragDrop<any[]>) {
+    const actions: Record<number, () => void> = {
+      1: () => moveItemInArray(this.budgetedData, event.previousIndex, event.currentIndex),
+      2: () => moveItemInArray(this.monthlyData, event.previousIndex, event.currentIndex),
+      3: () => moveItemInArray(this.payrollData, event.previousIndex, event.currentIndex)
+    };
+
+    actions[categoryId]?.();
+  }
+
   toggleBtnAction(action: boolean): boolean {
     return !action;
+  }
+
+  toggleLoading(categoryId: number, action: boolean) {
+    const actions: Record<number, () => void> = {
+      1: () => this.budgetedLoading = action,
+      2: () => this.monthlyLoading = action,
+      3: () => this.payrollLoading = action
+    };
+
+    actions[categoryId]?.();
   }
 
   addRow(categoryId: number) {
@@ -80,30 +106,30 @@ export class ExpensesBudgetListComponent {
   }
 
   getExpensesBudgetData(categoryId: number): void {
-    this.loading.show();
+    this.toggleLoading(categoryId, true);
     this.budgetManagerService.getExpensesBudgetByCategory(categoryId).subscribe({
       next: response => {
         this.setExpenseBudgetData(response.data, categoryId);
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
+        this.toggleLoading(categoryId, false);
       },
-      complete: () => this.loading.hide()
+      complete: () => (this.toggleLoading(categoryId, false))
     });
   }
 
   saveExpensesBudget(dataRequest: ExpensesBudgetResponseDto[], categoryId: number): void {
-    this.loading.show();
+    this.toggleLoading(categoryId, true);
     this.budgetManagerService.addExpensesBudgetBulk(dataRequest, categoryId).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
       },
       error: err => {
+        this.toggleLoading(categoryId, false)
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
       },
-      complete: () => this.loading.hide()
+      complete: () => (this.toggleLoading(categoryId, false))
     });
   }
 
