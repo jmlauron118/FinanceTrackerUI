@@ -196,11 +196,16 @@ export class BudgetEntryListComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
         this.loadPage(this.meta?.currentPage || 1);
         this.initSelection();
       }
     });
+
+    if (budgetEntry.budgetCategoryName === 'Other Expenses') {
+      dialogRef.componentInstance.budgetEntryForm.get('expenseCategoryId')?.enable();
+      dialogRef.componentInstance.budgetEntryForm.get('expenseCategoryId')?.setValue(budgetEntry.expenseCategoryId);
+    }
   }
 
   onRemoveEntry(id: number): void {

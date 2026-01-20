@@ -3,6 +3,7 @@ import { AuthService } from '@services/login/auth.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from './change-password-dialog/change-password-dialog.component';
+import { ConfirmDialogService } from '@services/confirm-dialog.service';
 declare var bootstrap: any;
 
 @Component({
@@ -19,7 +20,8 @@ export class HeaderComponent {
   constructor (
     private authService: AuthService,
     private snackbar: SnackbarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private confirm: ConfirmDialogService
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +29,18 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.authService.logout();
-    this.snackbar.success('Logout successfully!');
+    this.confirm.openConfirm({
+      title: 'Logout',
+      message: 'Are you sure you want to logout?',
+      confirmText: 'Logout',
+      cancelText: 'Cancel',
+      icon: 'warning'
+    }).subscribe(confirmed => {
+      if (confirmed) {
+        this.authService.logout();
+        this.snackbar.success("You've been logged out successfully.");
+      }
+    });
   }
 
   onToggleSideClick() {

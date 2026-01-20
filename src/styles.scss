@@ -13,6 +13,12 @@ html {
   ));
 }
 
+html {
+    --mdc-outlined-text-field-caret-color: #2b6777;
+    --mdc-outlined-text-field-focus-outline-color: #2b6777;
+    --mdc-outlined-text-field-focus-label-text-color: #2b6777;
+}
+
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
@@ -401,9 +407,3 @@ table {
         font-weight: bold;
     }
 }
-
-
-
-
-
-

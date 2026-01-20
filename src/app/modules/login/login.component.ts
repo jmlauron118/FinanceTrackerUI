@@ -69,7 +69,7 @@ export class LoginComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
+        this.loading.hide();  
       }
     });
   }
