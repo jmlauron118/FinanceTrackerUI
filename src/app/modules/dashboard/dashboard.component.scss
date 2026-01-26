@@ -1,0 +1,152 @@
+@use '../../styles/variables.scss' as *;
+
+.dashboard {
+    * {
+        color: $dark-color;
+    }
+
+    .dashboard-wrapper {
+        .overall {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+
+            .card {
+                border-left: 5px solid var(--c-color);
+                position: relative;
+
+                p {
+                    font-weight: 400;
+                }
+
+                .icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    right: 10px;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background-color: var(--c-color);
+                    
+                    i {
+                        color : $light-color !important;
+                    }
+                }
+            }
+
+            .status-no-data {
+                color: $color-default !important;
+            }
+
+            .status-healthy {
+                color: $color-success !important;
+            }
+
+            .status-good {
+                color: $color-info !important;
+            }
+
+            .status-on-track {
+                color: $color-info-dark !important;
+            }
+
+            .status-overspent {
+                color: $color-warning !important;
+            }
+
+            .status-critical {
+                color: $color-danger !important;
+            }
+        }
+        
+        .ytd-income {
+            display: flex;
+            justify-content: space-between;
+            width: 100% !important;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-between;
+            width: 100% !important;
+            gap: 1rem;
+
+            .card {
+                width: 50% !important;
+            }
+        }
+
+        .activity {
+            width: 100% !important;
+        }
+
+        .card {
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+            width: clamp(230px, 22%, 300px);
+            background-color: $light-color;
+        }
+
+        .history {
+            .card {
+                width: 100% !important;
+            }
+
+            .transaction-item {
+                .icon {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex: 0 0 auto;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    
+                    i {
+                        color: $light-color;
+                    }
+                }
+
+                .text-amount {
+                    white-space: nowrap;    
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $bootstrap-breakpoint-lg) {
+    .dashboard {
+        .dashboard-wrapper {
+            div:has(.overall), 
+            .history {
+                    width: 100% !important;
+            }
+
+            .overall, .ytd-income, .charts {
+                justify-content: space-evenly;
+                gap: 1rem;
+            }
+
+            .history {
+                margin-top: 1.5rem;
+            }
+        }
+    }
+}
+
+@media (max-width: $bootstrap-breakpoint-xxl) {
+    .dashboard {
+        .dashboard-wrapper {
+            .overall {
+                flex-wrap: wrap;
+                gap: 1rem;
+                .card {
+                    width: 48% !important;
+                }
+            }
+        }
+    }
+}

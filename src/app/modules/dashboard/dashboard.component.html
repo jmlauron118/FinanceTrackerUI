@@ -1,1 +1,82 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+    <h4>{{ title }}</h4>
+    <div class="dashboard-wrapper row mt-4 mb-5">
+        <div class="col-md-9">
+            <div class="overall">
+                <div class="card" style="--c-color: #2e9c0e;">
+                    <h5>Income</h5>
+                    <p class="display-6">&#8369;{{ summaryData?.totalIncome | number: '1.2-2' }}</p>
+                    <div class="icon">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                </div>
+                <div class="card" style="--c-color: #eb7f22;">
+                    <h5>Savings</h5>
+                    <p class="display-6">&#8369;{{ summaryData?.totalSavings | number: '1.2-2' }}</p>
+                    <div class="icon">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                    </div>
+                </div>
+                <div class="card" style="--c-color: #2196f3;">
+                    <h5>Current Balance</h5>
+                    <p class="display-6">&#8369;{{ summaryData?.currentBalance | number: '1.2-2' }}</p>
+                    <div class="icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+                <div class="card" style="--c-color: #52ab98;">
+                    <h5>Spending Status</h5>
+                    <p class="display-6" [ngClass]="'status-' + summaryData?.spendingStatus?.toLowerCase()">{{ summaryData?.spendingStatus }}</p>
+                    <div class="icon">
+                        <i class="fa-solid fa-check-double"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ytd-income card mt-4">
+                <h5>YTD Income</h5>
+                <div *ngIf="isBrowser">
+                    <apx-chart
+                        [series]="chartOptions.series"
+                        [chart]="chartOptions.chart"
+                        [stroke]="chartOptions.stroke"
+                        [title]="chartOptions.title"
+                        [xaxis]="chartOptions.xaxis"
+                        [tooltip]="chartOptions.tooltip"></apx-chart>
+                </div>
+
+            </div>
+            <div class="charts mt-4">
+                <div class="card monthly-budget">
+                    <h5>Monthly Budget</h5>
+                </div>
+                <div class="card expenses">
+                    <h5>Expenses</h5>
+                </div>
+            </div>
+            <div class="activity card mt-4">
+                <h5>Activity</h5>
+            </div>
+        </div>
+        <div class="history col-md-3">
+            <div class="card">
+                <h5 class="mb-4">Recent Transactions</h5>
+                <div *ngFor="let data of recentTransactionData">
+                    <div class="transaction-item d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="icon me-3" [ngClass]="getTransactionIcon(data.budgetCategoryName)[1]">
+                                <i class="fa-solid" [ngClass]="getTransactionIcon(data.budgetCategoryName)[0]"></i>
+                            </div>
+                            <div>
+                                <p class="mb-0 small">{{ data.description }}</p>
+                                <small class="text-muted">{{ data.dateUsed | date: 'mediumDate' }}</small>
+                            </div>
+                        </div>
+                        <div class="text-amount small" [ngClass]="data.budgetCategoryName === 'Income' ? 'text-success' : 'text-danger'">
+                            {{ data.budgetCategoryName === 'Income' ? '+' : '-' }}&#8369;{{ data.amount | number: '1.2-2' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

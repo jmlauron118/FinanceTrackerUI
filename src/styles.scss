@@ -133,6 +133,14 @@ textarea{
     resize: none !important;
 }
 
+.text-success {
+    color: va.$color-success !important;
+}
+
+.text-danger {
+    color: va.$color-danger !important;
+}
+
 .text-red {
     color: va.$color-danger;
 

@@ -10,11 +10,7 @@ import { LoadingInterceptor } from './interceptor/loading.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes 
-      // ,withRouterConfig({
-      //   onSameUrlNavigation: 'reload'
-      // })
-    ), 
+    provideRouter(routes), 
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([AuthInterceptor, LoadingInterceptor])),
     DatePipe
