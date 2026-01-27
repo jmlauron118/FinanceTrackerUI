@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ActivityDto } from '@interfaces/dashboard/activity-dto';
+import { ExpensesByCategoryDto } from '@interfaces/dashboard/expenses-by-category-dto';
+import { MonthlyBudgetDto } from '@interfaces/dashboard/monthly-budget-dto';
 import { RecentTransactionsDto } from '@interfaces/dashboard/recent-transactions-dto';
 import { SummaryResponseDto } from '@interfaces/dashboard/summary-response-dto';
 import { YtdIncomeResponseDto } from '@interfaces/dashboard/ytd-income-response-dto';
@@ -30,6 +33,21 @@ export class DashboardService {
   
   getYTDIncome(): Observable<ResponseModel<YtdIncomeResponseDto[]>> {
     return this.http.get<ResponseModel<YtdIncomeResponseDto[]>>(`${this.apiUrl}/get-ytd-income`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getMonthlyBudget(): Observable<ResponseModel<MonthlyBudgetDto>> {
+    return this.http.get<ResponseModel<MonthlyBudgetDto>>(`${this.apiUrl}/get-monthly-budget`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getExpensesByCategory(): Observable<ResponseModel<ExpensesByCategoryDto[]>> {
+    return this.http.get<ResponseModel<ExpensesByCategoryDto[]>>(`${this.apiUrl}/get-expenses-by-category`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getActivity(): Observable<ResponseModel<ActivityDto[]>> {
+    return this.http.get<ResponseModel<ActivityDto[]>>(`${this.apiUrl}/get-activity`)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 }

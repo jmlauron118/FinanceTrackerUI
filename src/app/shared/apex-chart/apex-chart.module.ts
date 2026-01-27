@@ -3,7 +3,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   exports: [
-    NgApexchartsModule
+    NgApexchartsModule,
   ]
 })
 export class ApexChartModule { }

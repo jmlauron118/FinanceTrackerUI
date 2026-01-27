@@ -31,7 +31,7 @@
                     background-color: var(--c-color);
                     
                     i {
-                        color : $light-color !important;
+                        color : $light-color;
                     }
                 }
             }
@@ -76,6 +76,11 @@
             .card {
                 width: 50% !important;
             }
+
+            .monthly-budget-dates {
+                color: $color-default;
+                font-size: small;
+            }
         }
 
         .activity {
@@ -117,12 +122,25 @@
     }
 }
 
+@media (max-width: $bootstrap-breakpoint-md) {
+    .dashboard{
+        .dashboard-wrapper {
+            .charts {
+                flex-wrap: wrap;
+                .card {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: $bootstrap-breakpoint-lg) {
     .dashboard {
         .dashboard-wrapper {
             div:has(.overall), 
             .history {
-                    width: 100% !important;
+                width: 100% !important;
             }
 
             .overall, .ytd-income, .charts {

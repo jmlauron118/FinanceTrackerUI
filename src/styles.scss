@@ -14,9 +14,9 @@ html {
 }
 
 html {
-    --mdc-outlined-text-field-caret-color: #2b6777;
-    --mdc-outlined-text-field-focus-outline-color: #2b6777;
-    --mdc-outlined-text-field-focus-label-text-color: #2b6777;
+    --mat-form-field-outlined-caret-color: #2b6777;
+    --mat-form-field-outlined-focus-outline-color: #2b6777;
+    --mat-form-field-outlined-focus-label-text-color: #2b6777;
 }
 
 /* Scrollbar */
@@ -133,6 +133,10 @@ textarea{
     resize: none !important;
 }
 
+.text-primary {
+    color: va.$primary-color !important
+}
+
 .text-success {
     color: va.$color-success !important;
 }
@@ -146,6 +150,35 @@ textarea{
 
     &:hover {
         color: va.$hover-danger !important;
+    }
+}
+
+.bg-primary-color {
+    background-color: va.$primary-color !important;
+    
+    i {
+        color: va.$light-color !important;
+    }
+}
+
+.bg-secondary-color {
+    background-color: va.$secondary-color !important;
+    i {
+        color: va.$light-color !important;
+    }
+}
+
+.bg-tertiary-color {
+    background-color: va.$tertiary-color !important;
+    i {
+        color: va.$primary-color !important;
+    }
+}
+
+.bg-main-dark-color {
+    background-color: va.$main-dark-color !important;
+    i {
+        color: va.$light-color !important;
     }
 }
 
