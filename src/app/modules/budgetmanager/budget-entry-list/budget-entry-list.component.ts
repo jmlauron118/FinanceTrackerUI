@@ -152,11 +152,11 @@ export class BudgetEntryListComponent {
     
     if(totalPages <= 1) return;
     
-    if(totalPages <= 10) {
+    if(totalPages <= 5) {
       for(let i = 1; i <= totalPages; i++) this.pageNumbers.push(i);
     }
     else{
-      const window = 7;
+      const window = 5;
       let start = Math.max(1, this.pageNumber - Math.floor(window/2));
       let end = start + window - 1;
 

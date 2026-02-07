@@ -49,10 +49,11 @@ html {
 
 body {
     font-weight: 400;
-    color: va.$dark-color !important;
+    color: va.$dark-color;
     font-size: 14px;
     background-color: va.$main-content-bg-color;
     margin-bottom: 60px;
+    overflow-x: hidden;  
 }
 
 .btn-primary {
@@ -106,7 +107,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .badge-default {
     background-color: va.$color-default !important;
-    color: va.$dark-color !important;
+    color: va.$light-color !important;
 }
 
 .badge-warning {
@@ -127,6 +128,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .badge-primary {
     background-color: va.$primary-color !important;
     color: va.$light-color !important;
+}
+
+.badge-secondary {
+    background-color: va.$secondary-color !important;
+    color: va.$light-color !important;
+}
+
+.badge-tertiary {
+    background-color: va.$tertiary-color !important;
+    color: va.$dark-color !important;
 }
 
 textarea{
@@ -202,8 +213,6 @@ textarea{
   letter-spacing: 0.3px;
 }
 
-
-
 /* ✅ Success */
 .snackbar-success {
   background-color: va.$color-success !important;
@@ -239,39 +248,132 @@ textarea{
   color: va.$light-color !important;
 }
 
-table {
-    overflow: hidden !important;
-}
-
 .table-container {
-  max-height: 500px;
-  overflow-y: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden; 
 
-  th, td {
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    font-size: clamp(12px, 1.2vw, 14px);
-  }
+    .t-green {
+        color: va.$color-success !important;
+    }
 
-  thead {
-    background: #f4f4f4;
-    position: sticky;
-    top: 0;
-  }
+    .t-red {
+        color: va.$color-danger !important;
+    }
 }
 
-.table-container table {
-  width: 100%;
-  border-collapse: collapse;
+/*---*/
+table {
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.table-container thead,
-.table-container tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-  z-index: 1;
+.table > :not(caption) > * > * {
+    background-color: transparent !important;
+}
+
+thead, tbody {
+    display: block;
+}
+
+tbody {
+    overflow-y: auto;    /* enable vertical scroll */
+    vertical-align: middle;
+    max-height: 400px;
+}
+
+thead tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* ensures consistent column widths */
+}
+
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-input {
+    outline: none;
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid va.$color-default;
+        padding: 4px; /* Add padding for better usability */
+        background-color: transparent;
+        font-size: 14px;
+    }
+/*--*/
+
+.scroll-table {
+    width: 100%;
+
+    thead th {
+        position: sticky;
+        top: 0;
+        background: #fff; /* or your theme color */
+        z-index: 2;
+        font-weight: 500;
+    }
+
+    th, td {
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-size: clamp(12px, 1.2vw, 14px);
+    }
+
+    tr {
+        &:hover {
+            .nav-container {
+                opacity: 1;
+            }
+        }
+
+        .status {
+            display: block;
+            font-size: 1em;
+            font-weight: 400;
+            min-width: fit-content;
+            text-align: center;
+            width: 50%;
+        }
+
+        .nav-container {
+            font-size: 1.1em;
+            padding-top: 5px;
+            opacity: 0;
+            -webkit-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+
+            a.active {
+                text-decoration: none;
+                cursor: pointer;
+                color: va.$color-info;
+            }
+            
+            .red {
+                color: va.$color-danger !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: va.$bootstrap-breakpoint-md) {
+    table {
+        tbody {
+            tr {
+                .nav-container {
+                    opacity: 1 !important;
+                    display: flex;
+                    flex-direction: row;
+                }
+            }
+        }
+    }
 }
 
 .table-search {
@@ -445,6 +547,6 @@ table {
         position: absolute;
         left: 10px;
         text-align: left;
-        font-weight: bold;
+        font-weight: 500;
     }
 }

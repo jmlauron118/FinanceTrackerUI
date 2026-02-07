@@ -20,7 +20,12 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     token = localStorage.getItem('ft_access_token');
   }
 
-  if (isBrowser && (!token || authService.isTokenExpired(token))) {
+  if (isBrowser && token === null) {
+    authService.logout();
+
+    return EMPTY;
+  }
+  else if(authService.isTokenExpired(token)) {
     snackbar.warning('Session expired. Please log in again.', 4000);
     authService.logout();
 

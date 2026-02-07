@@ -57,15 +57,19 @@
                 }
 
                 &.budgeted {
-                    background-color: $color-info;
+                    background-color: $primary-color;
                 }
 
                 &.unbudgeted-m {
-                    background-color: $color-warning;
+                    background-color: $secondary-color;
                 }
 
                 &.unbudgeted-p {
-                    background-color: $color-danger;
+                    background-color: $tertiary-color;
+                    color: $primary-color;
+                    i {
+                        color: $primary-color;
+                    }
                 }
             }
 

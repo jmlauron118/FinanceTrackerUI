@@ -1,10 +1,10 @@
 @use '../../../styles/variables.scss' as *;
 
 :root {
-    --income: rgb(16, 192, 24);
-    --balance: rgb(28, 144, 211);
-    --savings: rgb(243, 135, 34);
-    --expenses: rgb(206, 33, 33);
+    --income: #1a3e47;
+    --balance: #2b6777;
+    --savings: #c8d8e4;
+    --expenses: #52ab98;
     --icon-color: #ffffff;
 }
 
@@ -59,6 +59,10 @@
                     font-size: 1.5rem;
                 }
 
+                .savings::before {
+                    color: var(--income) !important;
+                }
+
                 &.balance {
                     background-color: var(--balance);
                 }
@@ -99,10 +103,10 @@
         display:flex; 
         gap:1rem; 
         align-items:center; 
-        margin-bottom:1rem;
         justify-content: space-between;
 
         .sort-group {
+            margin-top: .6rem;
             display: flex;
             gap: 1rem;
             .page-size{
@@ -156,6 +160,8 @@
         }
 
         .table-search {
+            margin-bottom: 0 !important;
+
             .btn-clear-search {
                 font-size: 20px;
                 margin-right: .5rem;
@@ -180,46 +186,9 @@
     }
 
     .table-container {
-        display: flex;
-        flex-direction: column;
-        max-height: 100%; /* Adjust as needed */
-        overflow: hidden; /* Prevent the entire container from scrolling */
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        thead {
-            position: sticky;
-            top: 0;
-            background-color: white; /* Ensure the header has a background */
-            z-index: 2; /* Keep it above the body content */
-        }
-
-        tbody {
-            display: block;
-            overflow-y: auto; /* Enable scrolling for the body */
-            min-height: 350px;
-            max-height: 350px;
-        }
-
-        tbody tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed; /* Ensure columns align properly */
-        }
-
+        max-height: 400px;
         .cb-width {
             width: 3%;
-        }
-
-        .t-green {
-            color: $color-success;
-        }
-
-        .t-red {
-            color: $color-danger;
         }
     }
 
@@ -234,7 +203,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: .5rem;
-        margin-bottom: 60px;
+        margin-bottom: 30px;
 
         .page-control {
             display:flex; 

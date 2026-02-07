@@ -13,7 +13,7 @@
             <div class="info-container">
                 <h6 class="card-header-text">Total Income</h6>
                 <div>
-                    <span class="card-details-text">&#8369;{{ meta?.totalIncome| number: '1.2-2' }}</span>
+                    <span class="card-details-text">&#8369;{{ (meta?.totalIncome ? meta?.totalIncome : 0) | number: '1.2-2' }}</span>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="info-container">
                 <h6 class="card-header-text">Total Expenses</h6>
                 <div>
-                    <span class="card-details-text">&#8369;{{ meta?.totalExpenses | number: '1.2-2' }}</span>
+                    <span class="card-details-text">&#8369;{{ (meta?.totalExpenses ? meta?.totalExpenses : 0) | number: '1.2-2' }}</span>
                 </div>
             </div>
         </div>
@@ -35,23 +35,23 @@
             <div class="info-container">
                 <h6 class="card-header-text">Total Balance</h6>
                 <div>
-                    <span class="card-details-text">&#8369;{{ meta?.totalBalance | number: '1.2-2' }}</span>
+                    <span class="card-details-text">&#8369;{{ (meta?.totalBalance ? meta?.totalBalance : 0) | number: '1.2-2' }}</span>
                 </div>
             </div>
         </div>
         <div class="sub-card">
             <div class="card-icon-container savings">
-                <i class="card-icon" style="--icon: '\f4d3'"></i>
+                <i class="card-icon savings" style="--icon: '\f4d3'"></i>
             </div>
             <div class="info-container">
                 <h6 class="card-header-text">Total Savings</h6>
                 <div>
-                    <span class="card-details-text">&#8369;{{ meta?.totalSavings | number: '1.2-2' }}</span>
+                    <span class="card-details-text">&#8369;{{ (meta?.totalSavings ? meta?.totalSavings : 0) | number: '1.2-2' }}</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="toolbar mt-2" *ngIf="selection.getItemCount() > 0">
+    <div class="toolbar" *ngIf="selection.getItemCount() > 0">
         <div class="sort-group">
             <div class="page-size">
                 <span>Page size</span>
@@ -95,7 +95,7 @@
         </div>
     </div>
     <div class="table-container mt-2">
-        <table class="table table-hover">
+        <table class="table table-hover scroll-table">
             <thead>
                 <tr>
                     <th class="cb-width" *ngIf="selectionMode"></th>
@@ -118,7 +118,9 @@
                     <td>{{ e.dateUsed | date: 'mediumDate' }}</td>
                     <td>{{ e.budgetCategoryName }} {{ e.expenseCategoryId ? '>' : '' }} {{ e.expenseCategoryName }}</td>
                     <td style="width: 35%;">{{ e.description }}</td>
-                    <td [ngClass]="e.budgetCategoryName.toLowerCase() == 'income' ? 't-green': 't-red'" style="text-align: right;">₱{{ e.amount | number: '1.2-2' }}</td>
+                    <td [ngClass]="e.budgetCategoryName.toLowerCase() == 'income' ? 't-green': 't-red'" style="text-align: right;">
+                        {{ e.budgetCategoryName.toLowerCase() == 'income' ? '+' : '-' }} ₱{{ e.amount | number: '1.2-2' }}
+                    </td>
                     <td class="action-content dropdown">
                         <a #dropdownButton class="btn-action dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fas fa-ellipsis-v"></i>

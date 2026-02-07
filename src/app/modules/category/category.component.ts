@@ -4,10 +4,12 @@ import { BudgetCategoryComponent } from './partials/budget-category/budget-categ
 import { ExpenseCategoryComponent } from './partials/expense-category/expense-category.component';
 import { MatButtonModule } from '@angular/material/button';
 import { SnackbarService } from '@services/snackbar.service';
+import { SavingsTransactionTypeComponent } from './partials/savings-transaction-type/savings-transaction-type.component';
+import { InvestmentTypeComponent } from './partials/investment-type/investment-type.component';
 
 @Component({
   selector: 'app-category',
-  imports: [CommonModule, BudgetCategoryComponent, ExpenseCategoryComponent, MatButtonModule],
+  imports: [CommonModule, BudgetCategoryComponent, ExpenseCategoryComponent, MatButtonModule, SavingsTransactionTypeComponent, InvestmentTypeComponent],
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -19,6 +21,8 @@ export class CategoryComponent {
 
   @ViewChild(BudgetCategoryComponent) budgetCategoryComponent!: BudgetCategoryComponent;
   @ViewChild(ExpenseCategoryComponent) expenseCategoryComponent!: ExpenseCategoryComponent;
+  @ViewChild(SavingsTransactionTypeComponent) transactionTypeComponent!: SavingsTransactionTypeComponent;
+  @ViewChild(InvestmentTypeComponent) investmentTypeComponent!: InvestmentTypeComponent;
 
   constructor (
     private snackbar: SnackbarService
@@ -44,7 +48,9 @@ export class CategoryComponent {
   onTabChange(tab: string): void {
     const tabAction: Record<string, () => void> = {
       'budget' : () => this.budgetCategoryComponent.getAllBudgetCategories(),
-      'expense' : () => this.expenseCategoryComponent.getAllExpenseCategories()
+      'expense' : () => this.expenseCategoryComponent.getAllExpenseCategories(),
+      'transaction-type' : () => this.transactionTypeComponent.getAllSavingsTransactionTypes(),
+      'investment-type' : () => this.investmentTypeComponent.getAllInvestmentTypes()
     };
 
     tabAction[tab] ? tabAction[tab]() : this.snackbar.warning(`Unknown tab: ${tab}`);

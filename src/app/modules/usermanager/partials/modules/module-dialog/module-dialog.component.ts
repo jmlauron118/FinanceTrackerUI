@@ -42,7 +42,7 @@ export class ModuleDialogComponent {
       icon: [data?.icon || '', Validators.required],
       sortOrder: [data?.sortOrder, Validators.required],
       isActive: [data?.isActive ?? 1],
-      parentId: [data?.parentId || null]
+      parentId: [data?.parentId || 0]
     });
   }
 

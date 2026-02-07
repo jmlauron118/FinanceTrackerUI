@@ -22,17 +22,17 @@
 
                 <!--If Module has children (Parent Menu)-->
                 <li *ngIf="hasChildren(item)" class="sidebar-menu sidebar-menu-dropdown" [ngClass]="isChildActive(item.moduleId) ? 'active' : 'collapse'"
-                    (click)="isSubMenuOpen = !isSubMenuOpen" matTooltip="{{ !isOpen ? item.moduleName : '' }}" matTooltipPosition="right">
+                    (click)="toggleSubMenu(item.moduleId)" matTooltip="{{ !isOpen ? item.moduleName : '' }}" matTooltipPosition="right">
                     <a class="sidebar-link"></a>
                     <span class="menu-icon"><i [class]="item.icon"></i></span>
                     <span class="menu-text" [class.hide-text]="!isOpen">{{ item.moduleName }}</span>
-                    <span class="caret" [class.open]="isSubMenuOpen"></span>
+                    <span class="caret" [class.open]="isSubMenuOpen(item.moduleId)"></span>
                 </li>
 
                 <!--Children List-->
-                <li *ngIf="hasChildren(item)" class="sidebar-submenu-list panel-collapse" [ngClass]="isSubMenuOpen ? 'show' : 'collapse'">
+                <li class="sidebar-submenu-list show" [class.hidden]="!hasChildren(item)" [ngClass]="isSubMenuOpen(item.moduleId) ? 'show' : 'collapse'">
                     <ng-container *ngFor="let child of getChildren(item.moduleId)">
-                        <div class="sidebar-submenu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="onSidebarClick(child.modulePage)"
+                        <div class="sidebar-submenu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="$event.stopPropagation(); onSidebarClick(child.modulePage)"
                             matTooltip="{{ !isOpen ? child.moduleName : '' }}" matTooltipPosition="right">
                             <a class="sidebar-link" [routerLink]="`${child.modulePage.toLowerCase()}`"></a>
                             <span class="submenu-icon"><i [class]="child.icon"></i></span>

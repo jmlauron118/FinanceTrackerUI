@@ -1,0 +1,53 @@
+<div class="savings-transaction">
+    <div class="st-header">
+        <h4>{{ title }}</h4>
+        <button mat-flat-button type="button">
+            <i class="fas fa-plus"></i> New Entry
+        </button>
+    </div>
+    <div class="st-table-wrapper mt-5">
+        <div class="table-search">
+            <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+        </div>
+        <div class="table-container">
+            <table class="table scroll-table responsive-table">
+                <thead>
+                    <tr>
+                        <th>Transaction Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Date Used</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (st of filteredData; track st.transactionId) {
+                        <tr>
+                            <td data-label="Transaction Type">
+                                <span>{{ st.transactionTypeName }}</span>
+                                <div class="nav-container">
+                                    <div><a class="active"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a></div>
+                                    <div><a class="active red"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a></div>
+                                </div>
+                            </td>
+                            <td data-label="Description">{{ st.description }}</td>
+                            <td data-label="Amount">
+                                <span [ngClass]="[1,2].includes(st.transactionTypeId) ? 't-red' : 't-green'">{{ [1,2].includes(st.transactionTypeId) ? '-' : '+' }}₱{{ st.amount | number: '1.2-2' }}</span>
+                            </td>
+                            <td data-label="Date Used">{{ st.dateUsed | date: 'mediumDate' }}</td>
+                            <td data-label="Status">
+                                <div class="status badge badge-pill" [ngClass]="st.status ? 'badge-default' : 'badge-info'">{{ st.status ? 'Pending' : 'Closed' }}</div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if(filteredData.length === 0) {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No savings transaction found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

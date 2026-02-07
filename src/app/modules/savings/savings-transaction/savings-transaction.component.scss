@@ -1,0 +1,32 @@
+@use '../../../styles/variables.scss' as *;
+
+.savings-transaction {
+    .st-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            background-color: $primary-color;;
+        }
+    }
+    
+    // .st-table-wrapper {
+        
+    // }
+}
+
+@media screen and (max-width: $bootstrap-breakpoint-md) {
+    .st-table-wrapper {
+        .table-container{
+            tr {
+                .nav-container {
+                    justify-content: end;
+                }
+
+                .status {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

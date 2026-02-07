@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common'; 
 import { DashboardService } from '@services/dashboard/dashboard.service';
 import { SummaryResponseDto } from '@interfaces/dashboard/summary-response-dto';
@@ -235,8 +235,8 @@ export class DashboardComponent {
     this.dashboardService.getActivity().subscribe(response => {
       const activityData = response.data;
 
-      let income = activityData.filter(item => item.category == "Income").sort((a, b) => b.month.localeCompare(a.month)).map(item => item.amount);
-      let expenses = activityData.filter(item => item.category == "Expenses").sort((a, b) => b.month.localeCompare(a.month)).map(item => item.amount);
+      let income = activityData.filter(item => item.category == "Income").sort((a, b) => a.month.localeCompare(b.month)).map(item => item.amount);
+      let expenses = activityData.filter(item => item.category == "Expenses").sort((a, b) => a.month.localeCompare(b.month)).map(item => item.amount);
       let monthList = [...new Set(activityData.map(item => new Date(item.month).toLocaleString("en-US", { month: "short" })))];
 
       this.activityChartOptions = {

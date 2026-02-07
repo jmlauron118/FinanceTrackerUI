@@ -19,35 +19,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr *ngFor="let entry of unbudgetedExpensesData">
-                    <td data-label="Budget Category">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Budget Category</mat-label>
-                            <mat-select [(ngModel)]="entry.budgetCategoryId" (selectionChange)="onBudgetCategoryChange(entry)">
-                                <mat-option *ngFor="let bc of budgetCategoryData" [value]="bc.budgetCategoryId">
-                                    {{ bc.budgetCategoryName }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td data-label="Expense Category">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Expense Category</mat-label>
-                            <mat-select [(ngModel)]="entry.expenseCategoryId" [disabled]="entry.budgetCategoryName !== 'Other Expenses'"
-                                (ngModelChange)="entry.budgetCategoryName !== 'Other Expenses' ? entry.expenseCategoryId = undefined : null">
-                                <mat-option *ngFor="let ec of expenseCategoryData" [value]="ec.expenseCategoryId">
-                                    {{ ec.expenseCategoryName }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td data-label="Description">
-                        <input type="text" class="table-input" [(ngModel)]="entry.description" />
-                    </td>
-                    <td class="amount" data-label="Amount">
-                        ₱{{ entry.amount | number: '1.2-2' }}
-                    </td>
-                </tr> -->
                 <tr *ngFor="let entry of unbudgetedExpensesData">
                     <td data-label="Description">
                         <input type="text" class="table-input" [(ngModel)]="entry.description" 

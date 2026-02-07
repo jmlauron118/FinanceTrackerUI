@@ -17,7 +17,7 @@ export class SidebarComponent {
   @Input() isOpen = false;
   @Output() closeSidebar = new EventEmitter<string>();
   @Output() reloadModule = new EventEmitter<void>();
-  isSubMenuOpen = false;
+  openParentId: number | null = null;
 
   constructor (
     private router: Router
@@ -37,6 +37,15 @@ export class SidebarComponent {
       });
     }
   }
+
+  toggleSubMenu(parentId: number) {
+    this.openParentId = this.openParentId === parentId ? null : parentId;
+  }
+
+  isSubMenuOpen(parentId: number): boolean {
+    return this.openParentId === parentId;
+  }
+
 
   hasChildren(module: UserModules) {
     return module.childCount !== 0;

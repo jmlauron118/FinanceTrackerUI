@@ -9,6 +9,9 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { UserManagerComponent } from './modules/usermanager/usermanager.component';
 import { BudgetEntryListComponent } from './modules/budgetmanager/budget-entry-list/budget-entry-list.component';
 import { ExpensesBudgetListComponent } from './modules/budgetmanager/expenses-budget-list/expenses-budget-list.component';
+import { SavingsTransactionComponent } from './modules/savings/savings-transaction/savings-transaction.component';
+import { InvestmentTypeComponent } from './modules/category/partials/investment-type/investment-type.component';
+import { InvestmentsComponent } from './modules/savings/investments/investments.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [loginGuard]},
@@ -33,6 +36,18 @@ export const routes: Routes = [
                 component: ExpensesBudgetListComponent,
                 canActivate: [authGuard],
                 data: { moduleName: 'expensesbudgetlist' }
+            },
+            {
+                path: 'savingstransaction',
+                component: SavingsTransactionComponent,
+                canActivate: [authGuard],
+                data: { moduleName: 'savingstransaction' }
+            },
+            {
+                path: 'investments',
+                component: InvestmentsComponent,
+                canActivate: [authGuard],
+                data: { moduleName: 'investments' }
             },
             {
                 path: 'category',

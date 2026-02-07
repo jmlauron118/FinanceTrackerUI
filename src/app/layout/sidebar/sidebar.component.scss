@@ -24,11 +24,11 @@ $sidebar-hover-color: #edf0f2;
         max-width: $sidebar-width-open;
         min-width: 0;
         width: 0;
-        z-index: 3;
+        z-index: 4;
         left: 0;
         top: $header-height;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px 0px;
-        transition: all 0.3s;
+        transition: width 0.3s;
         background-color: $semi-dark-color;
         overflow-y: auto;
         overflow-x: hidden;
@@ -135,7 +135,26 @@ $sidebar-hover-color: #edf0f2;
                 }
             }
 
+            .sidebar-submenu-list.hidden {
+                display: none;
+            }
+
             .sidebar-submenu-list {
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                transition: max-height 0.3s ease, opacity 0.4s ease;
+
+                &.show {
+                    max-height: 300px;
+                    opacity: 1;
+                }
+
+                &.collapse {
+                    max-height: 0;
+                    opacity: 0;
+                }
+
                 .sidebar-submenu {
                     padding: 0.5rem 0.5rem 0.5rem 1.5rem;
                     @extend %sidebar-menu;
@@ -184,7 +203,7 @@ $sidebar-hover-color: #edf0f2;
 
         .sidebar-overlay {
             opacity: 1;
-            z-index: 2;
+            z-index: 3;
         }
     }
 

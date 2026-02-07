@@ -9,6 +9,12 @@
             <a class="list-group-item list-group-item-action" [class.active]="isActive('expense')" (click)="setActiveTab('expense')">
                 <i class="fa fa-fw fa-hand-holding-usd"></i> &nbsp;Expense Category
             </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('transaction-type')" (click)="setActiveTab('transaction-type')">
+                <i class="fa-solid fa-layer-group"></i> &nbsp;Savings Transaction Type
+            </a>
+            <a class="list-group-item list-group-item-action" [class.active]="isActive('investment-type')" (click)="setActiveTab('investment-type')">
+                <i class="fa-solid fa-money-bill-trend-up"></i> &nbsp;Investment Type
+            </a>
         </div>
         <hr class="list-group-divider" />
     </div>
@@ -22,7 +28,7 @@
                         <i class="fa fa-plus"></i> Add Budget Category
                     </button>
                     <hr />
-                    <!-- Users content -->
+                    <!-- content -->
                      <app-budget-category></app-budget-category>
                 </div>
             </div>
@@ -34,8 +40,32 @@
                         <i class="fa fa-plus"></i> Add Expense Category
                     </button>
                     <hr />
-                    <!-- Users content -->
+                    <!-- content -->
                      <app-expense-category></app-expense-category>
+                </div>
+            </div>
+            <!-- SAVINGS TRANSACTION TYPE TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('transaction-type')" [class.show]="isShown('transaction-type')">
+                <div class="header">
+                    <h5>Savings Transaction Type</h5>
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="transactionTypeComponent.openAddTransactionTypeDialog()">
+                        <i class="fa fa-plus"></i> Add Transaction Type
+                    </button>
+                    <hr />
+                    <!-- content -->
+                     <app-savings-transaction-type></app-savings-transaction-type>
+                </div>
+            </div>
+            <!-- INVESTMENT TYPE TAB -->
+            <div class="jumbotron tab-pane fade" role="tabpanel" [class.active]="isActive('investment-type')" [class.show]="isShown('investment-type')">
+                <div class="header">
+                    <h5>Investment Type</h5>
+                    <button mat-flat-button class="btn btn-primary btn-sm" (click)="investmentTypeComponent.openAddInvestmentTypeDialog()">
+                        <i class="fa fa-plus"></i> Add Investment Type
+                    </button>
+                    <hr />
+                    <!-- content -->
+                     <app-investment-type></app-investment-type>
                 </div>
             </div>
         </div>

@@ -1,0 +1,43 @@
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <div class="table-container">
+                <table class="table table-hover scroll-table" [cellSpacing]="0">
+                    <thead>
+                        <tr>
+                            <th>Transaction Type</th>
+                            <th>Description</th>
+                            <th>Direction</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-wrapper">
+                        @for (st of filteredData; track st.transactionTypeId) {
+                        <tr>
+                            <td>
+                                <span>{{ st.transactionTypeName }}</span><br/>
+                                <div class="nav-container">
+                                    <a class="active" (click)="openModifyTransactionTypeDialog(st)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                                </div>
+                            </td>
+                            <td>{{ st.description }}</td>
+                            <td>
+                                <div class="status badge badge-pill" [ngClass]="st.direction ? 'badge-success' : 'badge-danger'">{{ st.direction ? 'In' : 'Out' }}</div>
+                            </td>
+                            <td>
+                                <div class="status badge badge-pill" [ngClass]="st.isActive ? 'badge-success' : 'badge-danger'">{{ st.isActive ? 'Active' : 'Inactive' }}</div>
+                            </td>
+                        </tr>
+                        }
+                        <tr *ngIf="filteredData.length === 0">
+                            <td colspan="4" class="text-center text-muted">No savings transaction type found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>

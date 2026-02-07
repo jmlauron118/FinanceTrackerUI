@@ -44,7 +44,6 @@ export class LoginComponent {
         this.router.navigateByUrl('/budgetmanager');
       } else {
         this.isVisible = true;
-        console.log('login loaded'); 
       }
     }
   }

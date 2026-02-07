@@ -9,6 +9,12 @@ import { ExpenseCategoryResponseDto } from '@interfaces/category/expense-categor
 import { ExpenseCategoryRequestDto } from '@interfaces/category/expense-category/expense-category-request-dto';
 import { ExpenseCategoryModifyDto } from '@interfaces/category/expense-category/expense-category-modify-dto';
 import { ResponseModel } from '@interfaces/response-model';
+import { TransactionTypeResponseDto } from '@interfaces/category/savings-transaction-type/transaction-type-response-dto';
+import { TransactionTypeRequestDto } from '@interfaces/category/savings-transaction-type/transaction-type-request-dto';
+import { TransactionTypeModifyDto } from '@interfaces/category/savings-transaction-type/transaction-type-modify-dto';
+import { InvestmentTypeResponseDto } from '@interfaces/category/investment-type/investment-type-response-dto';
+import { InvestmentTypeRequestDto } from '@interfaces/category/investment-type/investment-type-request-dto';
+import { InvestmentTypeModifyDto } from '@interfaces/category/investment-type/investment-type-modify-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -58,4 +64,44 @@ export class CategoryService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
   //#endregion Expense Category
+
+  //#region Savings Transaction Type
+  getAllSavingsTransactionTypes(status: number = 2, type: number = 2): Observable<ResponseModel<TransactionTypeResponseDto[]>> {
+    const params = new HttpParams()
+                        .set('status', status.toString())
+                        .set('type', type.toString());
+
+    return this.http.get<ResponseModel<TransactionTypeResponseDto[]>>(`${this.apiUrl}/get-all-savings-transaction-types`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addSavingsTransactionType(request: TransactionTypeRequestDto): Observable<ResponseModel<TransactionTypeResponseDto>> {
+    return this.http.post<ResponseModel<TransactionTypeResponseDto>>(`${this.apiUrl}/add-savings-transaction-type`, request)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  };
+
+  modifySavingsTransactionType(request: TransactionTypeModifyDto): Observable<ResponseModel<TransactionTypeResponseDto>> {
+    return this.http.put<ResponseModel<TransactionTypeResponseDto>>(`${this.apiUrl}/modify-savings-transaction-type`, request)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  };
+  //#endregion Savings Transaction Type
+
+  //#region Investment Type
+  getAllInvestmentTypes(status: number = 2): Observable<ResponseModel<InvestmentTypeResponseDto[]>> {
+    const params = new HttpParams().set('status', status.toString());
+
+    return this.http.get<ResponseModel<InvestmentTypeResponseDto[]>>(`${this.apiUrl}/get-all-investment-types`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  addInvestmentType(request: InvestmentTypeRequestDto): Observable<ResponseModel<InvestmentTypeResponseDto>> {
+    return this.http.post<ResponseModel<InvestmentTypeResponseDto>>(`${this.apiUrl}/add-investment-type`, request)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  };
+
+  modifyInvestmentType(request: InvestmentTypeModifyDto): Observable<ResponseModel<InvestmentTypeResponseDto>> {
+    return this.http.put<ResponseModel<InvestmentTypeResponseDto>>(`${this.apiUrl}/modify-investment-type`, request)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  };
+  //#endregion Investment Type
 }

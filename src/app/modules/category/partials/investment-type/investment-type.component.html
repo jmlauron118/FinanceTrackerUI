@@ -1,0 +1,39 @@
+<div class="inner-forms">
+    <div class="wrapper row">
+        <section class="forms">
+            <div class="table-search">
+                <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+            </div>
+            <div class="table-container">
+                <table class="table table-hover scroll-table" [cellSpacing]="0">
+                    <thead>
+                        <tr>
+                            <th>Investment Type</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-wrapper">
+                        @for (it of filteredData; track it.investmentTypeId) {
+                        <tr>
+                            <td>
+                                <span>{{ it.investmentTypeName }}</span><br/>
+                                <div class="nav-container">
+                                    <a class="active" (click)="openModifyInvestmentTypeDialog(it)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a>
+                                </div>
+                            </td>
+                            <td>{{ it.description }}</td>
+                            <td>
+                                <div class="status badge badge-pill" [ngClass]="it.isActive ? 'badge-success' : 'badge-danger'">{{ it.isActive ? 'Active' : 'Inactive' }}</div>
+                            </td>
+                        </tr>
+                        }
+                        <tr *ngIf="filteredData.length === 0">
+                            <td colspan="4" class="text-center text-muted">No investment type found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>

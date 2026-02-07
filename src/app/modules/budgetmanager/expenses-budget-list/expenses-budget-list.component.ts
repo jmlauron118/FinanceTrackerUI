@@ -146,6 +146,7 @@ export class ExpensesBudgetListComponent {
       }).subscribe(result => {
         if (result) {
           this.budgetedBtnAction = false;
+          this.budgetedData = this.budgetedData.filter(item => item.description !== '' && item.amount !== 0);
           this.saveExpensesBudget(this.budgetedData, 1);
         }
       });
@@ -165,6 +166,7 @@ export class ExpensesBudgetListComponent {
       }).subscribe(result => {
         if (result) {
           this.monthlyBtnAction = false;
+          this.monthlyData = this.monthlyData.filter(item => item.description !== '' && item.amount !== 0);
           this.saveExpensesBudget(this.monthlyData, 2);
         }
       });
@@ -184,6 +186,7 @@ export class ExpensesBudgetListComponent {
       }).subscribe(result => {
         if (result) {
           this.payrollBtnAction = false;
+          this.payrollData = this.payrollData.filter(item => item.description !== '' && item.amount !== 0);
           this.saveExpensesBudget(this.payrollData, 3);
         }
       });
