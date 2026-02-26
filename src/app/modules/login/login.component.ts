@@ -31,8 +31,8 @@ export class LoginComponent {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loginForm = this.fb.group({
-      username: ['jmlauron118', Validators.required],
-      password: ['@dm1n011896', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
     });
   }
 
