@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://financetrackerapi.runasp.net/api'
+  apiUrl: 'https://finance-tracker-api.fly.dev/api'
 };
