@@ -10,12 +10,13 @@ import { SnackbarService } from '@services/snackbar.service';
 import { jwtDecode } from 'jwt-decode';
 import { DecodedToken } from '@interfaces/login/decoded-token';
 import { ResponseModel } from '@interfaces/response-model';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = '/api/auth';
+  private readonly apiUrl = environment.apiUrl + '/auth';
   private isBrowser!: boolean;
   private tokenKey = 'ft_access_token';
 

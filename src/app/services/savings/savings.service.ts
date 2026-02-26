@@ -10,12 +10,13 @@ import { SavingsTransactionRequestDto } from '@interfaces/savings/savings-transa
 import { SavingsTransactionResponseDto } from '@interfaces/savings/savings-transaction/savings-transaction-response-dto';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { catchError, Observable } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SavingsService {
-  private readonly apiUrl = '/api/savings';
+  private readonly apiUrl = environment.apiUrl + '/savings';
 
   constructor(
     private http: HttpClient,

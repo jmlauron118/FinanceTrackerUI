@@ -22,6 +22,7 @@
       "@interfaces/*": ["app/interfaces/*"],
       "@services/*": ["app/services/*"],
       "@models/*": ["app/models/*"],
+      "@environments/*": ["app/environments/*"]
     }
   },
   "angularCompilerOptions": {

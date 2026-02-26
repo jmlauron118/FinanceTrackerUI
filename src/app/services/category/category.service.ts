@@ -15,12 +15,13 @@ import { TransactionTypeModifyDto } from '@interfaces/category/savings-transacti
 import { InvestmentTypeResponseDto } from '@interfaces/category/investment-type/investment-type-response-dto';
 import { InvestmentTypeRequestDto } from '@interfaces/category/investment-type/investment-type-request-dto';
 import { InvestmentTypeModifyDto } from '@interfaces/category/investment-type/investment-type-modify-dto';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private readonly apiUrl = '/api/category'
+  private readonly apiUrl = environment.apiUrl + '/category'
 
   constructor(
     private http: HttpClient,

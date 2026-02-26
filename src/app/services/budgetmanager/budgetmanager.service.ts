@@ -10,12 +10,13 @@ import { BudgetEntryModifyDto } from '@interfaces/budgetmanager/budget-entry/bud
 import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
 import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
 import { ExpensesBudgetRequestDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-request-dto';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetmanagerService {
-  private readonly apiUrl = '/api/budgetmanager';
+  private readonly apiUrl = environment.apiUrl + '/budgetmanager';
 
   constructor(
     private http: HttpClient,

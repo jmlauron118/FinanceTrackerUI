@@ -25,12 +25,13 @@ import { ModuleAccessRequestDto } from '@interfaces/usermanager/module-access-dt
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
 import { ResponseModel } from '@interfaces/response-model';
 import { ChangePasswordDto } from '@interfaces/login/change-password-dto';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsermanagerService {
-  private readonly apiUrl = '/api/usermanager'
+  private readonly apiUrl = environment.apiUrl + '/usermanager';
 
   constructor(private http: HttpClient, private errorHandler: ErrorHandlerService) { }
 

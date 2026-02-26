@@ -9,12 +9,13 @@ import { YtdIncomeResponseDto } from '@interfaces/dashboard/ytd-income-response-
 import { ResponseModel } from '@interfaces/response-model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { Observable, catchError } from 'rxjs';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private readonly apiUrl = '/api/dashboard';
+  private readonly apiUrl = environment.apiUrl + '/dashboard';
 
   constructor(
     private http: HttpClient,
