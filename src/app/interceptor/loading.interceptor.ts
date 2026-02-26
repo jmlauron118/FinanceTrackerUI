@@ -8,8 +8,8 @@ export const LoadingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
 
     // Exempt budget entry API calls from showing the loading indicator
     const exemptUrls = [
-        '/usermanager/get-user-modules', 
-        '/budgetmanager'
+        'api/usermanager/get-user-modules', 
+        'api/budgetmanager'
     ]; // Add the specific endpoint(s) here
 
     const isExempt = exemptUrls.some(url => req.url.includes(url));
