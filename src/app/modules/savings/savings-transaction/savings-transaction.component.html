@@ -1,9 +1,46 @@
 <div class="savings-transaction">
     <div class="st-header">
         <h4>{{ title }}</h4>
-        <button mat-flat-button type="button">
+        <button mat-flat-button type="button" (click)="openAddSavingsTransaction()">
             <i class="fas fa-plus"></i> New Entry
         </button>
+    </div>
+    <div class="overall">
+        <div class="card" style="--c-color: #1a3e47;">
+            <h5>Overall Savings</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.totalSavings | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+        </div>
+        <div class="card" style="--c-color: #2b6777;">
+            <h5>Expenses</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.totalExpenses | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-money-check"></i>
+            </div>
+        </div>
+        <div class="card" style="--c-color: #c8d8e4;">
+            <h5>Investments</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.totalInvestment | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-chart-line text-primary"></i>
+            </div>
+        </div>
+        <div class="card" style="--c-color: #81caa6;">
+            <h5>Earnings</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.totalGains| number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-money-bill-trend-up text-primary"></i>
+            </div>
+        </div>
+        <div class="card" style="--c-color: #52ab98;">
+            <h5>Current Savings</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.remainingSavings | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-wallet text-primary"></i>
+            </div>
+        </div>
     </div>
     <div class="st-table-wrapper mt-5">
         <div class="table-search">
@@ -13,30 +50,34 @@
             <table class="table scroll-table responsive-table">
                 <thead>
                     <tr>
+                        <th>Date</th>
                         <th>Transaction Type</th>
                         <th>Description</th>
                         <th>Amount</th>
-                        <th>Date Used</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (st of filteredData; track st.transactionId) {
                         <tr>
-                            <td data-label="Transaction Type">
-                                <span>{{ st.transactionTypeName }}</span>
-                                <div class="nav-container">
-                                    <div><a class="active"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a></div>
-                                    <div><a class="active red"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a></div>
+                            <td data-label="Date Used">
+                                <span>{{ st.dateUsed | date: 'mediumDate' }}</span>
+                                @if(st.status) {
+                                    <br>
+                                    <br>
+                                }
+                                <div class="nav-container" *ngIf="!st.status">
+                                    <div><a class="active" (click)="openModifySavingsTransaction(st)"><i aria-hidden="true" class="fa fa-pencil"></i> Edit</a></div>
+                                    <div><a class="active red" (click)="removeSavingsTransaction(st.transactionId);"><i aria-hidden="true" class="fa fa-trash"></i> Remove</a></div>
                                 </div>
                             </td>
+                            <td data-label="Transaction Type">{{ st.transactionTypeName }}</td>
                             <td data-label="Description">{{ st.description }}</td>
                             <td data-label="Amount">
                                 <span [ngClass]="[1,2].includes(st.transactionTypeId) ? 't-red' : 't-green'">{{ [1,2].includes(st.transactionTypeId) ? '-' : '+' }}₱{{ st.amount | number: '1.2-2' }}</span>
                             </td>
-                            <td data-label="Date Used">{{ st.dateUsed | date: 'mediumDate' }}</td>
                             <td data-label="Status">
-                                <div class="status badge badge-pill" [ngClass]="st.status ? 'badge-default' : 'badge-info'">{{ st.status ? 'Pending' : 'Closed' }}</div>
+                                <div class="status badge badge-pill" [ngClass]="st.status ? 'badge-info' : 'badge-default'">{{ st.status ? 'Closed' : 'Pending' }}</div>
                             </td>
                         </tr>
                     }

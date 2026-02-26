@@ -1,6 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ResponseModel } from '@interfaces/response-model';
+import { InvestmentResponseDto } from '@interfaces/savings/investment/investment-response-dto';
+import { ReturnFromInvestmentDto } from '@interfaces/savings/investment/return-from-investment-dto';
+import { ReturnSavingsTransactionDto } from '@interfaces/savings/investment/return-savings-transaction-dto';
+import { SavingsSummaryResponseDto } from '@interfaces/savings/savings-transaction/savings-summary-response-dto';
 import { SavingsTransactionModifyDto } from '@interfaces/savings/savings-transaction/savings-transaction-modify-dto';
 import { SavingsTransactionRequestDto } from '@interfaces/savings/savings-transaction/savings-transaction-request-dto';
 import { SavingsTransactionResponseDto } from '@interfaces/savings/savings-transaction/savings-transaction-response-dto';
@@ -23,6 +27,11 @@ export class SavingsService {
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
+  getSavingsSummary(): Observable<ResponseModel<SavingsSummaryResponseDto>> {
+      return this.http.get<ResponseModel<SavingsSummaryResponseDto>>(`${this.apiUrl}/get-savings-summary`)
+        .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
   addSavingsTransaction(request: SavingsTransactionRequestDto): Observable<ResponseModel<any>> {
     return this.http.post<ResponseModel<any>>(`${this.apiUrl}/add-savings-transaction`, request)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
@@ -37,6 +46,23 @@ export class SavingsService {
     let params = new HttpParams().set('transactionId', transactionId.toString());
     
     return this.http.delete<ResponseModel<any>>(`${this.apiUrl}/remove-savings-transaction`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getAllInvestments(): Observable<ResponseModel<InvestmentResponseDto[]>>{
+    return this.http.get<ResponseModel<InvestmentResponseDto[]>>(`${this.apiUrl}/get-all-investments`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  returnFromInvestment(request: ReturnFromInvestmentDto): Observable<ResponseModel<any>> {
+    return this.http.post<ResponseModel<any>>(`${this.apiUrl}/return-from-investment`, request)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getReturnSavingsInvestment(returnTransactionId: number): Observable<ResponseModel<ReturnSavingsTransactionDto>> {
+    let params = new HttpParams().set('returnTransactionId', returnTransactionId.toString());
+
+    return this.http.get<ResponseModel<ReturnSavingsTransactionDto>>(`${this.apiUrl}/get-return-savings-transaction`, { params })
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 }

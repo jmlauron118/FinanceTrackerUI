@@ -119,7 +119,7 @@
                     <td>{{ e.budgetCategoryName }} {{ e.expenseCategoryId ? '>' : '' }} {{ e.expenseCategoryName }}</td>
                     <td style="width: 35%;">{{ e.description }}</td>
                     <td [ngClass]="e.budgetCategoryName.toLowerCase() == 'income' ? 't-green': 't-red'" style="text-align: right;">
-                        {{ e.budgetCategoryName.toLowerCase() == 'income' ? '+' : '-' }} ₱{{ e.amount | number: '1.2-2' }}
+                        {{ e.budgetCategoryName.toLowerCase() == 'income' ? '+' : '-' }}₱{{ e.amount | number: '1.2-2' }}
                     </td>
                     <td class="action-content dropdown">
                         <a #dropdownButton class="btn-action dropdown-toggle" data-bs-toggle="dropdown">

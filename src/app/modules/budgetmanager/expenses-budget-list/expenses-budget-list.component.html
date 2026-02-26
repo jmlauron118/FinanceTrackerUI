@@ -33,12 +33,12 @@
                     </thead>
                     <tbody>                        
                         <tr *ngFor="let data of budgetedData; let i = index" cdkDrag [cdkDragDisabled]="!budgetedBtnAction">
-                            <!--If edit mode is no activated-->
+                            <!--If edit mode is not activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
                             <td *ngIf="!budgetedBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
-                            <td *ngIf="budgetedBtnAction">
+                            <td *ngIf="budgetedBtnAction" class="test">
                                 <div class="btn-control">
                                     <i class="fa-solid fa-grip-lines"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
@@ -47,7 +47,7 @@
                                 </button>
                                 </div>
                             </td>
-                            <td *ngIf="budgetedBtnAction">
+                            <td *ngIf="budgetedBtnAction" class="desc-input">
                                 <input type="text"class="table-input" [(ngModel)]="data.description" />
                             </td>
                             <td *ngIf="budgetedBtnAction">

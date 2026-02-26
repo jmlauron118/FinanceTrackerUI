@@ -80,6 +80,29 @@
                 flex-direction: column;
                 justify-content: space-between;
 
+                .table {
+                    tbody {
+                        max-height: clamp(400px, 80vw, 550px);
+                        overflow-y: hidden;
+                        scrollbar-gutter: stable;
+                        position: relative;
+                        display: block;
+                    }
+
+                    tbody:hover {
+                        overflow-y: auto;
+                    }
+                    
+                    thead, tr {
+                        display: table;
+                        width: 100%;
+                    }
+
+                    .desc-input {
+                        width: 55%;
+                    }
+                }
+                
                 .remove-hdr {
                     width: 30px;
                 }

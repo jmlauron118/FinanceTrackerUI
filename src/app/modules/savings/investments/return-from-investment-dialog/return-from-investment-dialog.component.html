@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Return From Investment {{ isViewMode ? 'Details' : '' }}</h2>
+<hr mat-dialog-title-divider/>
+
+<form [formGroup]="returnFromInvestmentForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <div class="row">
+            <div class="col-12 mb-4 d-flex flex-row justify-content-between">
+                <span class="fs-5">{{ data.investmentDescription }}</span>
+                <span class="fs-5">₱{{ data.amountInvested | number: '1.2-2' }}</span>
+            </div>
+            <hr mat-dialog-title-divider/>
+            <mat-form-field appearance="outline" class="col-12 mb-3 mt-2">
+                <mat-label>Date Returned</mat-label>
+                <input matInput formControlName="dateReturned" [matDatepicker]="picker" [readonly]="isViewMode">
+                <mat-datepicker-toggle matSuffix [for]="picker" [hidden]="isViewMode"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                @if(returnFromInvestmentControls['dateReturned'].touched && returnFromInvestmentControls['dateReturned'].hasError('required')){
+                    <mat-error>
+                        Date returned is required
+                    </mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-12 mb-3">
+                <mat-label>Return Description</mat-label>
+                <textarea matInput formControlName="returnDescription" [readonly]="isViewMode"></textarea>
+                @if(returnFromInvestmentControls['returnDescription'].touched && returnFromInvestmentControls['returnDescription'].hasError('required')) {
+                    <mat-error>
+                        Return description is required!
+                    </mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-12 mb-3">
+                <mat-label>Return Amount</mat-label>
+                <input matInput type="text" formControlName="amountReturned" withDecimal class="text-end" [readonly]="isViewMode"/>
+                @if(returnFromInvestmentControls['amountReturned'].touched && returnFromInvestmentControls['amountReturned'].hasError('required')) {
+                    <mat-error>
+                        Amount is required!
+                    </mat-error>
+                }
+                @if(returnFromInvestmentControls['amountReturned'].hasError('min')) {
+                    <mat-error>
+                        Amount must be greater than 0!
+                    </mat-error>
+                }
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    @if(!isViewMode){
+        <mat-dialog-actions align="end">
+            <button mat-button type="button" (click)="onCancel()">Cancel</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="returnFromInvestmentForm.invalid">
+                Confirm
+            </button>
+        </mat-dialog-actions>
+    }
+</form>

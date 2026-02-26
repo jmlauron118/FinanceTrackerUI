@@ -22,7 +22,7 @@ html {
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 /* Track */
@@ -249,9 +249,8 @@ textarea{
 }
 
 .table-container {
-    max-height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden; 
+    // overflow-y: auto;
+    // overflow-x: hidden; 
 
     .t-green {
         color: va.$color-success !important;
@@ -260,50 +259,57 @@ textarea{
     .t-red {
         color: va.$color-danger !important;
     }
+
+    
+    /*---*/
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table > :not(caption) > * > * {
+        background-color: transparent !important;
+    }
+
+    thead, tbody {
+        display: block;
+    }
+
+    tbody {
+        vertical-align: middle;
+        max-height: 400px;
+        position: relative;
+        overflow-y: hidden;
+        scrollbar-gutter: stable;
+
+        &:hover{
+            overflow-y: auto;
+        }
+    }
+
+    thead tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* ensures consistent column widths */
+    }
+
+    tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
 }
 
-/*---*/
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.table > :not(caption) > * > * {
-    background-color: transparent !important;
-}
-
-thead, tbody {
-    display: block;
-}
-
-tbody {
-    overflow-y: auto;    /* enable vertical scroll */
-    vertical-align: middle;
-    max-height: 400px;
-}
-
-thead tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed; /* ensures consistent column widths */
-}
-
-tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
 
 .table-input {
     outline: none;
     border: none;
     width: 100%;
     border-bottom: 1px solid va.$color-default;
-        padding: 4px; /* Add padding for better usability */
-        background-color: transparent;
-        font-size: 14px;
-    }
-/*--*/
+    padding: 4px; /* Add padding for better usability */
+    background-color: transparent;
+    font-size: 14px;
+}
 
 .scroll-table {
     width: 100%;

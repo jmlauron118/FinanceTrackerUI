@@ -186,7 +186,10 @@
     }
 
     .table-container {
-        max-height: 400px;
+        tbody {
+            max-height: 350px;
+            min-height: 350px;
+        }
         .cb-width {
             width: 3%;
         }
@@ -290,14 +293,6 @@
                     font-size: 1.3rem;
                 }
             }
-        }
-    }
-}
-
-@media (max-width: 940px) {
-    .budget-list{
-        .table-container {
-            height: 320px;
         }
     }
 }

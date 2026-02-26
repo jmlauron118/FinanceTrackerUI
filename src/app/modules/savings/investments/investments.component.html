@@ -1,1 +1,70 @@
-<p>investments works!</p>
+<div class="investments">
+    <h4>{{ title }}</h4>
+    <div class="inv-table-wrapper mt-5">
+        <div class="table-search">
+            <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />
+        </div>
+        <div class="table-container">
+            <table class="table scroll-table responsive-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Return Date</th>
+                        <th>Gain/Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (i of filteredData; track i.investmentId) {
+                        <tr>
+                            <td data-label="Date">
+                                <span>{{ i.investmentDate | date: 'mediumDate' }}</span>
+                                <div class="nav-container">
+                                    <div>
+                                        @if(!i.returnDate){
+                                            <a class="active" (click)="openReturnFromInvestment(i)"><i aria-hidden="true" class="fa fa-coins"></i> Return From Investment</a>
+                                        }
+                                        @else {
+                                            <a class="active" (click)="openViewReturnFromInvestment(i)"><i aria-hidden="true" class="fa-solid fa-eye"></i> View Details</a>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Type">{{ i.investmentTypeName }}</td>
+                            <td data-label="Description">{{ i.description }}</td>
+                            <td data-label="Amount">
+                                <span>₱{{ i.investmentAmount | number: '1.2-2' }}</span>
+                            </td>
+                            <td>
+                                @if(i.returnDate) {
+                                    {{ i.returnDate | date: 'mediumDate' }}
+                                }
+                                @else {
+                                    -
+                                }
+                            </td>
+                            <td data-label="Amount">
+                                <span>
+                                    @if(i.realizedAmount){
+                                        ₱{{ i.realizedAmount | number: '1.2-2' }} | <span [ngClass]="i.realizedAmount > 0 ? 't-green' : 't-red'">{{ getGainLossPercentage(i.investmentAmount, i.realizedAmount) | number: '1.2-2' }}%</span>
+                                    }
+                                    @else {
+                                        -
+                                    }
+                                </span>
+                            </td>
+                        </tr>
+                    }
+
+                    @if(filteredData.length === 0) {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No investment found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
