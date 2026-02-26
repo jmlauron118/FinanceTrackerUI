@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   getUserModules(): Observable<ResponseModel<UserModules[]>> {
-    return this.http.get<ResponseModel<UserModules[]>>('/api/usermanager/get-user-modules')
+    return this.http.get<ResponseModel<UserModules[]>>(`${environment.apiUrl}/usermanager/get-user-modules`)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 
