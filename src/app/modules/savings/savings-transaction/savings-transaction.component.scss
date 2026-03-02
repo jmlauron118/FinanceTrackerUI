@@ -27,6 +27,11 @@
 
             p {
                 font-weight: 400;
+                font-size: 1.5rem;
+            }
+
+            h5 {
+                font-size: 1.1rem;
             }
 
             .icon {
@@ -39,6 +44,7 @@
                 height: 32px;
                 border-radius: 50%;
                 background-color: var(--c-color);
+                top: 0.5rem;
                 
                 i {
                     color : $light-color;
@@ -66,10 +72,10 @@
             width: 48% !important;
 
             h5 {
-                font-size: 1.2rem;
+                font-size: 1rem !important;
             }
             p {
-                font-size: 1.5rem;
+                font-size: 1.3rem !important;
             }
         }
     }
