@@ -76,7 +76,7 @@
     .wrapper {
       flex-direction: column;
       width: 90%;
-      height: auto;
+      height: fit-content;
 
       .app-logo,
       .login-form {
