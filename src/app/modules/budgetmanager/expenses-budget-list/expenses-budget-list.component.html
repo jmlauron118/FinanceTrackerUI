@@ -32,14 +32,14 @@
                         </tr>
                     </thead>
                     <tbody>                        
-                        <tr *ngFor="let data of budgetedData; let i = index" cdkDrag [cdkDragDisabled]="!budgetedBtnAction">
+                        <tr *ngFor="let data of budgetedData; let i = index">
                             <!--If edit mode is not activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
                             <td *ngIf="!budgetedBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
-                            <td *ngIf="budgetedBtnAction" class="test">
-                                <div class="btn-control">
+                            <td *ngIf="budgetedBtnAction" cdkDrag [cdkDragDisabled]="!budgetedBtnAction">
+                                <div class="btn-control" >
                                     <i class="fa-solid fa-grip-lines"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                     (click)="removeRow(i, 1)">
@@ -99,14 +99,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of monthlyData; let i = index" cdkDrag [cdkDragDisabled]="!monthlyBtnAction">
+                        <tr *ngFor="let data of monthlyData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
                             <td *ngIf="!monthlyBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
                             <td *ngIf="monthlyBtnAction">
-                                <div class="btn-control">
+                                <div class="btn-control" cdkDrag [cdkDragDisabled]="!monthlyBtnAction">
                                     <i class="fa-solid fa-grip-lines"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                         (click)="removeRow(i, 2)">
@@ -166,13 +166,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of payrollData; let i = index" cdkDrag [cdkDragDisabled]="!payrollBtnAction">
+                        <tr *ngFor="let data of payrollData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!payrollBtnAction">{{ data.description }}</td>
                             <td *ngIf="!payrollBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
-                            <td *ngIf="payrollBtnAction">
+                            <td *ngIf="payrollBtnAction" cdkDrag [cdkDragDisabled]="!payrollBtnAction">
                                 <div class="btn-control">
                                     <i class="fa-solid fa-grip-lines"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"

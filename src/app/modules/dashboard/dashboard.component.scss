@@ -115,7 +115,7 @@
                 }
 
                 .text-amount {
-                    white-space: nowrap;    
+                    white-space: nowrap;
                 }
             }
         }
@@ -129,6 +129,16 @@
                 flex-wrap: wrap;
                 .card {
                     width: 100% !important;
+                }
+            }
+            .overall {
+                .card {
+                    h5 {
+                        font-size: 1.2rem;
+                    }
+                    p {
+                        font-size: 1.5rem;
+                    }
                 }
             }
         }

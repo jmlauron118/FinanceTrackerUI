@@ -13,6 +13,7 @@ import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-bu
 import { BudgetEntryResponseDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-response-dto';
 import { BudgetEntryRequestDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-request-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { SelectionService } from '@services/selection.service';
 
 @Component({
   selector: 'app-sync-budgeted-expenses-dialog',
@@ -34,7 +35,8 @@ export class SyncUnbudgetedExpensesDialogComponent {
     private loading: LoadingService,
     private confirm: ConfirmDialogService,
     private datePipe: DatePipe,
-    private dialogRef: MatDialogRef<SyncUnbudgetedExpensesDialogComponent>
+    private dialogRef: MatDialogRef<SyncUnbudgetedExpensesDialogComponent>,
+    public selection: SelectionService<{ id: number }>
   ) {}
 
   ngOnInit() {

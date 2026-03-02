@@ -12,6 +12,7 @@
         <table class="table responsive-table">
             <thead>
                 <tr>
+                    <th class="cb-width"></th>
                     <th>Description</th>
                     <th>Budget Category</th>
                     <th>Expense Category</th>
@@ -20,6 +21,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let entry of unbudgetedExpensesData">
+                    <td class="cb-width">
+                        <label class="control control-checkbox">
+                            <input type="checkbox"/>
+                            <div class="control_indicator"></div>
+                        </label>
+                    </td>
                     <td data-label="Description">
                         <input type="text" class="table-input" [(ngModel)]="entry.description" 
                             [ngClass]="{'input-error': !entry.description}" placeholder="Enter description" />
