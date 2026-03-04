@@ -8,7 +8,7 @@
             <tr>
                 <th class="cb-width">
                     <label class="control control-checkbox">
-                        <input type="checkbox" (change)="selection.toggleSelectAll($event)" [indeterminate]="selection.indeterminate" />
+                        <input type="checkbox" [checked]="selection.getSelectedCount() > 0 ? true: false" (change)="selection.toggleSelectAll($event)" [indeterminate]="selection.indeterminate" />
                         <div class="control_indicator"></div>
                     </label>
                 </th>
