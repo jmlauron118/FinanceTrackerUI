@@ -1,0 +1,35 @@
+@use '../../../../styles/variables.scss' as *;
+
+.close-dialog {
+    position: absolute;
+    right: 2rem;
+    cursor: pointer;
+    font-size: 18px;
+    color: #6a6a6a;
+    top: 2rem;
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.table-container {
+    .cb-width {
+        width: 40px;
+    }
+
+    .total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        .display-6 {
+            margin: 0;
+            font-weight: 500;
+            color: $primary-color;
+            font-size: 1rem;
+        }
+    }
+}

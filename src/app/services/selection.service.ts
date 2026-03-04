@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class SelectionService<T extends { id: number }> {
   private selectedIds = new Set<number>();
   private allItems: T[] = [];
+  public indeterminate = false;
 
   /**
    * Sets the items to manage selection for.
@@ -31,6 +32,7 @@ export class SelectionService<T extends { id: number }> {
   toggle(id: number, event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     checked ? this.selectedIds.add(id) : this.selectedIds.delete(id);
+    this.indeterminate = this.isIndeterminate();
   }
 
   /**
@@ -39,6 +41,19 @@ export class SelectionService<T extends { id: number }> {
    */
   isSelected(id: number): boolean {
     return this.selectedIds.has(id);
+  }
+
+   /**
+   * Selects all items.
+   */
+  toggleSelectAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    checked ? this.allItems.forEach(item => this.selectedIds.add(item.id)) : this.selectedIds.clear();
+    this.indeterminate = this.isIndeterminate();
+  }
+
+  isIndeterminate(): boolean {
+    return this.selectedIds.size > 0 && this.selectedIds.size < this.allItems.length;
   }
 
   /**
@@ -53,13 +68,6 @@ export class SelectionService<T extends { id: number }> {
    */
   getSelectedIds(): number[] {
     return Array.from(this.selectedIds);
-  }
-
-  /**
-   * Returns the selected items as an array.
-   */
-  getSelectedItems(): T[] {
-    return this.allItems.filter(item => this.selectedIds.has(item.id));
   }
 
   /**

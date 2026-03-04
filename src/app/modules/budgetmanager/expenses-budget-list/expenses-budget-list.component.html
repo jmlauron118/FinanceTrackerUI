@@ -6,9 +6,10 @@
                 <div class="spinner"></div>
             </div>
             <div class="ebl-header budgeted">
-                <button *ngIf="budgetedBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
-                    (click)="getExpensesBudgetData(1); budgetedBtnAction = false">
-                    <i class="fa-solid fa-rotate-left"></i>
+                <button class="btn btn-sm btn-reset" matTooltipPosition="above" 
+                    (click)="budgetedBtnAction ? getExpensesBudgetData(1) : viewBudgetedExpenses(budgetedData, 'Budgeted List', 1); budgetedBtnAction = false"
+                    matTooltip="{{ budgetedBtnAction ? 'Reset Changes' : 'View' }}" >
+                    <i class="fa-solid {{ budgetedBtnAction ? 'fa-rotate-left' : 'fa-eye' }}"></i>
                 </button>
                 <h6>BUDGETED</h6>
                 <div class="btn-content">
@@ -73,9 +74,10 @@
                 <div class="spinner"></div>
             </div>
             <div class="ebl-header unbudgeted-m">
-                <button *ngIf="monthlyBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
-                    (click)="getExpensesBudgetData(2); monthlyBtnAction = false">
-                    <i class="fa-solid fa-rotate-left"></i>
+                <button class="btn btn-sm btn-reset" matTooltipPosition="above"
+                    (click)="monthlyBtnAction ? getExpensesBudgetData(2) : viewBudgetedExpenses(monthlyData, 'Unbudgeted (Monthly) List', 2); monthlyBtnAction = false"
+                    matTooltip="{{ monthlyBtnAction ? 'Reset Changes' : 'View' }}" >
+                    <i class="fa-solid {{ monthlyBtnAction ? 'fa-rotate-left' : 'fa-eye' }}"></i>
                 </button>
                 <h6>UNBUDGETED (MONTHLY)</h6>
                 <div class="btn-content">
@@ -140,9 +142,10 @@
                 <div class="spinner"></div>
             </div>
             <div class="ebl-header unbudgeted-p">
-                <button *ngIf="payrollBtnAction" class="btn btn-sm btn-reset" matTooltip="Reset Changes" matTooltipPosition="above"
-                    (click)="getExpensesBudgetData(3); payrollBtnAction = false">
-                    <i class="fa-solid fa-rotate-left"></i>
+                <button class="btn btn-sm btn-reset"
+                    (click)="payrollBtnAction ? getExpensesBudgetData(3) : viewBudgetedExpenses(payrollData, 'Unbudgeted (Payroll) List', 3); payrollBtnAction = false"
+                    matTooltip="{{ payrollBtnAction ? 'Reset Changes' : 'View' }}" >
+                    <i class="fa-solid {{ payrollBtnAction ? 'fa-rotate-left' : 'fa-eye' }}"></i>
                 </button>
                 <h6>UNBUDGETED (PAYROLL)</h6>
                 <div class="btn-content">

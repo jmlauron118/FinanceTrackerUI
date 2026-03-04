@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<span class="close-dialog" (click)="closeDialog()"><i class="fa-solid fa-times"></i></span>
+<hr mat-dialog-title-divider/>
+
+<div class="table-container">
+    <table class="table table-hover scroll-table">
+        <thead>
+            <tr>
+                <th class="cb-width">
+                    <label class="control control-checkbox">
+                        <input type="checkbox" (change)="selection.toggleSelectAll($event)" [indeterminate]="selection.indeterminate" />
+                        <div class="control_indicator"></div>
+                    </label>
+                </th>
+                <th class="text-center">Description</th>
+                <th class="text-end">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (ed of expensesBudgetData; track ed.id) {
+                <tr>
+                    <td class="cb-width">
+                       <label class="control control-checkbox">
+                            <input type="checkbox" [checked]="selection.isSelected(ed.id)" (change)="selection.toggle(ed.id, $event)"/>
+                            <div class="control_indicator"></div>
+                        </label>
+                    </td>
+                    <td class="text-center">{{ ed.description }}</td>
+                    <td class="text-end">&#8369;{{ ed.amount | number: '1.2-2' }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    @if(selection.getSelectedCount() > 0) {
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0">{{ selection.getSelectedCount() }} Selected</h6>
+            <button class="btn btn-sm btn-danger" matTooltip="Delete Selected" matTooltipPosition="left" (click)="onRemoveSelected()">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    }
+    <hr mat-dialog-title-divider/>
+    <div class="total">
+        <h6>Total Amount:</h6>
+        <p class="display-6">&#8369;{{ totalAmount | number: '1.2-2' }}</p>
+    </div>
+</div>

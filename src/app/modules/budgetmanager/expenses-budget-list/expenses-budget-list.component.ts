@@ -9,6 +9,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
 import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expenses-dialog/sync-unbudgeted-expenses-dialog.component';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
+import { BulkRemoveDialogComponent } from './bulk-remove-dialog/bulk-remove-dialog.component';
 
 @Component({
   selector: 'app-expenses-budget-list',
@@ -212,5 +213,19 @@ export class ExpensesBudgetListComponent {
     else {
       this.snackbar.warning('No unbudgeted expenses found!');
     }
+  }
+
+  viewBudgetedExpenses(data: ExpensesBudgetResponseDto[], headerTitle: string, categoryId: number): void {
+    const dialogRef = this.dialog.open(BulkRemoveDialogComponent, {
+      panelClass: 'custom-dialog',
+      width: '90vw',
+      maxWidth: '600px',
+      disableClose: true,
+      data: { expensesBudgetData: data, title: headerTitle }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getExpensesBudgetData(categoryId);
+    });
   }
 }
