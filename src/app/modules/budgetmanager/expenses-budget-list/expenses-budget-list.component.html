@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(1, $event)">
+                <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(1, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="budgetedBtnAction"></th>
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(2, $event)">
+                <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(2, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="monthlyBtnAction"></th>
@@ -160,7 +160,7 @@
                 </div>
             </div>
             <div class="table-content">
-                <table class="table" cdkDropList (cdkDropListDropped)="onDrop(3, $event)">
+                <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(3, $event)">
                     <thead>
                         <tr>
                             <th class="remove-hdr" *ngIf="payrollBtnAction"></th>

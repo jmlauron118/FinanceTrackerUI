@@ -13,6 +13,13 @@
                 <i class="fa-solid fa-piggy-bank"></i>
             </div>
         </div>
+        <div class="card" style="--c-color: #52ab98;">
+            <h5>Current Savings</h5>
+            <p class="display-6">&#8369;{{ savingsSummaryData?.remainingSavings | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-wallet text-primary"></i>
+            </div>
+        </div>
         <div class="card" style="--c-color: #2b6777;">
             <h5>Expenses</h5>
             <p class="display-6">&#8369;{{ savingsSummaryData?.totalExpenses | number: '1.2-2' }}</p>
@@ -32,13 +39,6 @@
             <p class="display-6">&#8369;{{ savingsSummaryData?.totalGains| number: '1.2-2' }}</p>
             <div class="icon">
                 <i class="fa-solid fa-money-bill-trend-up text-primary"></i>
-            </div>
-        </div>
-        <div class="card" style="--c-color: #52ab98;">
-            <h5>Current Savings</h5>
-            <p class="display-6">&#8369;{{ savingsSummaryData?.remainingSavings | number: '1.2-2' }}</p>
-            <div class="icon">
-                <i class="fa-solid fa-wallet text-primary"></i>
             </div>
         </div>
     </div>

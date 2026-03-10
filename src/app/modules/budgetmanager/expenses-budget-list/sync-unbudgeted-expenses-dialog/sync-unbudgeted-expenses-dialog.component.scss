@@ -6,7 +6,6 @@
 
 .sync-table-container {
     overflow: none;
-    margin: 0 1rem;
 
     .date-used {
         margin-bottom: 1rem;
@@ -47,19 +46,22 @@
         table-layout: fixed;
     }
 
+    th, td {
+        font-size: clamp(12px, 1.2vw, 14px);
+    }
+
     .table-input {
         outline: none;
         border: none;
         width: 100%;
         border-bottom: 1px solid $color-default;
-        padding: 4px; /* Add padding for better usability */
+        padding: 4px;
         background-color: transparent;
         font-size: 14px;
     }
 
     .amount {
         text-align: right;
-        font-size: 14px;
     }
 }
 
