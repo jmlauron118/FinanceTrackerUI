@@ -35,18 +35,20 @@
             <div class="ytd-income card mt-4">
                 <h5>Income</h5>
                 <div id="ytdMonthlyChart">
-                    <apx-chart  *ngIf="ytdIncomeChartOptions"
-                        [series]="ytdIncomeChartOptions.series!"
-                        [chart]="ytdIncomeChartOptions.chart!"
-                        [colors]="ytdIncomeChartOptions.colors!"
-                        [xaxis]="ytdIncomeChartOptions.xaxis!"
-                        [yaxis]="ytdIncomeChartOptions.yaxis!"
-                        [dataLabels]="ytdIncomeChartOptions.dataLabels!"
-                        [grid]="ytdIncomeChartOptions.grid!"
-                        [stroke]="ytdIncomeChartOptions.stroke!"
-                        [title]="ytdIncomeChartOptions.title!"
-                        [tooltip]="ytdIncomeChartOptions.tooltip!">
-                    </apx-chart>
+                    @if(ytdIncomeChartOptions) {
+                        <apx-chart
+                            [series]="ytdIncomeChartOptions.series!"
+                            [chart]="ytdIncomeChartOptions.chart!"
+                            [colors]="ytdIncomeChartOptions.colors!"
+                            [xaxis]="ytdIncomeChartOptions.xaxis!"
+                            [yaxis]="ytdIncomeChartOptions.yaxis!"
+                            [dataLabels]="ytdIncomeChartOptions.dataLabels!"
+                            [grid]="ytdIncomeChartOptions.grid!"
+                            [stroke]="ytdIncomeChartOptions.stroke!"
+                            [title]="ytdIncomeChartOptions.title!"
+                            [tooltip]="ytdIncomeChartOptions.tooltip!">
+                        </apx-chart>
+                    }
                 </div>
             </div>
             <div class="charts mt-4">
