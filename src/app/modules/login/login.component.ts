@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@services/login/auth.service';
@@ -17,6 +17,7 @@ import { LoadingService } from '@services/loading.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  @ViewChild('usernameInput') usernameInput!: ElementRef;
   loginForm!: FormGroup;
   errorMessage = 'test error';
   hidePassword = true;
@@ -34,6 +35,12 @@ export class LoginComponent {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]]
     });
+  }
+
+  ngAfterViewInit() {
+    if(isPlatformBrowser(this.platformId)) {
+      this.usernameInput.nativeElement.focus();
+    }
   }
 
   ngOnInit() {
