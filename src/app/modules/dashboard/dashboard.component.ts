@@ -18,11 +18,15 @@ import {
   ApexGrid,
   ApexTooltip,
   ApexPlotOptions,
-  ApexLegend
+  ApexLegend,
+  ApexMarkers
 } from "ng-apexcharts";
 import { YtdIncomeResponseDto } from '@interfaces/dashboard/ytd-income-response-dto';
 import { MonthlyBudgetDto } from '@interfaces/dashboard/monthly-budget-dto';
 import { ExpensesByCategoryDto } from '@interfaces/dashboard/expenses-by-category-dto';
+import { YtdSavingsResponseDto } from '@interfaces/dashboard/ytd-savings-response.dto';
+import { SavingsService } from '@services/savings/savings.service';
+import { SavingsSummaryResponseDto } from '@interfaces/savings/savings-transaction/savings-summary-response-dto';
 
 export type YTDIncomeChartOptions = {
   series: ApexAxisChartSeries;
@@ -48,6 +52,30 @@ export type MonthlyBudgetChartOptions = {
 };
 
 export type ExpensesByCategoryChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  labels: any;
+  legend: ApexLegend,
+  tooltip: ApexTooltip;
+  colors: string[];
+};
+
+export type YTDSavingsChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  // dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  grid: ApexGrid;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  tooltip: ApexTooltip;
+  colors: string[];
+};
+
+export type SavingsChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
   plotOptions: ApexPlotOptions;
@@ -84,21 +112,26 @@ export class DashboardComponent {
   @ViewChild("monthlyBudgetChart") monthlyBudgetChart!: ChartComponent;
   @ViewChild("expensesByCategoryChart") expensesByCategoryChart!: ChartComponent;
   @ViewChild("activityChart") activityChart!: ChartComponent;
-
+  @ViewChild("ytdSavingsChart") ytdSavingsChart!: ChartComponent;
+  @ViewChild("savingsChart") savingsChart!: ChartComponent;
   public ytdIncomeChartOptions!: Partial<YTDIncomeChartOptions>;
   public monthlyBudgetChartOptions!: Partial<MonthlyBudgetChartOptions>;
   public expensesByCategoryChartOptions!: Partial<ExpensesByCategoryChartOptions>;
   public activityChartOptions!: Partial<ActivityChartOptions>;
+  public ytdSavingsChartOptions!: Partial<YTDSavingsChartOptions>;
+  public savingsChartOptions!: Partial<SavingsChartOptions>;
   public isBrowser: boolean = false;
 
   title = 'Dashboard';
   summaryData: SummaryResponseDto | null = null;
   recentTransactionData: RecentTransactionsDto[] = [];
   monthlyBudgetData: MonthlyBudgetDto | null = null;
+  savingSummaryData: SavingsSummaryResponseDto | null = null;
 
   constructor(
     private dashboardService: DashboardService,
     private snackbar: SnackbarService,
+    private savingsService: SavingsService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { 
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -111,6 +144,8 @@ export class DashboardComponent {
       this.getYTDIncome();
       this.getMonthlyBudget();
       this.getExpensesByCategory();
+      this.getYTDSavings();
+      this.getSavingsSummary();
     }
     this.getActivity();
   }
@@ -227,6 +262,84 @@ export class DashboardComponent {
         },
         labels: expensesByCategoryData.map((item: ExpensesByCategoryDto) => item.expenseCategoryName),
         colors: ['#2b6777', '#52ab98', '#c8d8e4', '#1a3e47']
+      };
+    });
+  }
+
+  getYTDSavings(): void {
+    this.dashboardService.getYTDSavings().subscribe(async response => {
+      const savingsData = response.data;
+
+      this.ytdSavingsChartOptions = {
+        series: [{
+          name: 'YTD Savings', 
+          data: savingsData.map((item: YtdSavingsResponseDto) => item.totalSavings)
+        }],
+        chart: { type: 'line', height: 350, zoom: { enabled: false }},
+        markers: {
+          size: 6,
+          hover: {
+            size: 10
+          }
+        },
+        colors: ['#2b6777'],
+        stroke: { curve: 'straight' },
+        xaxis: { categories: savingsData.map((item: YtdSavingsResponseDto) => item.month)},
+        yaxis: {
+          labels: { 
+            formatter: (val: number) => `₱${val.toLocaleString()}`
+          }
+        }
+      };
+    });
+  }
+
+  getSavingsSummary(): void {
+    this.savingsService.getSavingsSummary().subscribe(response => {
+      const savingsData = response.data;
+
+      this.savingSummaryData = savingsData;
+
+      this.savingsChartOptions = {
+        series: [savingsData.totalSavings, savingsData.totalExpenses, savingsData.totalInvestment, savingsData.totalGains],
+        chart: { type: 'donut' },
+        legend: {
+          position: "bottom"
+        },
+        tooltip: {
+          theme: "light",
+          y: { formatter: (val: number) => `₱${val.toLocaleString()}` },
+          fillSeriesColor: false
+        },
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                name: {
+                  show: true,
+                  fontSize: '14px',
+                },
+                value: {
+                  show: true,
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  formatter: (val) => {
+                    const num = parseFloat(val);
+                    return `₱${num.toLocaleString()}`;
+                  }
+                },
+                total: {
+                  show: true,
+                  label: 'Current SavingsBalance',
+                  formatter: () => `₱${savingsData.remainingSavings.toLocaleString()}`
+                }
+              }
+            }
+          }
+        },
+        labels: ['Total Savings', 'Expenses', 'Investments', 'Earnings'],
+        colors: ['#344038', '#2b6777', '#52ab98', '#c8d8e4']
       };
     });
   }

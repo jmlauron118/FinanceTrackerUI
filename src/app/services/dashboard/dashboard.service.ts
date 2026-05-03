@@ -10,6 +10,7 @@ import { ResponseModel } from '@interfaces/response-model';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { Observable, catchError } from 'rxjs';
 import { environment } from '@environments/environment';
+import { YtdSavingsResponseDto } from '@interfaces/dashboard/ytd-savings-response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class DashboardService {
   
   getYTDIncome(): Observable<ResponseModel<YtdIncomeResponseDto[]>> {
     return this.http.get<ResponseModel<YtdIncomeResponseDto[]>>(`${this.apiUrl}/get-ytd-income`)
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getYTDSavings(): Observable<ResponseModel<YtdSavingsResponseDto[]>> {
+    return this.http.get<ResponseModel<YtdSavingsResponseDto[]>>(`${this.apiUrl}/get-ytd-savings`)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 

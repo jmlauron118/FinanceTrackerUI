@@ -56,47 +56,92 @@
                     <h5>Monthly Budget</h5>
                     <p class="monthly-budget-dates">{{ monthlyBudgetData?.startDate }} - {{ monthlyBudgetData?.endDate }}</p>
                     <div id="monthlyBudgetChart">
-                        <apx-chart *ngIf="monthlyBudgetChartOptions"
-                            [series]="monthlyBudgetChartOptions.series!"
-                            [chart]="monthlyBudgetChartOptions.chart!"
-                            [plotOptions]="monthlyBudgetChartOptions.plotOptions!"
-                            [labels]="monthlyBudgetChartOptions.labels!"
-                            [colors]="monthlyBudgetChartOptions.colors!"
-                            [legend]="monthlyBudgetChartOptions.legend!"
-                            [tooltip]="monthlyBudgetChartOptions.tooltip!">
-                        </apx-chart>
+                        @if(monthlyBudgetChartOptions) {
+                            <apx-chart
+                                [series]="monthlyBudgetChartOptions.series!"
+                                [chart]="monthlyBudgetChartOptions.chart!"
+                                [plotOptions]="monthlyBudgetChartOptions.plotOptions!"
+                                [labels]="monthlyBudgetChartOptions.labels!"
+                                [colors]="monthlyBudgetChartOptions.colors!"
+                                [legend]="monthlyBudgetChartOptions.legend!"
+                                [tooltip]="monthlyBudgetChartOptions.tooltip!">
+                            </apx-chart>
+                        }
                     </div>
                 </div>
                 <div class="card expenses">
-                    <h5>Expenses</h5>
+                    <h5>Monthly Expenses</h5>
                     <p class="monthly-budget-dates">{{ monthlyBudgetData?.startDate }} - {{ monthlyBudgetData?.endDate }}</p>
                     <div id="expensesByCategoryChart">
-                        <apx-chart *ngIf="expensesByCategoryChartOptions"
-                            [series]="expensesByCategoryChartOptions.series!"
-                            [chart]="expensesByCategoryChartOptions.chart!"
-                            [labels]="expensesByCategoryChartOptions.labels!"
-                            [colors]="expensesByCategoryChartOptions.colors!"
-                            [legend]="expensesByCategoryChartOptions.legend!"
-                            [tooltip]="expensesByCategoryChartOptions.tooltip!">
-                        </apx-chart>
+                        @if(expensesByCategoryChartOptions) {
+                            <apx-chart
+                                [series]="expensesByCategoryChartOptions.series!"
+                                [chart]="expensesByCategoryChartOptions.chart!"
+                                [labels]="expensesByCategoryChartOptions.labels!"
+                                [colors]="expensesByCategoryChartOptions.colors!"
+                                [legend]="expensesByCategoryChartOptions.legend!"
+                                [tooltip]="expensesByCategoryChartOptions.tooltip!">
+                            </apx-chart>    
+                        }
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="charts mt-4">
+                <div class="card mt-4">
+                    <h5>Year-to-Date Savings</h5>
+                    <div id="ytdSavingsChart">
+                        @if (ytdSavingsChartOptions) {
+                            <apx-chart
+                                [series]="ytdSavingsChartOptions.series!"
+                                [chart]="ytdSavingsChartOptions.chart!"
+                                [colors]="ytdSavingsChartOptions.colors!"
+                                [xaxis]="ytdSavingsChartOptions.xaxis!"
+                                [yaxis]="ytdSavingsChartOptions.yaxis!"
+                                [markers]="ytdSavingsChartOptions.markers!"
+                                [grid]="ytdSavingsChartOptions.grid!"
+                                [stroke]="ytdSavingsChartOptions.stroke!"
+                                [title]="ytdSavingsChartOptions.title!"
+                                [tooltip]="ytdSavingsChartOptions.tooltip!"
+                                >
+                            </apx-chart>
+                        }
+                    </div>
+                </div>
+                <div class="card savings-summary mt-4">
+                    <h5>Savings Transactions</h5>
+                    <div id="savingsChart">
+                        @if(savingsChartOptions) {
+                            <apx-chart
+                                [series]="savingsChartOptions.series!"
+                                [chart]="savingsChartOptions.chart!"
+                                [plotOptions]="savingsChartOptions.plotOptions!"
+                                [labels]="savingsChartOptions.labels!"
+                                [colors]="savingsChartOptions.colors!"
+                                [legend]="savingsChartOptions.legend!"
+                                [tooltip]="savingsChartOptions.tooltip!">
+                            </apx-chart>
+                        }
                     </div>
                 </div>
             </div>
             <div class="activity card mt-4">
                 <h5>Activity</h5>
                 <div id="activityChart">
-                <apx-chart *ngIf="activityChartOptions"
-                    [series]="activityChartOptions.series!"
-                    [chart]="activityChartOptions.chart!"
-                    [dataLabels]="activityChartOptions.dataLabels!"
-                    [plotOptions]="activityChartOptions.plotOptions!"
-                    [legend]="activityChartOptions.legend!"
-                    [fill]="activityChartOptions.fill!"
-                    [colors]="activityChartOptions.colors!"
-                    [stroke]="activityChartOptions.stroke!"
-                    [tooltip]="activityChartOptions.tooltip!"
-                    [xaxis]="activityChartOptions.xaxis!"
-                ></apx-chart>
+                    @if(activityChartOptions) {
+                        <apx-chart
+                            [series]="activityChartOptions.series!"
+                            [chart]="activityChartOptions.chart!"
+                            [dataLabels]="activityChartOptions.dataLabels!"
+                            [plotOptions]="activityChartOptions.plotOptions!"
+                            [legend]="activityChartOptions.legend!"
+                            [fill]="activityChartOptions.fill!"
+                            [colors]="activityChartOptions.colors!"
+                            [stroke]="activityChartOptions.stroke!"
+                            [tooltip]="activityChartOptions.tooltip!"
+                            [xaxis]="activityChartOptions.xaxis!">
+                        </apx-chart>
+                    }
                 </div>
             </div>
         </div>

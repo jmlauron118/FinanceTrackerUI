@@ -8,6 +8,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { SelectionService } from '@services/selection.service';
 import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-budget/expenses-budget-response-dto';
+import { LoadingService } from '@services/loading.service';
 
 @Component({
   selector: 'app-bulk-remove-dialog',
@@ -27,6 +28,7 @@ export class BulkRemoveDialogComponent {
     private budgetManagerService: BudgetmanagerService,
     private snackbar: SnackbarService,
     private confirm: ConfirmDialogService,
+    private loading: LoadingService,
     public selection: SelectionService<{ id: number }>,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
@@ -64,6 +66,7 @@ export class BulkRemoveDialogComponent {
   }
 
   saveExpensesBudget(dataRequest: ExpensesBudgetResponseDto[], categoryId: number): void {
+    this.loading.show();
     this.budgetManagerService.addExpensesBudgetBulk(dataRequest, categoryId).subscribe({
       next: () => {
         this.snackbar.success("Successfully removed!", 5000);
@@ -71,7 +74,8 @@ export class BulkRemoveDialogComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-      }
+      },
+      complete: () => {this.loading.hide(); }
     });
   }
 
@@ -93,5 +97,12 @@ export class BulkRemoveDialogComponent {
 
   calculateTotalAmount(): void {
     this.totalAmount = this.expensesBudgetData.reduce((total, ed) => total + ed.amount, 0);
+  }
+
+  getTotalSelectedAmount(): number {
+    const selectedIds = this.selection.getSelectedIds();
+    return this.expensesBudgetData
+      .filter(item => selectedIds.includes(item.id))
+      .reduce((total, item) => total + item.amount, 0);
   }
 }
