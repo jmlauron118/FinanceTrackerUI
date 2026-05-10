@@ -11,7 +11,12 @@
                 {{ username }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" (click)="hideDropdown(dropdownMenuButton)">
-                <li>
+                 <li>
+                    <a class="dropdown-item" (click)="toggleTheme()">
+                        <i class="fa" [ngClass]="{'fa-sun': !isDarkMode, 'fa-moon': isDarkMode}"></i> {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
+                    </a>
+                </li> 
+                <li>    
                     <a class="dropdown-item" (click)="onChangePassword()">
                         <i class="fa fa-fw me-2 fa-lock"></i>Change Password
                     </a>

@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule, FormGroup, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@services/login/auth.service';
@@ -29,6 +29,7 @@ export class LoginComponent {
     private router: Router,
     private snackbar: SnackbarService,
     private loading: LoadingService,
+    private cdr: ChangeDetectorRef, // Added ChangeDetectorRef
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loginForm = this.fb.group({
@@ -38,19 +39,25 @@ export class LoginComponent {
   }
 
   ngAfterViewInit() {
-    if(isPlatformBrowser(this.platformId)) {
-      this.usernameInput.nativeElement.focus();
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        if (this.usernameInput) {
+          this.usernameInput.nativeElement.focus();
+        }
+      });
     }
   }
 
   ngOnInit() {
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('ft_access_token');
-      
+
       if (token) {
         this.router.navigateByUrl('/budgetmanager');
       } else {
-        this.isVisible = true;
+        setTimeout(() => {
+          this.isVisible = true;
+        });
       }
     }
   }

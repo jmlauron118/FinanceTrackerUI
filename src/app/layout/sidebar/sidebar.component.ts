@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { UserModules } from '../../interfaces/usermanager/user-modules';
 import { NgForOf, CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -9,7 +9,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [NgForOf, RouterLink, RouterLinkActive, CommonModule, MatTooltipModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrls: ['./sidebar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class SidebarComponent {
