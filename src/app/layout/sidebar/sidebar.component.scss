@@ -24,7 +24,7 @@ $sidebar-hover-color: #edf0f2;
         max-width: $sidebar-width-open;
         min-width: 0;
         width: 0;
-        z-index: 4;
+        z-index: 5;
         left: 0;
         top: $header-height;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px 0px;
@@ -203,7 +203,7 @@ $sidebar-hover-color: #edf0f2;
 
         .sidebar-overlay {
             opacity: 1;
-            z-index: 3;
+            z-index: 4;
         }
     }
 

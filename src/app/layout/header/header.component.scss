@@ -12,6 +12,13 @@ nav.navbar {
     height: 56px;
     padding: 0 1rem;
 
+    .btn-theme {
+        color: inherit;
+        cursor: pointer;
+        text-align: end;
+        width: 100%;
+    }
+
     .sidebar-toggle {
         font-size: 1.25rem;
         color: inherit;
