@@ -40,8 +40,8 @@
 
                             <!--If edit mode is activated-->
                             <td *ngIf="budgetedBtnAction" cdkDrag [cdkDragDisabled]="!budgetedBtnAction">
-                                <div class="btn-control" >
-                                    <i class="fa-solid fa-grip-lines"></i>
+                                <div class="btn-control">
+                                    <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                     (click)="removeRow(i, 1)">
                                     <i class="fa-solid fa-trash"></i>
@@ -53,7 +53,7 @@
                             </td>
                             <td *ngIf="budgetedBtnAction">
                                 <span class="peso">₱</span>
-                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                                <input type="number" inputmode="decimal" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>
 
@@ -107,9 +107,9 @@
                             <td *ngIf="!monthlyBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
 
                             <!--If edit mode is activated-->
-                            <td *ngIf="monthlyBtnAction">
-                                <div class="btn-control" cdkDrag [cdkDragDisabled]="!monthlyBtnAction">
-                                    <i class="fa-solid fa-grip-lines"></i>
+                            <td *ngIf="monthlyBtnAction" cdkDrag [cdkDragDisabled]="!monthlyBtnAction">
+                                <div class="btn-control">
+                                    <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                         (click)="removeRow(i, 2)">
                                         <i class="fa-solid fa-trash"></i>
@@ -121,7 +121,7 @@
                             </td>
                             <td *ngIf="monthlyBtnAction">
                                 <span class="peso">₱</span>
-                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                                <input type="number" inputmode="decimal" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>
 
@@ -177,7 +177,7 @@
                             <!--If edit mode is activated-->
                             <td *ngIf="payrollBtnAction" cdkDrag [cdkDragDisabled]="!payrollBtnAction">
                                 <div class="btn-control">
-                                    <i class="fa-solid fa-grip-lines"></i>
+                                    <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
                                         (click)="removeRow(i, 3)">
                                         <i class="fa-solid fa-trash"></i>
@@ -189,7 +189,7 @@
                             </td>
                             <td *ngIf="payrollBtnAction">
                                 <span class="peso">₱</span>
-                                <input type="number" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
+                                <input type="number" inputmode="decimal" class="table-input" [(ngModel)]="data.amount" style="text-align: right;"/>
                             </td>
                         </tr>
 

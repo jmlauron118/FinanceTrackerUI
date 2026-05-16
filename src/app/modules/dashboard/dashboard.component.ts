@@ -361,7 +361,7 @@ export class DashboardComponent {
               },
               total: {
                 show: true,
-                label: 'Current SavingsBalance',
+                label: 'Current Savings Balance',
                 formatter: () => `₱${this.savingSummaryData?.remainingSavings?.toLocaleString() ?? 0}`
               }
             }
