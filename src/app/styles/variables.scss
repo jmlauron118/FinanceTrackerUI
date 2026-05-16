@@ -51,9 +51,9 @@ body.dark-theme {
     color: $light-color;
   }
 
-  table.table, th, td, .jumbotron, .sub-card, .mat-mdc-select-panel{
+  table.table, th, td, .jumbotron, .sub-card, .mat-mdc-select-panel, .btn-control .drag-handle {
     background-color: $theme-dark-card-color !important;
-    color: $light-color;
+    color: $light-color !important;
   }
 
   input {
