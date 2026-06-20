@@ -10,6 +10,7 @@ import { ExpensesBudgetResponseDto } from '@interfaces/budgetmanager/expenses-bu
 import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expenses-dialog/sync-unbudgeted-expenses-dialog.component';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { BulkRemoveDialogComponent } from './bulk-remove-dialog/bulk-remove-dialog.component';
+import { SavedExpensesComponent } from './saved-expenses/saved-expenses.component';
 
 @Component({
   selector: 'app-expenses-budget-list',
@@ -39,7 +40,7 @@ export class ExpensesBudgetListComponent {
 
   ngOnInit(): void {
     this.getExpensesBudgetData(1); // Budgeted
-    this.getExpensesBudgetData(2); // Monthly
+    // this.getExpensesBudgetData(2); // Monthly
     this.getExpensesBudgetData(3); // Payroll
   }
 
@@ -227,5 +228,15 @@ export class ExpensesBudgetListComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.getExpensesBudgetData(categoryId);
     });
+  }
+
+  onViewSavedExpenses(): void {
+    const dialogRef = this.dialog.open(SavedExpensesComponent, {
+      panelClass: 'custom-dialog',
+      width: '90vw',
+      maxWidth: '600px'
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }

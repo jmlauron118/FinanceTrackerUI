@@ -2,6 +2,28 @@
 
 .expenses-budget-list {
     margin-bottom: 60px;
+
+    .main-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        position: sticky;
+        top: 56px;
+        z-index: 3;
+        padding: .5rem 1rem;
+        background-color: $main-content-bg-color;
+
+        h4 {
+            margin: 0;
+        }
+
+        .d-exp-actions {
+            display: flex;
+            gap: .5rem;
+        }
+    }
+    
     .body-content {
         margin: 5rem 1rem 0 1rem;
         display: flex;
@@ -74,7 +96,7 @@
             }
 
             .table-content {
-                width: clamp(300px, 80vw, 500px);
+                width: clamp(300px, 80vw, 550px);
                 margin-top: 1.5rem;
                 display: flex;
                 flex-direction: column;

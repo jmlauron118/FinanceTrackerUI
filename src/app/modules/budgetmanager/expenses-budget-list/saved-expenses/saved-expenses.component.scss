@@ -1,0 +1,121 @@
+@use '../../../../styles/variables.scss' as *;
+
+.saved-exp {
+    padding-top: 0 !important;
+
+    .se-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $light-color;
+        height: 40px;
+
+        .btn-reset {
+            color: $primary-color;
+
+            &:hover {
+                color: $dark-color;
+            }
+        }
+
+        .btn-content {
+            button {
+                color: $primary-color;
+            }
+
+            button:hover {
+                color: $dark-color;
+            }
+        }
+
+        h6 {
+            margin: 0 !important;
+        }
+    }
+
+    .card-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        height: -webkit-fill-available;
+        left: 0px;
+        backdrop-filter: blur(2px);
+        z-index: 3;
+    }
+
+    .table-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        th,td {
+            background-color: transparent !important;
+        }
+
+        .table {
+            tbody {
+                max-height: clamp(400px, 80vw, 550px);
+                overflow-y: hidden;
+                scrollbar-gutter: stable;
+                position: relative;
+                display: block;
+            }
+
+            tbody:hover {
+                overflow-y: auto;
+            }
+            
+            thead, tr {
+                display: table;
+                width: 100%;
+            }
+
+            .desc-input {
+                width: 55%;
+            }
+        }
+        
+        .remove-hdr {
+            width: 30px;
+        }
+
+        .btn-remove {
+            color: $color-danger;
+
+            &:hover {
+                color: $hover-danger;
+            }
+        }
+
+        .table-input {
+            outline: none;
+            border: none;
+            width: 100%;
+            border-bottom: 1px solid $color-default;
+        }
+
+        .totals {
+            display: flex;
+            justify-content: flex-end;
+            font-weight: 500;
+            gap: .5rem;
+            border-top: 1px solid $color-default;
+            padding-top: 0.5rem;
+        }
+
+        .peso {
+            position: absolute;
+        }
+
+        .btn-control {
+            display: flex;
+            align-items: center;
+
+            i.fa-grip-lines {
+                color: $color-default;
+            }
+        }
+    }
+}
