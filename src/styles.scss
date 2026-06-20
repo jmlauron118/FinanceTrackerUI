@@ -68,6 +68,12 @@ body {
   border-color: va.$color-danger !important;
 }
 
+.btn-default {
+  color: va.$dark-color !important;
+  background-color: va.$tertiary-color!important;
+  border-color: va.$tertiary-color !important;
+}
+
 .list-group-item.active {
   color: va.$light-color !important;
   background-color: va.$primary-color !important;
