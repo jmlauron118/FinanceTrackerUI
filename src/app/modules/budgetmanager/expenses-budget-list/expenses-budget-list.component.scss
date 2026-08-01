@@ -96,7 +96,8 @@
             }
 
             .table-content {
-                width: clamp(300px, 80vw, 550px);
+                // width: clamp(300px, 80vw, 550px);
+                width: clamp(300px, 80vw, 500px);
                 margin-top: 1.5rem;
                 display: flex;
                 flex-direction: column;

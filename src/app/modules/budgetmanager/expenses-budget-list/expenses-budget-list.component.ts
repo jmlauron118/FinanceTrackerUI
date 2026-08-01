@@ -40,7 +40,7 @@ export class ExpensesBudgetListComponent {
 
   ngOnInit(): void {
     this.getExpensesBudgetData(1); // Budgeted
-    // this.getExpensesBudgetData(2); // Monthly
+    this.getExpensesBudgetData(2); // Monthly
     this.getExpensesBudgetData(3); // Payroll
   }
 
