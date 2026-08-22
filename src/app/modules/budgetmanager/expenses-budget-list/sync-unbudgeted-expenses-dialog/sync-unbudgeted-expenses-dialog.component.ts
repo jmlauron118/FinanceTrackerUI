@@ -27,6 +27,7 @@ export class SyncUnbudgetedExpensesDialogComponent {
   expenseCategoryData: ExpenseCategoryResponseDto[] = [];
   unbudgetedExpensesData: BudgetEntryResponseDto[] = [];
   dateUsed: Date | null = null;
+  totalAmount: number = 0;
 
   constructor(
     private budgetManagerService: BudgetmanagerService,
@@ -73,7 +74,10 @@ export class SyncUnbudgetedExpensesDialogComponent {
         this.snackbar.danger(err, 5000);
         this.loading.hide();
       },
-      complete: () => this.loading.hide()
+      complete: () => {
+        this.loading.hide();
+        this.totalAmount = this.unbudgetedExpensesData.reduce((sum, entry) => sum + entry.amount, 0);
+      }
     });
   }
 
