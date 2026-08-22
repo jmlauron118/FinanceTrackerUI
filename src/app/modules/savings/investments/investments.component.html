@@ -36,6 +36,7 @@
                         <th>Type</th>
                         <th>Description</th>
                         <th>Amount</th>
+                        <th>Returned Amount</th>
                         <th>Return Date</th>
                         <th>Gain/Loss</th>
                     </tr>
@@ -60,6 +61,16 @@
                             <td data-label="Description">{{ i.description }}</td>
                             <td data-label="Amount">
                                 <span>₱{{ i.investmentAmount | number: '1.2-2' }}</span>
+                            </td>
+                            <td data-label="Returned Amount">
+                                <span>
+                                    @if(i.returnedAmount) {
+                                        ₱{{ i.returnedAmount | number: '1.2-2' }}
+                                    }
+                                    @else {
+                                        -
+                                    }
+                                </span>
                             </td>
                             <td>
                                 @if(i.returnDate) {

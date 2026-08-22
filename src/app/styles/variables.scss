@@ -185,3 +185,7 @@ body.dark-theme {
     border: solid 1px $text-muted-color !important;
   }
 }
+
+.rtl-text {
+  direction: rtl; /* right-to-left, e.g. Arabic, Hebrew, Urdu */
+}

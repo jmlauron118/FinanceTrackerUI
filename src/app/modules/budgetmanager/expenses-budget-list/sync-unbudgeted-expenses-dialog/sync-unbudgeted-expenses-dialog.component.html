@@ -2,12 +2,15 @@
 <hr mat-dialog-title-divider/>
 
 <div class="sync-table-container">
-    <mat-form-field appearance="outline" class="date-used">
-        <mat-label>Date Used</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="dateUsed"/>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <div class="date-used-container">
+        <mat-form-field appearance="outline" class="date-used">
+            <mat-label>Date Used</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="dateUsed"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <span class="total-amount">Total Amount <br>₱{{ totalAmount | number: '1.2-2' }}</span>
+    </div>
     <div class="sync-table-container">
         <table class="table responsive-table">
             <thead>

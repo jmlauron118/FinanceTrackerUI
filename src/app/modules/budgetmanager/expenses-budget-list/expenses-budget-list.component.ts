@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
@@ -20,6 +20,8 @@ import { SavedExpensesComponent } from './saved-expenses/saved-expenses.componen
   encapsulation: ViewEncapsulation.None,
 })
 export class ExpensesBudgetListComponent {
+  @ViewChildren('expenseTableBody') tableBodies!: QueryList<ElementRef<HTMLElement>>;
+
   title = 'Expenses Budget List';
   budgetedBtnAction = false;
   monthlyBtnAction = false;
@@ -82,6 +84,16 @@ export class ExpensesBudgetListComponent {
       };
       
     actions[categoryId]?.();
+
+    setTimeout(() => {
+      const tableBody = this.tableBodies.get(categoryId - 1)?.nativeElement;
+      if (tableBody) {
+        tableBody.scrollTo({
+          top: tableBody.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    });
   }
 
   removeRow(index: number, categoryId: number): void {

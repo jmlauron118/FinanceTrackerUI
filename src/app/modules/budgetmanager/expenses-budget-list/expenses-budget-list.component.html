@@ -39,7 +39,7 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>                        
+                    <tbody #expenseTableBody>                        
                         <tr *ngFor="let data of budgetedData; let i = index">
                             <!--If edit mode is not activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
@@ -107,7 +107,7 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody #expenseTableBody>
                         <tr *ngFor="let data of monthlyData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
@@ -175,7 +175,7 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody #expenseTableBody>
                         <tr *ngFor="let data of payrollData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!payrollBtnAction">{{ data.description }}</td>

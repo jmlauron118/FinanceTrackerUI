@@ -63,6 +63,18 @@
     .amount {
         text-align: right;
     }
+
+    .date-used-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .total-amount{
+            font-weight: 500;
+            font-size: 14px;
+            text-align: right;
+        }
+    }
 }
 
 .input-error {

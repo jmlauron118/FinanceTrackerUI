@@ -4,6 +4,7 @@ export interface InvestmentResponseDto {
     investmentTypeName: string;
     description: string;
     investmentAmount: number;
+    returnedAmount: number;
     returnTransactionId: number | null;
     realizedAmount: number;
     returnDate: string;
