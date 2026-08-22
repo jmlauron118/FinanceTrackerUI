@@ -7,7 +7,7 @@ import { InvestmentResponseDto } from '@interfaces/savings/investment/investment
 import { SavingsService } from '@services/savings/savings.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ReturnFromInvestmentDialogComponent } from './return-from-investment-dialog/return-from-investment-dialog.component';
-import { ReturnFromInvestmentDto } from '@interfaces/savings/investment/return-from-investment-dto';
+import { InvestmentSummaryResponseDto } from '@interfaces/savings/investment/investment-summary-response-dto';
 
 @Component({
   selector: 'app-investments',
@@ -19,6 +19,7 @@ import { ReturnFromInvestmentDto } from '@interfaces/savings/investment/return-f
 export class InvestmentsComponent {
   title = 'Investments';
   investmentData: InvestmentResponseDto[] = [];
+  investmentSummary: InvestmentSummaryResponseDto | null = null;
   filteredData = [...this.investmentData];
   searchBar = '';
 
@@ -29,7 +30,19 @@ export class InvestmentsComponent {
   ){}
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.getInvestmentSummary();
     this.getAllInvestments();
+  }
+
+  getInvestmentSummary(): void {
+    this.savingsService.getInvestmentSummary().subscribe({
+      next: response => (this.investmentSummary = response.data),
+      error: err => (this.snackbar.danger(err, 4000))
+    });
   }
 
   getAllInvestments(): void {
