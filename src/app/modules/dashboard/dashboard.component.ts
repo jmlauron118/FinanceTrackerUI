@@ -207,7 +207,7 @@ export class DashboardComponent {
     const isDarkMode = theme === 'dark';
     
     this.monthlyBudgetChartOptions = {
-        series: [this.monthlyBudgetData?.totalIncome ?? 0, this.monthlyBudgetData?.totalSavings ?? 0, this.monthlyBudgetData?.totalExpenses ?? 0],
+        series: [this.monthlyBudgetData?.currentBalance ?? 0, this.monthlyBudgetData?.totalSavings ?? 0, this.monthlyBudgetData?.totalExpenses ?? 0],
         chart: { 
           foreColor: isDarkMode ? '#fff' : '#000', 
           type: 'donut' 
@@ -244,14 +244,14 @@ export class DashboardComponent {
                 },
                 total: {
                   show: true,
-                  label: 'Current Balance',
-                  formatter: () => `₱${this.monthlyBudgetData?.currentBalance.toLocaleString()}`
+                  label: 'Total Income',
+                  formatter: () => `₱${this.monthlyBudgetData?.totalIncome?.toLocaleString()}`
                 }
               }
             }
           }
         },
-        labels: ['Income', 'Savings', 'Expenses'],
+        labels: ['Current Balance', 'Savings', 'Expenses'],
         colors: ['#2b6777', '#52ab98', '#c8d8e4']
       };
   }
@@ -324,7 +324,7 @@ export class DashboardComponent {
     const isDarkMode = theme === 'dark';
 
     this.savingsChartOptions = {
-      series: [this.savingSummaryData?.totalSavings ?? 0, this.savingSummaryData?.totalExpenses ?? 0, this.savingSummaryData?.totalInvestment ?? 0, this.savingSummaryData?.totalGains ?? 0],
+      series: [this.savingSummaryData?.remainingSavings ?? 0, this.savingSummaryData?.totalExpenses ?? 0, this.savingSummaryData?.totalInvestment ?? 0, this.savingSummaryData?.totalGains ?? 0],
       chart: { 
         type: 'donut',
         foreColor: isDarkMode ? '#fff' : '#000',
@@ -361,14 +361,14 @@ export class DashboardComponent {
               },
               total: {
                 show: true,
-                label: 'Current Savings Balance',
-                formatter: () => `₱${this.savingSummaryData?.remainingSavings?.toLocaleString() ?? 0}`
+                label: 'Total Savings',
+                formatter: () => `₱${this.savingSummaryData?.totalSavings?.toLocaleString() ?? 0}`
               }
             }
           }
         }
       },
-      labels: ['Total Savings', 'Expenses', 'Investments', 'Earnings'],
+      labels: ['Current Savings', 'Expenses', 'Investments', 'Earnings'],
       colors: ['#344038', '#2b6777', '#52ab98', '#c8d8e4']
     };
   }

@@ -1,5 +1,29 @@
 <div class="investments">
     <h4>{{ title }}</h4>
+
+    <div class="overall">
+        <div class="card" style="--c-color: #1a3e47;">
+            <h5>Overall Investments</h5>
+            <p class="display-6">&#8369;{{ investmentSummary?.totalInvestment | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+        </div>
+        <div class="card" style="--c-color: #52ab98;">
+            <h5>Total Returns</h5>
+            <p class="display-6">&#8369;{{ investmentSummary?.totalReturn | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-rotate-left text-primary"></i>
+            </div>
+        </div>
+         <div class="card" style="--c-color: #2b6777;">
+            <h5>Realized Amount</h5>
+            <p class="display-6">&#8369;{{ investmentSummary?.totalRealizedAmount | number: '1.2-2' }}</p>
+            <div class="icon">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+            </div>
+        </div>
+    </div>
     <div class="inv-table-wrapper mt-5">
         <div class="table-search">
             <input type="text" class="search-box" placeholder="Search.." [(ngModel)]="searchBar" (input)="applyFilter()" />

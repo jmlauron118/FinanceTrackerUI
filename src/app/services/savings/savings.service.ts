@@ -8,6 +8,7 @@ import { SavingsSummaryResponseDto } from '@interfaces/savings/savings-transacti
 import { SavingsTransactionModifyDto } from '@interfaces/savings/savings-transaction/savings-transaction-modify-dto';
 import { SavingsTransactionRequestDto } from '@interfaces/savings/savings-transaction/savings-transaction-request-dto';
 import { SavingsTransactionResponseDto } from '@interfaces/savings/savings-transaction/savings-transaction-response-dto';
+import { InvestmentSummaryResponseDto } from '@interfaces/savings/investment/investment-summary-response-dto';
 import { ErrorHandlerService } from '@services/error-handler.service';
 import { catchError, Observable } from 'rxjs';
 import { environment } from '@environments/environment';
@@ -64,6 +65,11 @@ export class SavingsService {
     let params = new HttpParams().set('returnTransactionId', returnTransactionId.toString());
 
     return this.http.get<ResponseModel<ReturnSavingsTransactionDto>>(`${this.apiUrl}/get-return-savings-transaction`, { params })
+      .pipe(catchError(err => this.errorHandler.handleError(err)));
+  }
+
+  getInvestmentSummary(): Observable<ResponseModel<InvestmentSummaryResponseDto>> {
+    return this.http.get<ResponseModel<InvestmentSummaryResponseDto>>(`${this.apiUrl}/get-investment-summary`)
       .pipe(catchError(err => this.errorHandler.handleError(err)));
   }
 }
