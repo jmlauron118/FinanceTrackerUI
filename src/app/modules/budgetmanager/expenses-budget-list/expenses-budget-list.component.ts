@@ -78,9 +78,9 @@ export class ExpensesBudgetListComponent {
     const data = { id: 0, expensesBudgetCategoryId: categoryId, description: '', amount: 0 };
 
     const actions: Record<number, () => void> = {
-        1: () => this.budgetedData.push(data),
-        2: () => this.monthlyData.push(data),
-        3: () => this.payrollData.push(data)
+        1: () => this.budgetedData.unshift(data),
+        2: () => this.monthlyData.unshift(data),
+        3: () => this.payrollData.unshift(data)
       };
       
     actions[categoryId]?.();
@@ -89,7 +89,7 @@ export class ExpensesBudgetListComponent {
       const tableBody = this.tableBodies.get(categoryId - 1)?.nativeElement;
       if (tableBody) {
         tableBody.scrollTo({
-          top: tableBody.scrollHeight,
+          top: 0,
           behavior: 'smooth'
         });
       }
