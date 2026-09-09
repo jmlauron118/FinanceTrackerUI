@@ -7,6 +7,7 @@ import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ExpenseCategoryModifyDto } from '@interfaces/category/expense-category/expense-category-modify-dto';
 import { ExpenseCategoryDialogComponent } from './expense-category-dialog/expense-category-dialog.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-expense-category',
@@ -20,6 +21,8 @@ export class ExpenseCategoryComponent {
 
   filteredData = [...this.expenseCategory]
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor (
     private categoryService: CategoryService,
@@ -28,7 +31,8 @@ export class ExpenseCategoryComponent {
   ) {}
 
   getAllExpenseCategories(): void {
-    this.categoryService.getAllExpenseCategories().subscribe({
+    this.isLoading = true;
+    this.categoryService.getAllExpenseCategories().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.expenseCategory = response.data;
         this.filteredData = [...response.data];

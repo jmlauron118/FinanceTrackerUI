@@ -6,6 +6,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
 import { ModuleDialogComponent } from './module-dialog/module-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-modules',
@@ -19,6 +20,8 @@ export class ModulesComponent {
 
   filteredData = [...this.modules];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -28,7 +31,8 @@ export class ModulesComponent {
 
   getAllModules(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllModules().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllModules().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.modules = response.data;
         this.filteredData = [...response.data];

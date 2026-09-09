@@ -6,6 +6,7 @@ import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetCategoryDialogComponent } from './budget-category-dialog/budget-category-dialog.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-budget-category',
@@ -19,6 +20,8 @@ export class BudgetCategoryComponent {
 
   filteredData = [...this.budgetCategory];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private categoryService: CategoryService,
@@ -34,7 +37,8 @@ export class BudgetCategoryComponent {
   }
 
   getAllBudgetCategories(): void {
-    this.categoryService.getAllBudgetCategories().subscribe({
+    this.isLoading = true;
+    this.categoryService.getAllBudgetCategories().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.budgetCategory = response.data;
         this.filteredData = [...response.data];

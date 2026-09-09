@@ -7,6 +7,7 @@ import { SnackbarService } from '@services/snackbar.service';
 import { UserRoleDialogComponent } from './user-role-dialog/user-role-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-user-roles',
@@ -20,6 +21,8 @@ export class UserRolesComponent {
 
   filteredData = [...this.userRoles];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -30,7 +33,8 @@ export class UserRolesComponent {
 
   getAllUserRoles(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllUserRoles().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllUserRoles().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.userRoles = response.data;
         this.filteredData = [...response.data];

@@ -274,6 +274,42 @@
     }
 }
 
+.budget-entry-skeleton {
+    background: linear-gradient(90deg, #e7edf0 25%, #f4f7f8 50%, #e7edf0 75%) !important;
+    background-size: 200% 100% !important;
+    animation: budget-entry-skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+.budget-list .summary-card .sub-card.budget-entry-skeleton-summary {
+    height: 88px;
+}
+
+.budget-entry-skeleton-row td {
+    height: 35px;
+    vertical-align: middle;
+}
+
+.budget-entry-skeleton-cell {
+    width: 70%;
+    height: 12px;
+}
+
+.budget-entry-skeleton-cell-wide {
+    width: 90%;
+}
+
+.budget-entry-skeleton-cell-action {
+    width: 20px;
+    margin-left: auto;
+}
+
+@keyframes budget-entry-skeleton-shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
 @media (max-width: 768px) {
     .budget-list{
         .pagination {

@@ -6,50 +6,56 @@
         </button>
     </div>
     <div class="summary-card">
-        <div class="sub-card">
-            <div class="card-icon-container income">
-                <i class="card-icon" style="--icon: '\f4c0'"></i>
-            </div>
-            <div class="info-container">
-                <h6 class="card-header-text">Total Income</h6>
-                <div>
-                    <span class="card-details-text">&#8369;{{ (meta?.totalIncome ? meta?.totalIncome : 0) | number: '1.2-2' }}</span>
+        @if (isListLoading) {
+            @for (item of [1, 2, 3, 4]; track item) {
+                <div class="sub-card budget-entry-skeleton budget-entry-skeleton-summary"></div>
+            }
+        } @else {
+            <div class="sub-card">
+                <div class="card-icon-container income">
+                    <i class="card-icon" style="--icon: '\f4c0'"></i>
+                </div>
+                <div class="info-container">
+                    <h6 class="card-header-text">Total Income</h6>
+                    <div>
+                        <span class="card-details-text">&#8369;{{ (meta?.totalIncome ? meta?.totalIncome : 0) | number: '1.2-2' }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="sub-card">
-            <div class="card-icon-container expenses">
-                <i class="card-icon" style="--icon: '\f543'"></i>
-            </div>
-            <div class="info-container">
-                <h6 class="card-header-text">Total Expenses</h6>
-                <div>
-                    <span class="card-details-text">&#8369;{{ (meta?.totalExpenses ? meta?.totalExpenses : 0) | number: '1.2-2' }}</span>
+            <div class="sub-card">
+                <div class="card-icon-container expenses">
+                    <i class="card-icon" style="--icon: '\f543'"></i>
+                </div>
+                <div class="info-container">
+                    <h6 class="card-header-text">Total Expenses</h6>
+                    <div>
+                        <span class="card-details-text">&#8369;{{ (meta?.totalExpenses ? meta?.totalExpenses : 0) | number: '1.2-2' }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="sub-card">
-            <div class="card-icon-container balance">
-                <i class="card-icon" style="--icon: '\f555'"></i>
-            </div>
-            <div class="info-container">
-                <h6 class="card-header-text">Total Balance</h6>
-                <div>
-                    <span class="card-details-text">&#8369;{{ (meta?.totalBalance ? meta?.totalBalance : 0) | number: '1.2-2' }}</span>
+            <div class="sub-card">
+                <div class="card-icon-container balance">
+                    <i class="card-icon" style="--icon: '\f555'"></i>
+                </div>
+                <div class="info-container">
+                    <h6 class="card-header-text">Total Balance</h6>
+                    <div>
+                        <span class="card-details-text">&#8369;{{ (meta?.totalBalance ? meta?.totalBalance : 0) | number: '1.2-2' }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="sub-card">
-            <div class="card-icon-container savings">
-                <i class="card-icon savings" style="--icon: '\f4d3'"></i>
-            </div>
-            <div class="info-container">
-                <h6 class="card-header-text">Total Savings</h6>
-                <div>
-                    <span class="card-details-text">&#8369;{{ (meta?.totalSavings ? meta?.totalSavings : 0) | number: '1.2-2' }}</span>
+            <div class="sub-card">
+                <div class="card-icon-container savings">
+                    <i class="card-icon savings" style="--icon: '\f4d3'"></i>
+                </div>
+                <div class="info-container">
+                    <h6 class="card-header-text">Total Savings</h6>
+                    <div>
+                        <span class="card-details-text">&#8369;{{ (meta?.totalSavings ? meta?.totalSavings : 0) | number: '1.2-2' }}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
     <div class="toolbar" *ngIf="selection.getItemCount() > 0">
         <div class="sort-group">
@@ -107,6 +113,18 @@
                 </tr>
             </thead>
             <tbody>
+                @if (isListLoading) {
+                    @for (row of skeletonRows; track $index) {
+                        <tr class="budget-entry-skeleton-row">
+                            <td *ngIf="selectionMode" class="cb-width"><div class="budget-entry-skeleton budget-entry-skeleton-cell"></div></td>
+                            <td><div class="budget-entry-skeleton budget-entry-skeleton-cell"></div></td>
+                            <td><div class="budget-entry-skeleton budget-entry-skeleton-cell"></div></td>
+                            <td style="width: 35%;"><div class="budget-entry-skeleton budget-entry-skeleton-cell budget-entry-skeleton-cell-wide"></div></td>
+                            <td><div class="budget-entry-skeleton budget-entry-skeleton-cell"></div></td>
+                            <td class="action-content"><div class="budget-entry-skeleton budget-entry-skeleton-cell budget-entry-skeleton-cell-action"></div></td>
+                        </tr>
+                    }
+                } @else {
                 <tr *ngFor="let e of entries; let i = index">
                     <td *ngIf="selectionMode" class="cb-width">
                         <label class="control control-checkbox">
@@ -134,6 +152,7 @@
                 <tr *ngIf="entries.length === 0">
                     <td colspan="5" class="text-center text-muted">No budget entries found.</td>
                 </tr>
+                }
             </tbody>
         </table>
     </div>

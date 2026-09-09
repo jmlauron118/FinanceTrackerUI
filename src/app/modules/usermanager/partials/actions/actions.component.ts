@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActionDialogComponent } from './action-dialog/action-dialog.component';
 import { ActionModifyDto } from '@interfaces/usermanager/actions-dto/action-modify-dto';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-actions',
@@ -20,6 +21,8 @@ export class ActionsComponent {
 
   filteredData = [...this.actions];
   searchBar ='';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -29,7 +32,8 @@ export class ActionsComponent {
 
   getAllActions(): void {
     this.searchBar ='';
-    this.usermanagerService.getAllActions().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllActions().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.actions = response.data;
         this.filteredData = [...response.data];

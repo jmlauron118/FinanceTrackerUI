@@ -10,6 +10,7 @@ import { SavingsTransactionDialogComponent } from './savings-transaction-dialog/
 import { SavingsTransactionModifyDto } from '@interfaces/savings/savings-transaction/savings-transaction-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { SavingsSummaryResponseDto } from '@interfaces/savings/savings-transaction/savings-summary-response-dto';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-savings-transaction',
@@ -24,6 +25,9 @@ export class SavingsTransactionComponent {
   savingsSummaryData: SavingsSummaryResponseDto | null = null;
   filteredData = [...this.transactionData];
   searchBar = '';
+  isSummaryLoading = false;
+  isTransactionsLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private savingsService: SavingsService,
@@ -42,7 +46,8 @@ export class SavingsTransactionComponent {
   }
 
   getAllSavingsTransaction(): void {
-    this.savingsService.getAllSavingsTransaction().subscribe({
+    this.isTransactionsLoading = true;
+    this.savingsService.getAllSavingsTransaction().pipe(finalize(() => this.isTransactionsLoading = false)).subscribe({
       next: response => {
         this.transactionData = response.data;
         this.filteredData = [...this.transactionData];
@@ -52,7 +57,8 @@ export class SavingsTransactionComponent {
   }
 
   getSavingsSummary(): void {
-    this.savingsService.getSavingsSummary().subscribe({
+    this.isSummaryLoading = true;
+    this.savingsService.getSavingsSummary().pipe(finalize(() => this.isSummaryLoading = false)).subscribe({
       next: response => (this.savingsSummaryData = response.data),
       error: err => (this.snackbar.danger(err, 4000))
     });

@@ -9,9 +9,6 @@
     </div>
     <div class="body-content">
         <div class="ebl-content">
-            <div class="card-loading" *ngIf="budgetedLoading">
-                <div class="spinner"></div>
-            </div>
             <div class="ebl-header budgeted">
                 <button class="btn btn-sm btn-reset" matTooltipPosition="above" 
                     (click)="budgetedBtnAction ? getExpensesBudgetData(1) : viewBudgetedExpenses(budgetedData, 'Budgeted List', 1); budgetedBtnAction = false"
@@ -39,7 +36,16 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody #expenseTableBody>                        
+                    <tbody #expenseTableBody>
+                        @if (budgetedLoading) {
+                            @for (row of skeletonRows; track $index) {
+                                <tr class="expenses-budget-skeleton-row">
+                                    <td *ngIf="budgetedBtnAction"><div class="expenses-budget-skeleton expenses-budget-skeleton-action"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-description"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-amount"></div></td>
+                                </tr>
+                            }
+                        } @else {
                         <tr *ngFor="let data of budgetedData; let i = index">
                             <!--If edit mode is not activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
@@ -68,18 +74,21 @@
                         <tr *ngIf="budgetedData.length === 0">
                             <td colspan="2" style="text-align: center;">No budgeted expenses found.</td>
                         </tr>
+                        }
                     </tbody>
                 </table>
                 <div class="totals">
-                    <span>TOTAL:</span>
-                    <span>₱{{ getTotal(budgetedData) | number: '1.2-2' }}</span>
+                    @if (budgetedLoading) {
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-label"></span>
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
+                    } @else {
+                        <span>TOTAL:</span>
+                        <span>₱{{ getTotal(budgetedData) | number: '1.2-2' }}</span>
+                    }
                 </div>
             </div>
         </div>
         <div class="ebl-content">
-            <div class="card-loading" *ngIf="monthlyLoading">
-                <div class="spinner"></div>
-            </div>
             <div class="ebl-header unbudgeted-m">
                 <button class="btn btn-sm btn-reset" matTooltipPosition="above"
                     (click)="monthlyBtnAction ? getExpensesBudgetData(2) : viewBudgetedExpenses(monthlyData, 'Unbudgeted (Monthly) List', 2); monthlyBtnAction = false"
@@ -108,6 +117,15 @@
                         </tr>
                     </thead>
                     <tbody #expenseTableBody>
+                        @if (monthlyLoading) {
+                            @for (row of skeletonRows; track $index) {
+                                <tr class="expenses-budget-skeleton-row">
+                                    <td *ngIf="monthlyBtnAction"><div class="expenses-budget-skeleton expenses-budget-skeleton-action"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-description"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-amount"></div></td>
+                                </tr>
+                            }
+                        } @else {
                         <tr *ngFor="let data of monthlyData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
@@ -136,18 +154,21 @@
                         <tr *ngIf="monthlyData.length === 0" >
                             <td colspan="3" style="text-align: center;">No unbudgeted expenses (monthly) found.</td>
                         </tr>
+                        }
                     </tbody>
                 </table>
                 <div class="totals">
-                    <span>TOTAL:</span>
-                    <span>₱{{ getTotal(monthlyData) | number: '1.2-2' }}</span>
+                    @if (monthlyLoading) {
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-label"></span>
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
+                    } @else {
+                        <span>TOTAL:</span>
+                        <span>₱{{ getTotal(monthlyData) | number: '1.2-2' }}</span>
+                    }
                 </div>
             </div>
         </div>
         <div class="ebl-content">
-            <div class="card-loading" *ngIf="payrollLoading">
-                <div class="spinner"></div>
-            </div>
             <div class="ebl-header unbudgeted-p">
                 <button class="btn btn-sm btn-reset"
                     (click)="payrollBtnAction ? getExpensesBudgetData(3) : viewBudgetedExpenses(payrollData, 'Unbudgeted (Payroll) List', 3); payrollBtnAction = false"
@@ -176,6 +197,15 @@
                         </tr>
                     </thead>
                     <tbody #expenseTableBody>
+                        @if (payrollLoading) {
+                            @for (row of skeletonRows; track $index) {
+                                <tr class="expenses-budget-skeleton-row">
+                                    <td *ngIf="payrollBtnAction"><div class="expenses-budget-skeleton expenses-budget-skeleton-action"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-description"></div></td>
+                                    <td><div class="expenses-budget-skeleton expenses-budget-skeleton-amount"></div></td>
+                                </tr>
+                            }
+                        } @else {
                         <tr *ngFor="let data of payrollData; let i = index">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!payrollBtnAction">{{ data.description }}</td>
@@ -204,11 +234,17 @@
                         <tr *ngIf="payrollData.length === 0">
                             <td colspan="3" style="text-align: center;">No unbudgeted expenses (payroll) found.</td>
                         </tr>
+                        }
                     </tbody>
                 </table>
                 <div class="totals">
-                    <span>TOTAL:</span>
-                    <span>₱{{ getTotal(payrollData) | number: '1.2-2' }}</span>
+                    @if (payrollLoading) {
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-label"></span>
+                        <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
+                    } @else {
+                        <span>TOTAL:</span>
+                        <span>₱{{ getTotal(payrollData) | number: '1.2-2' }}</span>
+                    }
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionTypeDialogComponent } from './transaction-type-dialog/transaction-type-dialog.component';
 import { TransactionTypeModifyDto } from '@interfaces/category/savings-transaction-type/transaction-type-modify-dto';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-savings-transaction-type',
@@ -20,6 +21,8 @@ export class SavingsTransactionTypeComponent {
 
   filteredData =  [...this.transactionTypeData];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private categoryService: CategoryService,
@@ -28,7 +31,8 @@ export class SavingsTransactionTypeComponent {
   ) {}
 
   getAllSavingsTransactionTypes(): void {
-    this.categoryService.getAllSavingsTransactionTypes().subscribe({
+    this.isLoading = true;
+    this.categoryService.getAllSavingsTransactionTypes().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.transactionTypeData = response.data;
         this.filteredData = [...response.data];

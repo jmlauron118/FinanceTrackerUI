@@ -32,6 +32,7 @@ export class ExpensesBudgetListComponent {
   budgetedLoading = false;
   monthlyLoading = false;
   payrollLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private budgetManagerService: BudgetmanagerService,

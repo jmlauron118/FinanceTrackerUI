@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { SnackbarService } from '@services/snackbar.service';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
 import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-roles',
@@ -19,6 +20,8 @@ export class RolesComponent {
 
   filteredData = [...this.roles];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -28,7 +31,8 @@ export class RolesComponent {
 
   getAllRoles(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllRoles().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllRoles().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.roles = response.data;
         this.filteredData = [...response.data];

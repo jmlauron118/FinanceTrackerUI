@@ -2,6 +2,11 @@
     <h4>{{ title }}</h4>
 
     <div class="overall">
+        @if (isSummaryLoading) {
+            @for (item of [1, 2, 3]; track item) {
+                <div class="card investments-skeleton investments-skeleton-summary"></div>
+            }
+        } @else {
         <div class="card" style="--c-color: #1a3e47;">
             <h5>Overall Investments</h5>
             <p class="display-6">&#8369;{{ investmentSummary?.totalInvestment | number: '1.2-2' }}</p>
@@ -23,6 +28,7 @@
                 <i class="fa-solid fa-money-bill-trend-up"></i>
             </div>
         </div>
+        }
     </div>
     <div class="inv-table-wrapper mt-5">
         <div class="table-search">
@@ -42,6 +48,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (isInvestmentsLoading) {
+                        @for (row of skeletonRows; track $index) {
+                            <tr class="investments-skeleton-row">
+                                <td data-label="Date"><div class="investments-skeleton investments-skeleton-cell"></div></td>
+                                <td data-label="Type"><div class="investments-skeleton investments-skeleton-cell"></div></td>
+                                <td data-label="Description"><div class="investments-skeleton investments-skeleton-cell investments-skeleton-cell-wide"></div></td>
+                                <td data-label="Amount"><div class="investments-skeleton investments-skeleton-cell investments-skeleton-cell-amount"></div></td>
+                                <td data-label="Returned Amount"><div class="investments-skeleton investments-skeleton-cell investments-skeleton-cell-amount"></div></td>
+                                <td data-label="Return Date"><div class="investments-skeleton investments-skeleton-cell"></div></td>
+                                <td data-label="Gain/Loss"><div class="investments-skeleton investments-skeleton-cell investments-skeleton-cell-amount"></div></td>
+                            </tr>
+                        }
+                    } @else {
                     @for (i of filteredData; track i.investmentId) {
                         <tr>
                             <td data-label="Date">
@@ -97,6 +116,7 @@
                         <tr>
                             <td colspan="5" class="text-center text-muted">No investment found.</td>
                         </tr>
+                    }
                     }
                 </tbody>
             </table>

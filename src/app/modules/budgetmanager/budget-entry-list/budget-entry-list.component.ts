@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { BudgetEntryResponseDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-response-dto';
 import { PaginationMetadata } from '@interfaces/pagination-metadata';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil, take } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize, Subject, takeUntil, take } from 'rxjs';
 import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +12,6 @@ import { BudgetEntryDialogComponent } from './budget-entry-dialog/budget-entry-d
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
 import { SelectionService } from '@services/selection.service';
 import { BudgetEntryDeleteDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-delete-dto';
-import { LoadingService } from '@services/loading.service';
 
 @Component({
   selector: 'app-budget-entry-list',
@@ -35,6 +34,8 @@ export class BudgetEntryListComponent {
   private firstLoad$ = new Subject<void>();
   selectionMode = false;
   sorter = true;
+  isListLoading = false;
+  skeletonRows = Array.from({ length: this.pageSize });
 
   @ViewChild('selectAllCheckbox', {static: false}) selectAllCheckbox!: ElementRef<HTMLInputElement>;
   constructor (
@@ -42,7 +43,6 @@ export class BudgetEntryListComponent {
     private snackbar: SnackbarService,
     private dialog: MatDialog,
     private confirm: ConfirmDialogService,
-    private loading: LoadingService,
     public selection: SelectionService<{ id: number }>
   ) {}
 
@@ -72,12 +72,15 @@ export class BudgetEntryListComponent {
   }
 
   loadPage(page: number) {
-    this.loading.show();
+    this.isListLoading = true;
     this.pageNumber = page < 0 ? 1 : page;
     const search = (this.searchControl.value || '').trim();
 
     this.budgetManagerService.getBudgetEntries(this.pageNumber, this.pageSize, search, this.sorter)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.isListLoading = false)
+      )
       .subscribe({
         next: result => {
           this.entries = result.items.data;
@@ -87,9 +90,7 @@ export class BudgetEntryListComponent {
         },
         error: err => {
           this.snackbar.danger(err, 5000);
-          this.loading.hide();
-        },
-        complete: () => this.loading.hide()
+        }
       });
   }
 
@@ -99,7 +100,6 @@ export class BudgetEntryListComponent {
   }
 
   removeBudgetEntry(id: number): void {
-    this.loading.show();
     this.budgetManagerService.removeBudgetEntry(id).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
@@ -108,13 +108,11 @@ export class BudgetEntryListComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
       }
     });
   }
 
   removeBudgetEntryBulk(idList: BudgetEntryDeleteDto[]): void {
-    this.loading.show();
     this.budgetManagerService.removeBudgetEntryBulk(idList).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
@@ -123,13 +121,13 @@ export class BudgetEntryListComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
       }
     });
   }
 
   changePageSize(size: number) {
-    this.pageSize = size,
+    this.pageSize = size;
+    this.skeletonRows = Array.from({ length: this.pageSize });
     this.loadPage(1);
     this.initSelection();
   }

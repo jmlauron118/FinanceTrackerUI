@@ -14,6 +14,15 @@
                         </tr>
                     </thead>
                     <tbody class="table-wrapper">
+                        @if (isLoading) {
+                            @for (row of skeletonRows; track $index) {
+                                <tr class="category-skeleton-row">
+                                    <td><div class="category-skeleton category-skeleton-cell"></div></td>
+                                    <td><div class="category-skeleton category-skeleton-cell category-skeleton-cell-wide"></div></td>
+                                    <td><div class="category-skeleton category-skeleton-status"></div></td>
+                                </tr>
+                            }
+                        } @else {
                         @for (it of filteredData; track it.investmentTypeId) {
                         <tr>
                             <td>
@@ -31,6 +40,7 @@
                         <tr *ngIf="filteredData.length === 0">
                             <td colspan="4" class="text-center text-muted">No investment type found.</td>
                         </tr>
+                        }
                     </tbody>
                 </table>
             </div>
