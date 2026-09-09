@@ -8,12 +8,11 @@ import { filter } from 'rxjs/operators';
 import { UserModules } from '@interfaces/usermanager/user-modules';
 import { AuthService } from '@services/login/auth.service';
 import { SnackbarService } from '@services/snackbar.service';
-import { LoadingComponent } from './loading/loading.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SidebarComponent, FooterComponent, CommonModule, LoadingComponent],
+  imports: [RouterOutlet, HeaderComponent, SidebarComponent, FooterComponent, CommonModule],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })

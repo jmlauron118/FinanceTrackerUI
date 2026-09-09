@@ -6,6 +6,11 @@
         </button>
     </div>
     <div class="overall">
+        @if (isSummaryLoading) {
+            @for (item of [1, 2, 3, 4, 5]; track item) {
+                <div class="card savings-transaction-skeleton savings-transaction-skeleton-summary"></div>
+            }
+        } @else {
         <div class="card" style="--c-color: #1a3e47;">
             <h5>Overall Savings</h5>
             <p class="display-6">&#8369;{{ savingsSummaryData?.totalSavings | number: '1.2-2' }}</p>
@@ -41,6 +46,7 @@
                 <i class="fa-solid fa-money-bill-trend-up text-primary"></i>
             </div>
         </div>
+        }
     </div>
     <div class="st-table-wrapper mt-5">
         <div class="table-search">
@@ -58,6 +64,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (isTransactionsLoading) {
+                        @for (row of skeletonRows; track $index) {
+                            <tr class="savings-transaction-skeleton-row">
+                                <td data-label="Date Used"><div class="savings-transaction-skeleton savings-transaction-skeleton-cell"></div></td>
+                                <td data-label="Transaction Type"><div class="savings-transaction-skeleton savings-transaction-skeleton-cell"></div></td>
+                                <td data-label="Description"><div class="savings-transaction-skeleton savings-transaction-skeleton-cell savings-transaction-skeleton-cell-wide"></div></td>
+                                <td data-label="Amount"><div class="savings-transaction-skeleton savings-transaction-skeleton-cell savings-transaction-skeleton-cell-amount"></div></td>
+                                <td data-label="Status"><div class="savings-transaction-skeleton savings-transaction-skeleton-status"></div></td>
+                            </tr>
+                        }
+                    } @else {
                     @for (st of filteredData; track st.transactionId) {
                         <tr>
                             <td data-label="Date Used">
@@ -86,6 +103,7 @@
                         <tr>
                             <td colspan="5" class="text-center text-muted">No savings transaction found.</td>
                         </tr>
+                    }
                     }
                 </tbody>
             </table>

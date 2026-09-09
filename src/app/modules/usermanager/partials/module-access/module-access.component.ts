@@ -8,6 +8,7 @@ import { ModuleAccessDialogComponent } from './module-access-dialog/module-acces
 import { ModuleAccessModifyDto } from '@interfaces/usermanager/module-access-dto/module-access-modify-dto';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-module-access',
@@ -21,6 +22,8 @@ export class ModuleAccessComponent {
 
   filteredData = [...this.moduleAccess];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -31,7 +34,8 @@ export class ModuleAccessComponent {
 
   getAllModuleAccess(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllModuleAccess().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllModuleAccess().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.moduleAccess = response.data;
         this.filteredData = [...response.data];

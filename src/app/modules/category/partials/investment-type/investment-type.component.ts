@@ -6,6 +6,7 @@ import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InvestmentTypeDialogComponent } from './investment-type-dialog/investment-type-dialog.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-investment-type',
@@ -19,6 +20,8 @@ export class InvestmentTypeComponent {
 
   filteredData = [...this.investmentTypeData];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private categoryService: CategoryService,
@@ -27,7 +30,8 @@ export class InvestmentTypeComponent {
   ){}
 
   getAllInvestmentTypes(): void {
-    this.categoryService.getAllInvestmentTypes().subscribe({
+    this.isLoading = true;
+    this.categoryService.getAllInvestmentTypes().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.investmentTypeData = response.data;
         this.filteredData = [...this.investmentTypeData];

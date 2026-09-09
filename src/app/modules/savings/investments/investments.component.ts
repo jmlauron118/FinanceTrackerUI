@@ -8,6 +8,7 @@ import { SavingsService } from '@services/savings/savings.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ReturnFromInvestmentDialogComponent } from './return-from-investment-dialog/return-from-investment-dialog.component';
 import { InvestmentSummaryResponseDto } from '@interfaces/savings/investment/investment-summary-response-dto';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-investments',
@@ -22,6 +23,9 @@ export class InvestmentsComponent {
   investmentSummary: InvestmentSummaryResponseDto | null = null;
   filteredData = [...this.investmentData];
   searchBar = '';
+  isSummaryLoading = false;
+  isInvestmentsLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private savingsService: SavingsService,
@@ -39,14 +43,16 @@ export class InvestmentsComponent {
   }
 
   getInvestmentSummary(): void {
-    this.savingsService.getInvestmentSummary().subscribe({
+    this.isSummaryLoading = true;
+    this.savingsService.getInvestmentSummary().pipe(finalize(() => this.isSummaryLoading = false)).subscribe({
       next: response => (this.investmentSummary = response.data),
       error: err => (this.snackbar.danger(err, 4000))
     });
   }
 
   getAllInvestments(): void {
-    this.savingsService.getAllInvestments().subscribe({
+    this.isInvestmentsLoading = true;
+    this.savingsService.getAllInvestments().pipe(finalize(() => this.isInvestmentsLoading = false)).subscribe({
       next: response => {
         this.investmentData = response.data;
         this.filteredData = [...this.investmentData];

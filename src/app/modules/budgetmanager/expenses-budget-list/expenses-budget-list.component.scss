@@ -168,17 +168,6 @@
                 }
             }
 
-            .card-loading {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                width: 100%;
-                height: -webkit-fill-available;
-                top: -15px;
-                backdrop-filter: blur(2px);
-                z-index: 3;
-            }
         }
     }
 
@@ -210,5 +199,49 @@
     
     .mat-mdc-form-field-subscript-wrapper {
         height: 0;
+    }
+
+    .expenses-budget-skeleton {
+        background: linear-gradient(90deg, #e7edf0 25%, #f4f7f8 50%, #e7edf0 75%);
+        background-size: 200% 100%;
+        animation: expenses-budget-skeleton-shimmer 1.4s ease-in-out infinite;
+        border-radius: 4px;
+    }
+
+    .expenses-budget-skeleton-row td {
+        height: 38px;
+        vertical-align: middle;
+    }
+
+    .expenses-budget-skeleton-description {
+        width: 78%;
+        height: 12px;
+    }
+
+    .expenses-budget-skeleton-amount {
+        width: 58px;
+        height: 12px;
+        margin-left: auto;
+    }
+
+    .expenses-budget-skeleton-action {
+        width: 22px;
+        height: 12px;
+    }
+
+    .expenses-budget-skeleton-total-label {
+        width: 48px;
+        height: 12px;
+    }
+
+    .expenses-budget-skeleton-total-value {
+        width: 82px;
+        height: 12px;
+    }
+}
+
+@keyframes expenses-budget-skeleton-shimmer {
+    to {
+        background-position: -200% 0;
     }
 }

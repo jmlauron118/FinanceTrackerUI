@@ -30,6 +30,7 @@ import { SavingsService } from '@services/savings/savings.service';
 import { SavingsSummaryResponseDto } from '@interfaces/savings/savings-transaction/savings-summary-response-dto';
 import { ThemeService } from '@services/theme.service';
 import { ActivityDto } from '@interfaces/dashboard/activity-dto';
+import { finalize } from 'rxjs';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -84,6 +85,14 @@ export class DashboardComponent {
   ytdSavingsData: YtdSavingsResponseDto[] = [];
   savingSummaryData: SavingsSummaryResponseDto | null = null;
   activityData: ActivityDto[] = [];
+  isSummaryLoading = false;
+  isRecentTransactionsLoading = false;
+  isYtdIncomeLoading = false;
+  isMonthlyBudgetLoading = false;
+  isExpensesByCategoryLoading = false;
+  isYtdSavingsLoading = false;
+  isSavingsSummaryLoading = false;
+  isActivityLoading = false;
 
   constructor(
     private dashboardService: DashboardService,
@@ -139,7 +148,8 @@ export class DashboardComponent {
   }
 
   getSummary(): void { 
-    this.dashboardService.getSummary().subscribe({
+    this.isSummaryLoading = true;
+    this.dashboardService.getSummary().pipe(finalize(() => this.isSummaryLoading = false)).subscribe({
       next: (response) => {
         this.summaryData = response.data;
       },
@@ -150,7 +160,8 @@ export class DashboardComponent {
   }
 
   getRecentTransactions(): void {
-    this.dashboardService.getRecentTransactions().subscribe({
+    this.isRecentTransactionsLoading = true;
+    this.dashboardService.getRecentTransactions().pipe(finalize(() => this.isRecentTransactionsLoading = false)).subscribe({
       next: (response) => {
         this.recentTransactionData = response.data;
       },
@@ -435,44 +446,68 @@ export class DashboardComponent {
   }
 
   getYTDIncome(): void {
-    this.dashboardService.getYTDIncome().subscribe(response => {
-      this.ytdIncomeData = response.data;
-      this.buildYtdIncomeChart(this.theme.currentTheme);
+    this.isYtdIncomeLoading = true;
+    this.dashboardService.getYTDIncome().pipe(finalize(() => this.isYtdIncomeLoading = false)).subscribe({
+      next: response => {
+        this.ytdIncomeData = response.data;
+        this.buildYtdIncomeChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 
   getMonthlyBudget(): void {
-    this.dashboardService.getMonthlyBudget().subscribe(response => {
-      this.monthlyBudgetData = response.data;
-      this.buildMonthlyBudgetChart(this.theme.currentTheme);
+    this.isMonthlyBudgetLoading = true;
+    this.dashboardService.getMonthlyBudget().pipe(finalize(() => this.isMonthlyBudgetLoading = false)).subscribe({
+      next: response => {
+        this.monthlyBudgetData = response.data;
+        this.buildMonthlyBudgetChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 
   getExpensesByCategory(): void {
-    this.dashboardService.getExpensesByCategory().subscribe(response => {
-      this.expensesByCategoryData = response.data;
-      this.buildExpensesByCategoryChart(this.theme.currentTheme);
+    this.isExpensesByCategoryLoading = true;
+    this.dashboardService.getExpensesByCategory().pipe(finalize(() => this.isExpensesByCategoryLoading = false)).subscribe({
+      next: response => {
+        this.expensesByCategoryData = response.data;
+        this.buildExpensesByCategoryChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 
   getYTDSavings(): void {
-    this.dashboardService.getYTDSavings().subscribe(async response => {
-      this.ytdSavingsData = response.data;
-      this.buildYTDSavingsChart(this.theme.currentTheme);
+    this.isYtdSavingsLoading = true;
+    this.dashboardService.getYTDSavings().pipe(finalize(() => this.isYtdSavingsLoading = false)).subscribe({
+      next: response => {
+        this.ytdSavingsData = response.data;
+        this.buildYTDSavingsChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 
   getSavingsSummary(): void {
-    this.savingsService.getSavingsSummary().subscribe(response => {
-      this.savingSummaryData = response.data;
-      this.buildSavingsSummaryChart(this.theme.currentTheme);
+    this.isSavingsSummaryLoading = true;
+    this.savingsService.getSavingsSummary().pipe(finalize(() => this.isSavingsSummaryLoading = false)).subscribe({
+      next: response => {
+        this.savingSummaryData = response.data;
+        this.buildSavingsSummaryChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 
   getActivity(): void {
-    this.dashboardService.getActivity().subscribe(response => {
-      this.activityData = response.data;
-      this.buildActivityChart(this.theme.currentTheme);
+    this.isActivityLoading = true;
+    this.dashboardService.getActivity().pipe(finalize(() => this.isActivityLoading = false)).subscribe({
+      next: response => {
+        this.activityData = response.data;
+        this.buildActivityChart(this.theme.currentTheme);
+      },
+      error: error => this.snackbar.danger(error, 5000)
     });
   }
 

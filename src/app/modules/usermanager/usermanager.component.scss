@@ -60,6 +60,39 @@
     }
 }
 
+.usermanager-skeleton {
+    background: linear-gradient(90deg, #e7edf0 25%, #f4f7f8 50%, #e7edf0 75%);
+    background-size: 200% 100%;
+    animation: category-skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+.usermanager-skeleton-row td {
+    height: 46px;
+    vertical-align: middle;
+}
+
+.usermanager-skeleton-cell {
+    width: 70%;
+    height: 12px;
+}
+
+.usermanager-skeleton-cell-wide {
+    width: 90%;
+}
+
+.usermanager-skeleton-status {
+    width: 58px;
+    height: 22px;
+    border-radius: 12px;
+}
+
+@keyframes usermanager-skeleton-shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
 @media screen and (max-width: $bootstrap-breakpoint-md) {
     #usermanager {
         .list-group-divider {

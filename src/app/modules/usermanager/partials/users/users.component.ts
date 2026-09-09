@@ -7,6 +7,7 @@ import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import { SnackbarService } from '@services/snackbar.service';
 import { MaterialModule } from "app/shared/material.module";
 import { FormsModule } from "@angular/forms";
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,8 @@ export class UsersComponent {
   
   filteredData = [...this.users];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService, 
@@ -36,7 +39,8 @@ export class UsersComponent {
 
   getAllUsers(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllUsers().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllUsers().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.users = response.data;
         this.filteredData = [...response.data];

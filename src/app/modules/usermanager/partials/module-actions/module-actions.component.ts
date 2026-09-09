@@ -8,6 +8,7 @@ import { ModuleActionDialogComponent } from './module-action-dialog/module-actio
 import { ConfirmDialogComponent } from 'app/shared/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-module-actions',
@@ -21,6 +22,8 @@ export class ModuleActionsComponent {
 
   filteredData = [...this.moduleActions];
   searchBar = '';
+  isLoading = false;
+  skeletonRows = Array.from({ length: 8 });
 
   constructor(
     private usermanagerService: UsermanagerService,
@@ -31,7 +34,8 @@ export class ModuleActionsComponent {
 
   getAllModuleActions(): void {
     this.searchBar = '';
-    this.usermanagerService.getAllModuleActions().subscribe({
+    this.isLoading = true;
+    this.usermanagerService.getAllModuleActions().pipe(finalize(() => this.isLoading = false)).subscribe({
       next: response => {
         this.moduleActions = response.data;
         this.filteredData = [...response.data];

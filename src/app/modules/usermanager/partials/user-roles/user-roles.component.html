@@ -13,7 +13,17 @@
                             <th>Role</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-wrapper">
+                         @if (isLoading) {
+                            @for (row of skeletonRows; track $index) {
+                                <tr class="usermanager-skeleton-row">
+                                    <td><div class="usermanager-skeleton usermanager-skeleton-cell"></div></td>
+                                    <td><div class="usermanager-skeleton usermanager-skeleton-cell"></div></td>
+                                    <td><div class="usermanager-skeleton usermanager-skeleton-cell"></div></td>
+                                    <td><div class="usermanager-skeleton usermanager-skeleton-status"></div></td>
+                                </tr>
+                            }
+                        } @else {
                         <tr *ngFor="let userRole of filteredData">
                             <td>
                                 <span>{{ userRole.fullname }}</span><br/>
@@ -28,6 +38,7 @@
                         <tr *ngIf="filteredData.length === 0">
                             <td colspan="3" class="text-center text-muted">No user roles found</td>
                         </tr>
+                    }
                     </tbody>
                 </table>
             </div>
