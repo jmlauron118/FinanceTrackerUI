@@ -17,9 +17,10 @@
                 </button>
                 <h6>BUDGETED</h6>
                 <div class="btn-content">
-                    <button class="btn btn-sm" (click)="onBudgetedExpensesActionClick()" 
-                        matTooltip="{{ budgetedBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
-                        <i class="fa-solid" [ngClass]="budgetedBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    <button class="btn btn-sm" (click)="onBudgetedExpensesActionClick()" [disabled]="savingCategoryIds.has(1)" [class.save-icon-loading]="savingCategoryIds.has(1)"
+                        matTooltip="{{ savingCategoryIds.has(1) ? 'Saving Changes' : budgetedBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <mat-spinner *ngIf="savingCategoryIds.has(1)" class="save-icon-spinner" diameter="16" aria-label="Saving changes"></mat-spinner>
+                        <i *ngIf="!savingCategoryIds.has(1)" class="fa-solid" [ngClass]="budgetedBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
                     </button>
                     <button class="btn btn-sm" *ngIf="budgetedBtnAction" matTooltip="New Line" matTooltipPosition="above"
                         (click)="addRow(1)">
@@ -97,9 +98,10 @@
                 </button>
                 <h6>UNBUDGETED (Monthly)</h6>
                 <div class="btn-content">
-                    <button class="btn btn-sm" (click)="onMonthlyExpensesActionClick()" 
-                        matTooltip="{{ monthlyBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
-                        <i class="fa-solid" [ngClass]="monthlyBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    <button class="btn btn-sm" (click)="onMonthlyExpensesActionClick()" [disabled]="savingCategoryIds.has(2)" [class.save-icon-loading]="savingCategoryIds.has(2)"
+                        matTooltip="{{ savingCategoryIds.has(2) ? 'Saving Changes' : monthlyBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <mat-spinner *ngIf="savingCategoryIds.has(2)" class="save-icon-spinner" diameter="16" aria-label="Saving changes"></mat-spinner>
+                        <i *ngIf="!savingCategoryIds.has(2)" class="fa-solid" [ngClass]="monthlyBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
                     </button>
                     <button class="btn btn-sm" *ngIf="monthlyBtnAction" matTooltip="New Line" matTooltipPosition="above"
                         (click)="addRow(2)">
@@ -177,9 +179,10 @@
                 </button>
                 <h6>UNBUDGETED (Incoming)</h6>
                 <div class="btn-content">
-                    <button class="btn btn-sm" (click)="onPayrollExpensesActionClick()" 
-                        matTooltip="{{ payrollBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
-                        <i class="fa-solid" [ngClass]="payrollBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                    <button class="btn btn-sm" (click)="onPayrollExpensesActionClick()" [disabled]="savingCategoryIds.has(3)" [class.save-icon-loading]="savingCategoryIds.has(3)"
+                        matTooltip="{{ savingCategoryIds.has(3) ? 'Saving Changes' : payrollBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                        <mat-spinner *ngIf="savingCategoryIds.has(3)" class="save-icon-spinner" diameter="16" aria-label="Saving changes"></mat-spinner>
+                        <i *ngIf="!savingCategoryIds.has(3)" class="fa-solid" [ngClass]="payrollBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
                     </button>
                     <button class="btn btn-sm" *ngIf="payrollBtnAction" matTooltip="New Line" matTooltipPosition="above"
                         (click)="addRow(3)">

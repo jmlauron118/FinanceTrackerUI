@@ -7,6 +7,7 @@ import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.serv
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { SnackbarService } from '@services/snackbar.service';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-saved-expenses',
@@ -19,6 +20,7 @@ export class SavedExpensesComponent {
   expensesData: ExpensesBudgetResponseDto[] = [];
   budgetedBtnAction = false;
   savedExpensesLoading = false;
+  isSaving = false;
 
   constructor(
     private snackbar: SnackbarService,
@@ -67,6 +69,8 @@ export class SavedExpensesComponent {
   }
 
   onSavedExpensesActionClick(): void {
+    if (this.isSaving) return;
+
     if(!this.budgetedBtnAction) {
       this.budgetedBtnAction = true;
     }
@@ -87,16 +91,16 @@ export class SavedExpensesComponent {
   }
 
   addSavedExpenses(dataRequest: ExpensesBudgetResponseDto[]): void {
-    this.savedExpensesLoading = true;
-    this.budgetManagerService.addExpensesBudgetBulk(dataRequest, 2).subscribe({
+    this.isSaving = true;
+    this.budgetManagerService.addExpensesBudgetBulk(dataRequest, 2).pipe(
+      finalize(() => this.isSaving = false)
+    ).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
       },
       error: err => {
-        this.savedExpensesLoading = false;
         this.snackbar.danger(err, 5000);
-      },
-      complete: () => (this.savedExpensesLoading = false)
+      }
     });
   }
 }

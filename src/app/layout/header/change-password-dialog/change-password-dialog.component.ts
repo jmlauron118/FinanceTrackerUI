@@ -7,6 +7,7 @@ import { UsermanagerService } from '@services/usermanager/usermanager.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ChangePasswordDto } from '@interfaces/login/change-password-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -17,6 +18,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class ChangePasswordDialogComponent {
   changePassForm!: FormGroup
+  isSubmitting = false;
   hideCurrentPassword = true;
   hideNewPassword = true;
   hideConfirmPassword = true;
@@ -38,7 +40,8 @@ export class ChangePasswordDialogComponent {
   }
 
   changePassword(passwords: ChangePasswordDto): void {
-    this.usermanagerService.changePassword(passwords).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.changePassword(passwords).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close();
@@ -50,6 +53,7 @@ export class ChangePasswordDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.changePassForm.invalid) {
       this.changePassForm.markAllAsTouched();
 

@@ -11,9 +11,10 @@
                 <i class="fa-solid fa-rotate-left"></i>
             </button>
             <div class="btn-content">
-                <button class="btn btn-sm" (click)="onSavedExpensesActionClick()"
-                    matTooltip="{{ budgetedBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
-                    <i class="fa-solid" [ngClass]="budgetedBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
+                <button class="btn btn-sm" (click)="onSavedExpensesActionClick()" [disabled]="isSaving" [class.save-icon-loading]="isSaving"
+                    matTooltip="{{ isSaving ? 'Saving Changes' : budgetedBtnAction ? 'Save Changes' : 'Edit Items' }}" matTooltipPosition="above">
+                    <mat-spinner *ngIf="isSaving" class="save-icon-spinner" diameter="16" aria-label="Saving changes"></mat-spinner>
+                    <i *ngIf="!isSaving" class="fa-solid" [ngClass]="budgetedBtnAction ? 'fa-floppy-disk' : 'fa-pencil'"></i>
                 </button>
                 <button class="btn btn-sm" *ngIf="budgetedBtnAction" matTooltip="New Line" matTooltipPosition="above"
                     (click)="addRow()">

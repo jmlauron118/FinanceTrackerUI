@@ -13,13 +13,13 @@ import { BudgetmanagerService } from '@services/budgetmanager/budgetmanager.serv
 import { BudgetEntryRequestDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-request-dto';
 import { BudgetEntryModifyDto } from '@interfaces/budgetmanager/budget-entry/budget-entry-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
-import { LoadingService } from '@services/loading.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-budget-entry-dialog',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule, DecimalDirective],
   templateUrl: './budget-entry-dialog.component.html',
-  styleUrls: [],
+  styleUrl: './budget-entry-dialog.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class BudgetEntryDialogComponent {
@@ -28,6 +28,7 @@ export class BudgetEntryDialogComponent {
   budgetCategoryData: BudgetCategoryResponseDto[] = [];
   expenseCategoryData: ExpenseCategoryResponseDto[] = [];
   isEditMode = false;
+  isSubmitting = false;
   expenseCategoryEnabled = true;
 
   @Output() entrySaved = new EventEmitter<void>();
@@ -39,7 +40,6 @@ export class BudgetEntryDialogComponent {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private confirm: ConfirmDialogService,
-    private loading: LoadingService,
     private dialogRef: MatDialogRef<BudgetEntryDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: BudgetEntryResponseDto
   ) {
@@ -63,8 +63,10 @@ export class BudgetEntryDialogComponent {
   }
 
   addBudgetEntry(entry: BudgetEntryRequestDto): void {
-    this.loading.show();
-    this.budgetManagerService.addBudgetEntry(entry).subscribe({
+    this.isSubmitting = true;
+    this.budgetManagerService.addBudgetEntry(entry).pipe(
+      finalize(() => this.isSubmitting = false)
+    ).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
         this.entrySaved.emit(); 
@@ -72,14 +74,15 @@ export class BudgetEntryDialogComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
       }
     });
   }
 
   modifyBudgetEntry(entry: BudgetEntryModifyDto): void {
-    this.loading.show();
-    this.budgetManagerService.modifyBudgetEntry(entry).subscribe({
+    this.isSubmitting = true;
+    this.budgetManagerService.modifyBudgetEntry(entry).pipe(
+      finalize(() => this.isSubmitting = false)
+    ).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
         this.dialogRef.close(response.data);
@@ -87,12 +90,13 @@ export class BudgetEntryDialogComponent {
       },
       error: err => {
         this.snackbar.danger(err, 5000);
-        this.loading.hide();
       }
     });
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
+
     if (this.budgetEntryForm.invalid) {
       this.budgetEntryForm.markAllAsTouched();
       return;

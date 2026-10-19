@@ -1,0 +1,8 @@
+.entry-submitting {
+  --mat-button-filled-disabled-container-color: var(--mat-button-filled-container-color, var(--mat-sys-primary));
+  --mat-button-filled-disabled-label-text-color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+}
+
+.entry-spinner {
+  --mat-progress-spinner-active-indicator-color: #fff;
+}

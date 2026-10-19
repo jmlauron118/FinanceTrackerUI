@@ -11,6 +11,7 @@ import { ModuleActionModifyDto } from '@interfaces/usermanager/module-actions-dt
 import { ModuleResponseDto } from '@interfaces/usermanager/modules-dto/module-response-dto';
 import { ActionResponseDto } from '@interfaces/usermanager/actions-dto/action-response-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 import { subscribe } from 'diagnostics_channel';
 
 @Component({
@@ -22,6 +23,7 @@ import { subscribe } from 'diagnostics_channel';
 })
 export class ModuleActionDialogComponent {
   moduleActionForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
   activeModules: ModuleResponseDto[] = [];
   activeActions: ActionResponseDto[] = [];
@@ -51,7 +53,8 @@ export class ModuleActionDialogComponent {
   }
 
   addModuleAction(moduleAction: ModuleActionRequestDto): void {
-    this.usermanagerService.addModuleAction(moduleAction).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addModuleAction(moduleAction).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,7 +64,8 @@ export class ModuleActionDialogComponent {
   }
 
   modifyModuleAction(moduleAction: ModuleActionModifyDto): void {
-    this.usermanagerService.modifyModuleAction(moduleAction).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyModuleAction(moduleAction).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -85,6 +89,7 @@ export class ModuleActionDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.moduleActionForm.invalid) {
       this.moduleActionForm.markAllAsTouched();
       return;
