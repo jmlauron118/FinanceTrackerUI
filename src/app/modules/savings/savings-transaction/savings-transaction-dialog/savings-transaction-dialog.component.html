@@ -67,8 +67,9 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button type="button" (click)="onCancel()">Cancel</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="savingsTransForm.invalid">
-            {{ isEditMode ? 'Update' : 'Save' }}
+        <button mat-flat-button color="primary" type="submit" [disabled]="savingsTransForm.invalid || isSubmitting" [class.submit-loading]="isSubmitting">
+            <mat-spinner *ngIf="isSubmitting" class="submit-spinner" diameter="20" [attr.aria-label]="isEditMode ? 'Updating' : 'Saving'"></mat-spinner>
+            <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update' : 'Save' }}</span>
         </button>
     </mat-dialog-actions>
 </form>

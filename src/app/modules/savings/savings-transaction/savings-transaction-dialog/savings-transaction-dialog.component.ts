@@ -7,6 +7,7 @@ import { DecimalDirective } from 'app/directive/decimal.directive';
 import { TransactionTypeResponseDto } from '@interfaces/category/savings-transaction-type/transaction-type-response-dto';
 import { InvestmentTypeResponseDto } from '@interfaces/category/investment-type/investment-type-response-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 import { SnackbarService } from '@services/snackbar.service';
 import { SavingsTransactionResponseDto } from '@interfaces/savings/savings-transaction/savings-transaction-response-dto';
 import { CategoryService } from '@services/category/category.service';
@@ -23,6 +24,7 @@ import { SavingsTransactionModifyDto } from '@interfaces/savings/savings-transac
 })
 export class SavingsTransactionDialogComponent {
   savingsTransForm!: FormGroup;
+  isSubmitting = false;
 
   transactionTypeData: TransactionTypeResponseDto[] = [];
   investmentTypeData: InvestmentTypeResponseDto[] = [];
@@ -74,7 +76,8 @@ export class SavingsTransactionDialogComponent {
   }
 
   addSavingsTransaction(request: SavingsTransactionRequestDto): void {
-    this.savingsService.addSavingsTransaction(request).subscribe({
+    this.isSubmitting = true;
+    this.savingsService.addSavingsTransaction(request).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(true);
@@ -84,7 +87,8 @@ export class SavingsTransactionDialogComponent {
   }
 
   modifySavingsTransaction(request: SavingsTransactionModifyDto): void {
-    this.savingsService.modifySavingsTransaction(request).subscribe({
+    this.isSubmitting = true;
+    this.savingsService.modifySavingsTransaction(request).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(true);
@@ -94,6 +98,7 @@ export class SavingsTransactionDialogComponent {
   }
 
   onSubmit(): void {
+    if (this.isSubmitting) return;
     if(this.savingsTransForm.invalid) {
       this.savingsTransForm.markAllAsTouched();
       return;

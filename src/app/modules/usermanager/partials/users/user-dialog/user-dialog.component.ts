@@ -10,6 +10,7 @@ import { UserResponseDto } from '@interfaces/usermanager/users-dto/user-response
 import { UserModifyDto } from '@interfaces/usermanager/users-dto/user-modify-dto';
 import { TitleCaseDirective } from 'app/directive/title-case.directive';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-user-dialog',
@@ -21,6 +22,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class UserDialogComponent {
   userForm!: FormGroup;
+  isSubmitting = false;
   hidePassword = true;
   isEditMode = false;
 
@@ -49,7 +51,8 @@ export class UserDialogComponent {
   }
 
   addUser(userRequest: UserRequestDto): void{
-    this.usermanagerService.addUser(userRequest).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addUser(userRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,7 +64,8 @@ export class UserDialogComponent {
   }
 
   modifyUser(userRequest: UserModifyDto): void {
-    this.usermanagerService.modifyUser(userRequest).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyUser(userRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -73,6 +77,7 @@ export class UserDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.userForm.invalid){
       this.userForm.markAllAsTouched();
       return;

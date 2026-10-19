@@ -12,6 +12,7 @@ import { InputDirectivesModule } from "app/shared/input-directives.module";
 import { ModuleActionResponseDto } from '@interfaces/usermanager/module-actions-dto/module-action-response-dto';
 import { UserRoleResponseDto } from '@interfaces/usermanager/user-roles-dto/user-role-response-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-module-access-dialog',
@@ -22,6 +23,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class ModuleAccessDialogComponent {
   moduleAccessForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
   moduleActionList: ModuleActionResponseDto[] = [];
   userRoleList: UserRoleResponseDto[] = [];
@@ -51,7 +53,8 @@ export class ModuleAccessDialogComponent {
   }
 
   addModuleAccess(moduleAccess: ModuleAccessRequestDto): void {
-    this.usermanagerService.addModuleAccess(moduleAccess).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addModuleAccess(moduleAccess).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,7 +64,8 @@ export class ModuleAccessDialogComponent {
   }
 
   modifyModuleAccess(moduleAccess: ModuleAccessModifyDto): void {
-    this.usermanagerService.modifyModuleAccess(moduleAccess).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyModuleAccess(moduleAccess).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -85,6 +89,7 @@ export class ModuleAccessDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.moduleAccessForm.invalid) {
       this.moduleAccessForm.markAllAsTouched();
       return;

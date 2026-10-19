@@ -10,6 +10,7 @@ import { ModuleRequestDto } from '@interfaces/usermanager/modules-dto/module-req
 import { ModuleModifyDto } from '@interfaces/usermanager/modules-dto/module-modify-dto';
 import { InputDirectivesModule } from 'app/shared/input-directives.module';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-module-dialog',
@@ -20,6 +21,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class ModuleDialogComponent {
   moduleForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
   parentModules: ModuleResponseDto[] = [];
 
@@ -53,7 +55,8 @@ export class ModuleDialogComponent {
   }
 
   addModule(module: ModuleRequestDto): void {
-    this.usermanagerService.addModule(module).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addModule(module).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -65,7 +68,8 @@ export class ModuleDialogComponent {
   }
 
   modifyModule(module: ModuleModifyDto): void {
-    this.usermanagerService.modifyModule(module).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyModule(module).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -84,6 +88,7 @@ export class ModuleDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.moduleForm.invalid) {
       this.moduleForm.markAllAsTouched();
       return;

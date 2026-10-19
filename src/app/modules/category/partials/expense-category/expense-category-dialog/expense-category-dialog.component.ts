@@ -10,6 +10,7 @@ import { ExpenseCategoryResponseDto } from '@interfaces/category/expense-categor
 import { ExpenseCategoryRequestDto } from '@interfaces/category/expense-category/expense-category-request-dto';
 import { ExpenseCategoryModifyDto } from '@interfaces/category/expense-category/expense-category-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-expense-category-dialog',
@@ -20,6 +21,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class ExpenseCategoryDialogComponent {
   expenseCategoryForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor (
@@ -41,7 +43,8 @@ export class ExpenseCategoryDialogComponent {
   }
 
   addExpenseCategory(expenseCategory: ExpenseCategoryRequestDto): void {
-    this.categoryService.addExpenseCategory(expenseCategory).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.addExpenseCategory(expenseCategory).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -51,7 +54,8 @@ export class ExpenseCategoryDialogComponent {
   }
 
   modifyExpenseCategory(expenseCategory: ExpenseCategoryModifyDto): void {
-    this.categoryService.modifyExpenseCategory(expenseCategory).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.modifyExpenseCategory(expenseCategory).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,6 +65,7 @@ export class ExpenseCategoryDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.expenseCategoryForm.invalid) {
       this.expenseCategoryForm.markAllAsTouched();
       return;

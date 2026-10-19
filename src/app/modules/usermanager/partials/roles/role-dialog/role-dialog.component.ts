@@ -10,6 +10,7 @@ import { RoleRequestDto } from '@interfaces/usermanager/roles-dto/role-request-d
 import { RoleModifyDto } from '@interfaces/usermanager/roles-dto/role-modify-dto';
 import { InputDirectivesModule } from 'app/shared/input-directives.module';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-role-dialog',
@@ -20,6 +21,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class RoleDialogComponent {
   roleForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor(
@@ -41,7 +43,8 @@ export class RoleDialogComponent {
   }
 
   addRole(role: RoleRequestDto): void {
-    this.usermanagerService.addRole(role).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addRole(role).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data)
@@ -53,7 +56,8 @@ export class RoleDialogComponent {
   }
 
   modifyRole(role: RoleModifyDto): void {
-    this.usermanagerService.modifyRole(role).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyRole(role).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data)
@@ -65,6 +69,7 @@ export class RoleDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.roleForm.invalid) {
       this.roleForm.markAllAsTouched();
       return;

@@ -10,6 +10,7 @@ import { ActionRequestDto } from '@interfaces/usermanager/actions-dto/action-req
 import { ActionModifyDto } from '@interfaces/usermanager/actions-dto/action-modify-dto';
 import { UpperCaseDirective } from 'app/directive/uppercase.directive';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-action-dialog',
@@ -20,6 +21,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class ActionDialogComponent {
   actionForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor(
@@ -41,7 +43,8 @@ export class ActionDialogComponent {
   }
 
   addAction(action: ActionRequestDto): void {
-    this.usermanagerService.addAction(action).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.addAction(action).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -51,7 +54,8 @@ export class ActionDialogComponent {
   }
 
   modifyAction(action: ActionModifyDto): void {
-    this.usermanagerService.modifyAction(action).subscribe({
+    this.isSubmitting = true;
+    this.usermanagerService.modifyAction(action).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,6 +65,7 @@ export class ActionDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.actionForm.invalid) {
       this.actionForm.markAllAsTouched();
       return;

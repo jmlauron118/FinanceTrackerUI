@@ -6,6 +6,7 @@ import { TitleCaseDirective } from 'app/directive/title-case.directive';
 import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InvestmentTypeResponseDto } from '@interfaces/category/investment-type/investment-type-response-dto';
 import { InvestmentTypeRequestDto } from '@interfaces/category/investment-type/investment-type-request-dto';
@@ -20,6 +21,7 @@ import { InvestmentTypeModifyDto } from '@interfaces/category/investment-type/in
 })
 export class InvestmentTypeDialogComponent {
   investmentTypeForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor(
@@ -40,7 +42,8 @@ export class InvestmentTypeDialogComponent {
   }
 
   addInvestmentType(investmentTypeRequest: InvestmentTypeRequestDto): void {
-    this.categoryService.addInvestmentType(investmentTypeRequest).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.addInvestmentType(investmentTypeRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -50,7 +53,8 @@ export class InvestmentTypeDialogComponent {
   }
 
   modifyInvestmentType(investmentTypeRequest: InvestmentTypeModifyDto): void {
-    this.categoryService.modifyInvestmentType(investmentTypeRequest).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.modifyInvestmentType(investmentTypeRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -60,6 +64,7 @@ export class InvestmentTypeDialogComponent {
   }
 
   onSubmit(): void {
+    if (this.isSubmitting) return;
     if(this.investmentTypeForm.invalid) {
       this.investmentTypeForm.markAllAsTouched();
       return;

@@ -136,6 +136,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: va.$light-color !important;
 }
 
+.submit-loading {
+    --mat-button-filled-disabled-container-color: var(--mat-button-filled-container-color, var(--mat-sys-primary));
+    --mat-button-filled-disabled-label-text-color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+}
+
+.submit-spinner {
+    --mat-progress-spinner-active-indicator-color: var(--mat-button-filled-label-text-color, var(--mat-sys-on-primary));
+}
+
 .badge-secondary {
     background-color: va.$secondary-color !important;
     color: va.$light-color !important;

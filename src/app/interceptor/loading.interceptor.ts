@@ -12,7 +12,9 @@ export const LoadingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
         'api/budgetmanager'
     ]; // Add the specific endpoint(s) here
 
-    const isExempt = exemptUrls.some(url => req.url.includes(url));
+    const hasButtonLoading = (req.method === 'POST' || req.method === 'PUT') &&
+        /\/api\/(?:category|usermanager|savings)\/(?:add-|modify-|change-password)/.test(req.url);
+    const isExempt = exemptUrls.some(url => req.url.includes(url)) || hasButtonLoading;
 
     if (!isExempt) {
         loading.show();

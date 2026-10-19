@@ -19,6 +19,16 @@
         }
 
         .btn-content {
+            button.save-icon-loading:disabled {
+                opacity: 1;
+            }
+
+            .save-icon-spinner {
+                --mat-progress-spinner-active-indicator-color: currentColor;
+                display: inline-block;
+                vertical-align: middle;
+            }
+
             button {
                 color: $primary-color;
             }

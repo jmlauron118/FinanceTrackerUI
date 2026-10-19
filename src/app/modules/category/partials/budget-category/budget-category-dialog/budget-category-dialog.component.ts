@@ -10,6 +10,7 @@ import { CategoryService } from '@services/category/category.service';
 import { SnackbarService } from '@services/snackbar.service';
 import { BudgetCategoryModifyDto } from '@interfaces/category/budget-category-dto/budget-category-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-budget-category-dialog',
@@ -20,6 +21,7 @@ import { ConfirmDialogService } from '@services/confirm-dialog.service';
 })
 export class BudgetCategoryDialogComponent {
   budgetCategoryForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor (
@@ -41,7 +43,8 @@ export class BudgetCategoryDialogComponent {
   }
 
   addBudgetCategory(budgetCategory: BudgetCategoryRequestDto): void {
-    this.categoryService.addBudgetCategory(budgetCategory).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.addBudgetCategory(budgetCategory).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -51,7 +54,8 @@ export class BudgetCategoryDialogComponent {
   }
 
   modifyBudgetCategory(budgetCategory: BudgetCategoryModifyDto): void {
-    this.categoryService.modifyBudgetCategory(budgetCategory).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.modifyBudgetCategory(budgetCategory).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -61,6 +65,7 @@ export class BudgetCategoryDialogComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
     if(this.budgetCategoryForm.invalid) {
       this.budgetCategoryForm.markAllAsTouched();
       return;

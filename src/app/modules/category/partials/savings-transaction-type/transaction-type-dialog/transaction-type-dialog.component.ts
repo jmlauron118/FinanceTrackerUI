@@ -9,6 +9,7 @@ import { TransactionTypeResponseDto } from '@interfaces/category/savings-transac
 import { TransactionTypeRequestDto } from '@interfaces/category/savings-transaction-type/transaction-type-request-dto';
 import { TransactionTypeModifyDto } from '@interfaces/category/savings-transaction-type/transaction-type-modify-dto';
 import { ConfirmDialogService } from '@services/confirm-dialog.service';
+import { finalize } from 'rxjs';
 import { TitleCaseDirective } from 'app/directive/title-case.directive';
 
 @Component({
@@ -20,6 +21,7 @@ import { TitleCaseDirective } from 'app/directive/title-case.directive';
 })
 export class TransactionTypeDialogComponent {
   transactionTypeForm!: FormGroup;
+  isSubmitting = false;
   isEditMode = false;
 
   constructor(
@@ -42,7 +44,8 @@ export class TransactionTypeDialogComponent {
   }
 
   addTransactionType(transactionTypeRequest: TransactionTypeRequestDto): void {
-    this.categoryService.addSavingsTransactionType(transactionTypeRequest).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.addSavingsTransactionType(transactionTypeRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -52,7 +55,8 @@ export class TransactionTypeDialogComponent {
   }
 
   modifyTransactionType(transactionTypeRequest: TransactionTypeModifyDto): void {
-    this.categoryService.modifySavingsTransactionType(transactionTypeRequest).subscribe({
+    this.isSubmitting = true;
+    this.categoryService.modifySavingsTransactionType(transactionTypeRequest).pipe(finalize(() => this.isSubmitting = false)).subscribe({
       next: response => {
         this.snackbar.success(response.message);
         this.dialogRef.close(response.data);
@@ -62,6 +66,7 @@ export class TransactionTypeDialogComponent {
   }
 
   onSubmit(): void {
+    if (this.isSubmitting) return;
     if(this.transactionTypeForm.invalid) {
       this.transactionTypeForm.markAllAsTouched();
       return;

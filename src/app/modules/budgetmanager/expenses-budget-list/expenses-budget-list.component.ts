@@ -11,6 +11,7 @@ import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expense
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { BulkRemoveDialogComponent } from './bulk-remove-dialog/bulk-remove-dialog.component';
 import { SavedExpensesComponent } from './saved-expenses/saved-expenses.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-expenses-budget-list',
@@ -32,6 +33,7 @@ export class ExpensesBudgetListComponent {
   budgetedLoading = false;
   monthlyLoading = false;
   payrollLoading = false;
+  savingCategoryIds = new Set<number>();
   skeletonRows = Array.from({ length: 8 });
 
   constructor(
@@ -135,20 +137,22 @@ export class ExpensesBudgetListComponent {
   }
 
   saveExpensesBudget(dataRequest: ExpensesBudgetResponseDto[], categoryId: number): void {
-    this.toggleLoading(categoryId, true);
-    this.budgetManagerService.addExpensesBudgetBulk(dataRequest, categoryId).subscribe({
+    this.savingCategoryIds.add(categoryId);
+    this.budgetManagerService.addExpensesBudgetBulk(dataRequest, categoryId).pipe(
+      finalize(() => this.savingCategoryIds.delete(categoryId))
+    ).subscribe({
       next: response => {
         this.snackbar.success(response.message, 5000);
       },
       error: err => {
-        this.toggleLoading(categoryId, false)
         this.snackbar.danger(err, 5000);
-      },
-      complete: () => (this.toggleLoading(categoryId, false))
+      }
     });
   }
 
   onBudgetedExpensesActionClick(): void {
+    if (this.savingCategoryIds.has(1)) return;
+
     if(!this.budgetedBtnAction) {
       this.budgetedBtnAction = true;
     }
@@ -169,6 +173,8 @@ export class ExpensesBudgetListComponent {
   }
 
   onMonthlyExpensesActionClick(): void {
+    if (this.savingCategoryIds.has(2)) return;
+
     if(!this.monthlyBtnAction) {
       this.monthlyBtnAction = true;
     }
@@ -189,6 +195,8 @@ export class ExpensesBudgetListComponent {
   }
 
   onPayrollExpensesActionClick(): void {
+    if (this.savingCategoryIds.has(3)) return;
+
     if(!this.payrollBtnAction) {
       this.payrollBtnAction = true;
     }
