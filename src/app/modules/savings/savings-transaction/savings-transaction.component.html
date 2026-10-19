@@ -7,7 +7,7 @@
     </div>
     <div class="overall">
         @if (isSummaryLoading) {
-            @for (item of [1, 2, 3, 4, 5]; track item) {
+            @for (item of [1, 2, 3, 4]; track item) {
                 <div class="card savings-transaction-skeleton savings-transaction-skeleton-summary"></div>
             }
         } @else {
