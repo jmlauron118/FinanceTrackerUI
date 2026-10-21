@@ -252,7 +252,23 @@
             </div>
         </div>
     </div>
-    <div class="btn-sync" matTooltip="Sync Unbudgeted Expenses" matTooltipPosition="left" (click)="onSyncUnbudgetedExpenses()">
-        <i class="fa-solid fa-rotate"></i>
+    <div class="sync-actions" #syncActions>
+        @if (syncMenuOpen) {
+            <div id="sync-action-menu" class="sync-action-menu">
+                <button type="button" class="sync-action" (click)="onSyncUnbudgetedExpenses()">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Sync Unbudgeted Expenses</span>
+                </button>
+                <button type="button" class="sync-action" (click)="onSyncIncomingExpenses()" [disabled]="syncingIncoming">
+                    <i class="fa-solid fa-circle-down"></i>
+                    <span>Sync Incoming Expenses</span>
+                </button>
+            </div>
+        }
+        <button type="button" class="btn-sync" (click)="syncMenuOpen = !syncMenuOpen"
+            [attr.aria-expanded]="syncMenuOpen" aria-controls="sync-action-menu"
+            [attr.aria-label]="syncMenuOpen ? 'Close sync actions' : 'Open sync actions'">
+            <i class="fa-solid" [ngClass]="syncMenuOpen ? 'fa-xmark' : 'fa-rotate'" aria-hidden="true"></i>
+        </button>
     </div>
 </div>

@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoryService } from '@services/category/category.service';
 import { BudgetCategoryResponseDto } from '@interfaces/category/budget-category-dto/budget-category-response-dto';
 import { SnackbarService } from '@services/snackbar.service';
@@ -37,6 +37,7 @@ export class SyncUnbudgetedExpensesDialogComponent {
     private confirm: ConfirmDialogService,
     private datePipe: DatePipe,
     private dialogRef: MatDialogRef<SyncUnbudgetedExpensesDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public syncData: { categoryId: number; label: string },
     public selection: SelectionService<{ id: number }>
   ) {}
 
@@ -68,7 +69,7 @@ export class SyncUnbudgetedExpensesDialogComponent {
 
   getUnbudgetedExpenses(): void {
     this.loading.show();
-    this.budgetManagerService.getExpensesBudgetByCategory(3).subscribe({
+    this.budgetManagerService.getExpensesBudgetByCategory(this.syncData.categoryId).subscribe({
       next: response => (this.unbudgetedExpensesData = this.mapBudgetEntries(response.data)),
       error: err => {
         this.snackbar.danger(err, 5000);
@@ -155,8 +156,8 @@ export class SyncUnbudgetedExpensesDialogComponent {
         }
 
         this.confirm.openConfirm({
-          title: 'Sync Unbudgeted Expenses?',
-          message: 'Are you sure you want to sync these unbudgeted expenses?',
+          title: `Sync ${this.syncData.label}?`,
+          message: `Are you sure you want to sync these ${this.syncData.label.toLowerCase()}?`,
           confirmText: 'Yes',
           cancelText: 'No',
           icon: 'question'
