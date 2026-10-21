@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'app/shared/material.module';
@@ -11,7 +11,7 @@ import { SyncUnbudgetedExpensesDialogComponent } from './sync-unbudgeted-expense
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { BulkRemoveDialogComponent } from './bulk-remove-dialog/bulk-remove-dialog.component';
 import { SavedExpensesComponent } from './saved-expenses/saved-expenses.component';
-import { finalize } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-expenses-budget-list',
@@ -22,6 +22,7 @@ import { finalize } from 'rxjs';
 })
 export class ExpensesBudgetListComponent {
   @ViewChildren('expenseTableBody') tableBodies!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChild('syncActions') syncActions!: ElementRef<HTMLElement>;
 
   title = 'Expenses Budget List';
   budgetedBtnAction = false;
@@ -33,6 +34,8 @@ export class ExpensesBudgetListComponent {
   budgetedLoading = false;
   monthlyLoading = false;
   payrollLoading = false;
+  syncMenuOpen = false;
+  syncingIncoming = false;
   savingCategoryIds = new Set<number>();
   skeletonRows = Array.from({ length: 8 });
 
@@ -42,6 +45,14 @@ export class ExpensesBudgetListComponent {
     private confirm: ConfirmDialogService,
     private dialog: MatDialog
   ) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as Node | null;
+    if (this.syncMenuOpen && target && !this.syncActions.nativeElement.contains(target)) {
+      this.syncMenuOpen = false;
+    }
+  }
 
   ngOnInit(): void {
     this.getExpensesBudgetData(1); // Budgeted
@@ -217,23 +228,91 @@ export class ExpensesBudgetListComponent {
   }
 
   onSyncUnbudgetedExpenses(): void {
-    if (this.payrollData.length > 0) {
+    this.openSyncExpenses(3, this.payrollData, 'Unbudgeted Expenses');
+  }
+
+  onSyncIncomingExpenses(): void {
+    this.syncMenuOpen = false;
+    if (this.syncingIncoming) return;
+
+    if (this.monthlyBtnAction || this.payrollBtnAction || this.savingCategoryIds.has(2) || this.savingCategoryIds.has(3)) {
+      this.snackbar.warning('Save or reset changes before syncing incoming expenses.');
+      return;
+    }
+
+    this.syncingIncoming = true;
+    forkJoin({
+      monthly: this.budgetManagerService.getExpensesBudgetByCategory(2),
+      incoming: this.budgetManagerService.getExpensesBudgetByCategory(3)
+    }).subscribe({
+      next: ({ monthly, incoming }) => {
+        if (monthly.data.length === 0) {
+          this.syncingIncoming = false;
+          this.snackbar.warning('No unbudgeted monthly expenses found!');
+          return;
+        }
+
+        this.confirm.openConfirm({
+          title: 'Sync Incoming Expenses?',
+          message: `Add all ${monthly.data.length} monthly expenses to Incoming?`,
+          confirmText: 'Sync',
+          cancelText: 'Cancel',
+          icon: 'question'
+        }).subscribe(confirmed => {
+          if (!confirmed) {
+            this.syncingIncoming = false;
+            return;
+          }
+
+          const newIncomingExpenses: ExpensesBudgetResponseDto[] = monthly.data.map(expense => ({
+            id: 0,
+            expensesBudgetCategoryId: 3,
+            description: expense.description,
+            amount: expense.amount
+          }));
+
+          this.savingCategoryIds.add(3);
+          this.budgetManagerService.addExpensesBudgetBulk(
+            [...incoming.data, ...newIncomingExpenses], 3
+          ).pipe(finalize(() => {
+            this.syncingIncoming = false;
+            this.savingCategoryIds.delete(3);
+          })).subscribe({
+            next: response => {
+              this.snackbar.success(response.message, 5000);
+              this.getExpensesBudgetData(3);
+            },
+            error: err => this.snackbar.danger(err, 5000)
+          });
+        });
+      },
+      error: err => {
+        this.syncingIncoming = false;
+        this.snackbar.danger(err, 5000);
+      }
+    });
+  }
+
+  private openSyncExpenses(categoryId: number, expenses: ExpensesBudgetResponseDto[], label: string): void {
+    this.syncMenuOpen = false;
+    if (expenses.length > 0) {
       const dialogRef = this.dialog.open(SyncUnbudgetedExpensesDialogComponent, {
         panelClass: 'custom-dialog',
         width: '90vw',
         maxWidth: '100vw',
-        disableClose: true
+        disableClose: true,
+        data: { categoryId, label }
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result.status) {
+        if (result?.status) {
           this.getExpensesBudgetData(1); // Budgeted
-          this.getExpensesBudgetData(3); // Payroll
+          this.getExpensesBudgetData(categoryId);
         }
       });
     }
     else {
-      this.snackbar.warning('No unbudgeted expenses found!');
+      this.snackbar.warning(`No ${label.toLowerCase()} found!`);
     }
   }
 
