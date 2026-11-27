@@ -29,7 +29,7 @@
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px;
+    line-height: $footer-height;
     z-index: 2;
     background-color: $light-color;
 }
