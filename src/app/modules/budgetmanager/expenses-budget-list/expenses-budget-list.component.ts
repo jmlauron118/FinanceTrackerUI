@@ -31,6 +31,9 @@ export class ExpensesBudgetListComponent {
   budgetedData: ExpensesBudgetResponseDto[] = [];
   monthlyData: ExpensesBudgetResponseDto[] = [];
   payrollData: ExpensesBudgetResponseDto[] = [];
+  budgetedSearch = '';
+  monthlySearch = '';
+  payrollSearch = '';
   budgetedLoading = false;
   monthlyLoading = false;
   payrollLoading = false;
@@ -65,13 +68,30 @@ export class ExpensesBudgetListComponent {
   }
 
   setMoveItemArray(categoryId: number, event: CdkDragDrop<any[]>) {
-    const actions: Record<number, () => void> = {
-      1: () => moveItemInArray(this.budgetedData, event.previousIndex, event.currentIndex),
-      2: () => moveItemInArray(this.monthlyData, event.previousIndex, event.currentIndex),
-      3: () => moveItemInArray(this.payrollData, event.previousIndex, event.currentIndex)
-    };
+    const data = this.getCategoryData(categoryId);
+    const visible = this.filterExpenses(data, this.getCategorySearch(categoryId));
+    const positions = visible.map(item => data.indexOf(item));
+    moveItemInArray(visible, event.previousIndex, event.currentIndex);
+    positions.forEach((position, index) => data[position] = visible[index]);
+  }
 
-    actions[categoryId]?.();
+  private getCategoryData(categoryId: number): ExpensesBudgetResponseDto[] {
+    return [this.budgetedData, this.monthlyData, this.payrollData][categoryId - 1] ?? [];
+  }
+
+  private getCategorySearch(categoryId: number): string {
+    return [this.budgetedSearch, this.monthlySearch, this.payrollSearch][categoryId - 1] ?? '';
+  }
+
+  filterExpenses(data: ExpensesBudgetResponseDto[], search: string): ExpensesBudgetResponseDto[] {
+    const term = search.trim().toLowerCase();
+    if (!term) return data;
+
+    return data.filter(item =>
+      item.description.toLowerCase().includes(term) ||
+      String(item.amount).includes(term) ||
+      item.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).includes(term)
+    );
   }
 
   toggleBtnAction(action: boolean): boolean {
@@ -92,9 +112,9 @@ export class ExpensesBudgetListComponent {
     const data = { id: 0, expensesBudgetCategoryId: categoryId, description: '', amount: 0 };
 
     const actions: Record<number, () => void> = {
-        1: () => this.budgetedData.unshift(data),
-        2: () => this.monthlyData.unshift(data),
-        3: () => this.payrollData.unshift(data)
+        1: () => { this.budgetedSearch = ''; this.budgetedData.unshift(data); },
+        2: () => { this.monthlySearch = ''; this.monthlyData.unshift(data); },
+        3: () => { this.payrollSearch = ''; this.payrollData.unshift(data); }
       };
       
     actions[categoryId]?.();
@@ -110,14 +130,10 @@ export class ExpensesBudgetListComponent {
     });
   }
 
-  removeRow(index: number, categoryId: number): void {
-    const action: Record<number, () => void> = {
-      1: () => this.budgetedData.splice(index, 1),
-      2: () => this.monthlyData.splice(index, 1),
-      3: () => this.payrollData.splice(index, 1)
-    };
-
-    action[categoryId]?.();
+  removeRow(item: ExpensesBudgetResponseDto, categoryId: number): void {
+    const data = this.getCategoryData(categoryId);
+    const index = data.indexOf(item);
+    if (index !== -1) data.splice(index, 1);
   }
 
   getTotal(data: ExpensesBudgetResponseDto[]): number {

@@ -29,6 +29,11 @@
                 </div>
             </div>
             <div class="table-content">
+                <label class="expense-search">
+                    <span class="visually-hidden">Search budgeted expenses or amount</span>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input type="search" placeholder="Search" [(ngModel)]="budgetedSearch" />
+                </label>
                 <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(1, $event)">
                     <thead>
                         <tr>
@@ -47,7 +52,7 @@
                                 </tr>
                             }
                         } @else {
-                        <tr *ngFor="let data of budgetedData; let i = index">
+                        <tr *ngFor="let data of filterExpenses(budgetedData, budgetedSearch)">
                             <!--If edit mode is not activated-->
                             <td *ngIf="!budgetedBtnAction">{{ data.description }}</td>
                             <td *ngIf="!budgetedBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
@@ -57,7 +62,7 @@
                                 <div class="btn-control">
                                     <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
-                                    (click)="removeRow(i, 1)">
+                                    (click)="removeRow(data, 1)">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                                 </div>
@@ -73,7 +78,10 @@
 
                         <!--If there is no data-->
                         <tr *ngIf="budgetedData.length === 0">
-                            <td colspan="2" style="text-align: center;">No budgeted expenses found.</td>
+                            <td [attr.colspan]="budgetedBtnAction ? 3 : 2" style="text-align: center;">No budgeted expenses found.</td>
+                        </tr>
+                        <tr *ngIf="budgetedData.length > 0 && filterExpenses(budgetedData, budgetedSearch).length === 0">
+                            <td [attr.colspan]="budgetedBtnAction ? 3 : 2" style="text-align: center;">No matching expenses found.</td>
                         </tr>
                         }
                     </tbody>
@@ -84,7 +92,7 @@
                         <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
                     } @else {
                         <span>TOTAL:</span>
-                        <span>₱{{ getTotal(budgetedData) | number: '1.2-2' }}</span>
+                        <span>₱{{ getTotal(filterExpenses(budgetedData, budgetedSearch)) | number: '1.2-2' }}</span>
                     }
                 </div>
             </div>
@@ -110,6 +118,11 @@
                 </div>
             </div>
             <div class="table-content">
+                <label class="expense-search">
+                    <span class="visually-hidden">Search monthly expenses or amount</span>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input type="search" placeholder="Search" [(ngModel)]="monthlySearch" />
+                </label>
                 <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(2, $event)">
                     <thead>
                         <tr>
@@ -128,7 +141,7 @@
                                 </tr>
                             }
                         } @else {
-                        <tr *ngFor="let data of monthlyData; let i = index">
+                        <tr *ngFor="let data of filterExpenses(monthlyData, monthlySearch)">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!monthlyBtnAction">{{ data.description }}</td>
                             <td *ngIf="!monthlyBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
@@ -138,7 +151,7 @@
                                 <div class="btn-control">
                                     <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
-                                        (click)="removeRow(i, 2)">
+                                        (click)="removeRow(data, 2)">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -154,7 +167,10 @@
 
                         <!--If there is no data-->
                         <tr *ngIf="monthlyData.length === 0" >
-                            <td colspan="3" style="text-align: center;">No unbudgeted expenses (monthly) found.</td>
+                            <td [attr.colspan]="monthlyBtnAction ? 3 : 2" style="text-align: center;">No unbudgeted expenses (monthly) found.</td>
+                        </tr>
+                        <tr *ngIf="monthlyData.length > 0 && filterExpenses(monthlyData, monthlySearch).length === 0">
+                            <td [attr.colspan]="monthlyBtnAction ? 3 : 2" style="text-align: center;">No matching expenses found.</td>
                         </tr>
                         }
                     </tbody>
@@ -165,7 +181,7 @@
                         <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
                     } @else {
                         <span>TOTAL:</span>
-                        <span>₱{{ getTotal(monthlyData) | number: '1.2-2' }}</span>
+                        <span>₱{{ getTotal(filterExpenses(monthlyData, monthlySearch)) | number: '1.2-2' }}</span>
                     }
                 </div>
             </div>
@@ -191,6 +207,11 @@
                 </div>
             </div>
             <div class="table-content">
+                <label class="expense-search">
+                    <span class="visually-hidden">Search incoming expenses or amount</span>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input type="search" placeholder="Search" [(ngModel)]="payrollSearch" />
+                </label>
                 <table class="table scroll-table" cdkDropList (cdkDropListDropped)="onDrop(3, $event)">
                     <thead>
                         <tr>
@@ -209,7 +230,7 @@
                                 </tr>
                             }
                         } @else {
-                        <tr *ngFor="let data of payrollData; let i = index">
+                        <tr *ngFor="let data of filterExpenses(payrollData, payrollSearch)">
                             <!--If edit mode is no activated-->
                             <td *ngIf="!payrollBtnAction">{{ data.description }}</td>
                             <td *ngIf="!payrollBtnAction" style="text-align: right;">₱{{ data.amount | number: '1.2-2' }}</td>
@@ -219,7 +240,7 @@
                                 <div class="btn-control">
                                     <i class="fa-solid fa-grip-lines drag-handle"></i>
                                     <button class="btn btn-sm btn-remove" matTooltip="Remove" matTooltipPosition="above"
-                                        (click)="removeRow(i, 3)">
+                                        (click)="removeRow(data, 3)">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
@@ -235,7 +256,10 @@
 
                         <!--If there is no data-->
                         <tr *ngIf="payrollData.length === 0">
-                            <td colspan="3" style="text-align: center;">No unbudgeted expenses (payroll) found.</td>
+                            <td [attr.colspan]="payrollBtnAction ? 3 : 2" style="text-align: center;">No unbudgeted expenses (payroll) found.</td>
+                        </tr>
+                        <tr *ngIf="payrollData.length > 0 && filterExpenses(payrollData, payrollSearch).length === 0">
+                            <td [attr.colspan]="payrollBtnAction ? 3 : 2" style="text-align: center;">No matching expenses found.</td>
                         </tr>
                         }
                     </tbody>
@@ -246,7 +270,7 @@
                         <span class="expenses-budget-skeleton expenses-budget-skeleton-total-value"></span>
                     } @else {
                         <span>TOTAL:</span>
-                        <span>₱{{ getTotal(payrollData) | number: '1.2-2' }}</span>
+                        <span>₱{{ getTotal(filterExpenses(payrollData, payrollSearch)) | number: '1.2-2' }}</span>
                     }
                 </div>
             </div>
